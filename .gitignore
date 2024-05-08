@@ -1,5 +1,16 @@
-*.log
-tmp/
-
-/build/
+﻿# Flutter/Dart specific
+*.iml
+.dart_tool/
 .idea/
+.vscode/
+.pub/
+build/
+ios/Pods/
+ios/Podfile.lock
+android/.gradle/
+android/app/build/
+android/build/
+android/gradle/
+android/gradlew
+android/gradlew.bat
+android/local.properties
