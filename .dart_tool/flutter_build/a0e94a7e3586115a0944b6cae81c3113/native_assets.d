@@ -1,0 +1,1 @@
+ C:\\Users\\91940\\OneDrive\\Desktop\\Flutter\\field_king\\.dart_tool\\flutter_build\\a0e94a7e3586115a0944b6cae81c3113\\native_assets.yaml: 

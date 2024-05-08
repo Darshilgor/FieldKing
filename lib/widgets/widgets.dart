@@ -1,25 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_styled_toast/flutter_styled_toast.dart';
 
-Widget textformfield(
-    String labeltext,
-    String hinttext,
-    TextEditingController controller,
-    int maxlength,
-    String countertext,
-    TextInputType textinputtype,
-    Function(String) onchanged,
-    Function(String) onfieldsubmitted) {
+Widget formfield(
+  BuildContext context,
+  String labeltext,
+  String hinttext,
+  TextEditingController controller,
+  int maxlength,
+  String countertext,
+  TextInputType textinputtype,
+  Function(String) onchanged,
+  Function(String) onfieldsubmitted,
+  TextInputFormatter filteredtextformate,
+  LengthLimitingTextInputFormatter lengthLimitingTextInputFormatter, {
+  FocusNode? focusNode,
+}) {
   return SizedBox(
     height: 80,
     child: TextFormField(
+      textInputAction: TextInputAction.next,
+      focusNode: focusNode,
       enabled: true,
       onChanged: (value) {
         onchanged(value);
+        if (value.length == maxlength) {
+          focusNode!.unfocus();
+        }
       },
       onFieldSubmitted: (value) {
         onfieldsubmitted(value);
+        // if (focusNode != null && focusNode.nextFocus() != null) {
+        //   FocusScope.of(context).nextFocus();
+        // }
       },
+      inputFormatters: [
+        filteredtextformate,
+        lengthLimitingTextInputFormatter,
+      ],
       enableSuggestions: true,
       maxLength: maxlength,
       controller: controller,
@@ -30,43 +48,23 @@ Widget textformfield(
         labelStyle: TextStyle(
           color: Color.fromARGB(255, 125, 125, 125),
         ),
-        counter: Text(
-          '',
-        ),
+        counter: Text(''),
         border: OutlineInputBorder(
-          borderSide: BorderSide(
-            width: 2,
-          ),
-          borderRadius: BorderRadius.circular(
-            4,
-          ),
+          borderSide: BorderSide(width: 2),
+          borderRadius: BorderRadius.circular(4),
         ),
         errorBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            width: 2,
-            color: Colors.red,
-          ),
-          borderRadius: BorderRadius.circular(
-            4,
-          ),
+          borderSide: BorderSide(width: 2, color: Colors.red),
+          borderRadius: BorderRadius.circular(4),
         ),
         focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            width: 2,
-            color: Color.fromARGB(255, 125, 125, 125),
-          ),
-          borderRadius: BorderRadius.circular(
-            4,
-          ),
+          borderSide:
+              BorderSide(width: 2, color: Color.fromARGB(255, 125, 125, 125)),
+          borderRadius: BorderRadius.circular(4),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            width: 2,
-            color: Colors.red,
-          ),
-          borderRadius: BorderRadius.circular(
-            4,
-          ),
+          borderSide: BorderSide(width: 2, color: Colors.red),
+          borderRadius: BorderRadius.circular(4),
         ),
       ),
     ),
@@ -126,14 +124,15 @@ showprocessindicator(context) {
   );
 }
 
-hindprocessindicator(context) {
+hideprocessindicator(context) {
   return Navigator.pop(context);
 }
 
-Widget otptextformfield(
+Widget otpformfield(
   BuildContext context,
   TextEditingController controller,
   bool bool,
+  bool isLast,
 ) {
   return Expanded(
     child: Padding(
@@ -166,7 +165,11 @@ Widget otptextformfield(
         onTap: () {},
         onChanged: (value) {
           if (value.isNotEmpty) {
-            FocusScope.of(context).nextFocus();
+            if (isLast == false) {
+              FocusScope.of(context).nextFocus();
+            } else {
+              FocusScope.of(context).unfocus();
+            }
           }
         },
       ),

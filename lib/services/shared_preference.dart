@@ -6,7 +6,6 @@ String lastname = "";
 String brandname = "";
 String mobilenumber = "";
 String type = "";
-bool? signup;
 
 Future setlocaldata(
     {String? firstname,
@@ -21,7 +20,6 @@ Future setlocaldata(
   await pref.setString("Brand Name", brandname ?? "");
   await pref.setString("Mobile Number", mobilenumber ?? "");
   await pref.setString("Type", type ?? "");
-  await pref.setBool("SignUp", signup ?? false);
   if (kDebugMode) {
     print(
         'variable is in shared preference page is....in setlocal data function....');
@@ -30,7 +28,6 @@ Future setlocaldata(
     print(brandname);
     print(mobilenumber);
     print(type);
-    print(signup);
   }
 }
 
@@ -41,5 +38,4 @@ Future getlocaldata() async {
   brandname = pref.getString("Brand Name") ?? "";
   mobilenumber = pref.getString("Mobile Number") ?? "";
   type = pref.getString("Type") ?? "";
-  signup = pref.getBool("SignUp") ?? false;
 }
