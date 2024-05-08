@@ -42,14 +42,14 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   SignupLoginController controller = Get.put(SignupLoginController());
-  NotificationServices notificationservices = NotificationServices();
+  notification_Services notificationservices = notification_Services();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     notificationservices.requestnotificationpermission();
-    notificationservices.forgroundMessage();
+    // notificationservices.forgroundMessage();
     notificationservices.firebaseinit(context);
     // notificationservices.setupInteractMessage(context);
     notificationservices.ontokenrefresh();

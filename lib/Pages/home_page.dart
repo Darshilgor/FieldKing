@@ -20,7 +20,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
 
     notificationservices.requestnotificationpermission();
-    notificationservices.firebaseinit();
+    notificationservices.firebaseinit(context);
     notificationservices.ontokenrefresh();
 
     notificationservices.getdevicetoken().then(

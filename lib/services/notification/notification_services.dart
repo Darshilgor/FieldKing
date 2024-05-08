@@ -44,7 +44,7 @@ class notification_Services {
     return token!;
   }
 
-  void firebaseinit() {
+  void firebaseinit(BuildContext context) {
     FirebaseMessaging.onMessage.listen(
       (message) {
         if (kDebugMode) {
