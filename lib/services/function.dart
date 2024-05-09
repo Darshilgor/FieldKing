@@ -41,10 +41,11 @@ Future sendOtp(BuildContext context) async {
   }
 }
 
-Future<User?> verifyOtp(BuildContext context, String otp) async {
+Future verifyOtp(BuildContext context, String otp) async {
   VerifyOtpController verifyOtpController = Get.put(VerifyOtpController());
 
   UserCredential? user;
+
   try {
     PhoneAuthCredential userCredential = PhoneAuthProvider.credential(
         verificationId: verifyOtpController.otpId.value, smsCode: otp);
@@ -54,13 +55,22 @@ Future<User?> verifyOtp(BuildContext context, String otp) async {
     if (user.user != null) {
       updateHive();
       addUserData();
-      return user.user;
+
+      if (user.user != null) {
+        // hive.up
+        // addUserData();
+
+        return user.user;
+      }
     }
+
+    return user.user;
   } catch (e) {
     hideprocessindicator(context);
+
     verifyOtpVerificationFailed(context, e);
   }
-  return user!.user;
+  return;
 }
 
 void sendOtpverificationFailed(context, String code) {
@@ -94,6 +104,78 @@ void sendOtpverificationFailed(context, String code) {
       break;
   }
 }
+
+// void verifyOtpVerificationFailed(BuildContext context, e) {
+//   if (e is FirebaseAuthException) {
+//     switch (e.code) {
+//       case 'invalid-verification-code':
+//         showtoast(
+//             context, 'Invalid OTP. Please enter a valid verification code.', 5);
+//         break;
+//       case 'too-many-requests':
+//         showtoast(context,
+//             'Too many verification requests. Please try again later.', 5);
+//         break;
+//       case 'session-expired':
+//         showtoast(
+//             context,
+//             'Verification session expired. Please restart the verification process.',
+//             5);
+//         break;
+//       case 'quota-exceeded':
+//         showtoast(context, 'Quota exceeded. Please try again later.', 5);
+//         break;
+//       case 'internal-error':
+//         showtoast(
+//             context, 'Internal error occurred. Please try again later.', 5);
+//         break;
+//       case 'invalid-phone-number':
+//         showtoast(context,
+//             'Invalid phone number. Please enter a valid phone number.', 5);
+//         break;
+//       case 'missing-client-identifier':
+//         showtoast(
+//             context,
+//             'Missing client identifier. Please check your Firebase project configuration.',
+//             5);
+//         break;
+//       case 'app-not-authorized':
+//         showtoast(
+//             context, 'App not authorized to use Firebase Authentication.', 5);
+//         break;
+//       case 'user-disabled':
+//         showtoast(context, 'User account disabled. Please contact support.', 5);
+//         break;
+//       case 'network-request-failed':
+//         showtoast(
+//             context,
+//             'Network request failed. Please check your internet connection.',
+//             5);
+//         break;
+//       default:
+//         print('Unhandled error: ${e.code}');
+//         break;
+//     }
+//   } else {
+//     showtoast(context, e.toString(), 3);
+//   }
+// }
+
+// Future updateHive() async {
+//   var directory = await getApplicationDocumentsDirectory();
+//   Hive.init(directory.path);
+//   var box = await Hive.openBox('Field King');
+
+//   try {
+//     box.put('isSignup', true);
+//     var value = box.get('isSignup');
+//     print(value);
+//   } catch (e) {
+//     print('Error updating Hive box: $e');
+//   } finally {
+//     await box.close();
+//   }
+// }
 
 void verifyOtpVerificationFailed(BuildContext context, e) {
   if (e is FirebaseAuthException) {

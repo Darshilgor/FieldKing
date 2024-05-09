@@ -47,11 +47,40 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+
+//   Future sendnotification() async {
+//     notificationservices.getdevicetoken().then(
+//       (value) async {
+//         print('value is');
+//         print(value);
+//         var data = {
+//           'to': value.toString(),
+//           'priority': 'high',
+//           'notification': {
+//             'title': 'Gor',
+//             'body': 'Darshil',
+//           }
+//         };
+//         await http.post(
+//           Uri.parse('https://fcm.googleapis.com/fcm/send'),
+//           body: jsonEncode(data),
+//           headers: {
+//             'Content-Type': 'application/json;charset=UTF-8',
+//             'Authorization':
+//                 'Key=AAAAQpaz38E:APA91bFNslLR_Im-MJL8kOqCc9wK3rnajD9rURZaXZAaq-VA-YCj_JQHfW8eaRlUlCM8g_bDXgSiPlbWJW_SM9buSK08Ed4l_9vEc1e5DQsYtybSb_iCjSHhwO8U7n79708It_6QsqJX'
+//           },
+//         );
+//       },
+//     );
+//   }
+// }
+
   Future sendnotification() async {
     notificationservices.getdevicetoken().then(
       (value) async {
         print('value is');
         print(value);
+        
         var data = {
           'to': value.toString(),
           'priority': 'high',
