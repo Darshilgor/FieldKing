@@ -1,11 +1,12 @@
 import 'dart:math';
 
+import 'package:field_king/services/function.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-class notification_Services {
+class NotificationServices {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin flutterlocalnotificationplugin =
       FlutterLocalNotificationsPlugin();
@@ -15,7 +16,6 @@ class notification_Services {
       alert: true,
       announcement: true,
       badge: true,
-      carPlay: true,
       criticalAlert: true,
       provisional: true,
       sound: true,
@@ -41,10 +41,24 @@ class notification_Services {
 
   Future<String> getdevicetoken() async {
     String? token = await messaging.getToken();
+    print('token $token');
+    addUserData(token);
     return token!;
   }
 
   void firebaseinit(BuildContext context) {
+    FirebaseMessaging.onMessage.listen(
+      (message) {
+        if (kDebugMode) {
+          print(message.notification!.title.toString());
+          print(message.notification!.body.toString());
+        }
+        shownotification(message);
+      },
+    );
+  }
+
+  void backgroundfirebaseinit() {
     FirebaseMessaging.onMessage.listen(
       (message) {
         if (kDebugMode) {
@@ -83,9 +97,10 @@ class notification_Services {
       channel.name.toString(),
       icon: 'ic_launcher',
       channelDescription: 'Your Channel Description',
-      importance: Importance.high,
-      priority: Priority.high,
+      importance: Importance.max,
+      priority: Priority.max,
       ticker: 'ticker',
+      // visibility: NotificationVisibility.public,
     );
     DarwinNotificationDetails darwinNotificationDetails =
         DarwinNotificationDetails(
@@ -99,10 +114,12 @@ class notification_Services {
     );
     Future.delayed(Duration.zero, () {
       flutterlocalnotificationplugin.show(
-          0,
-          message.notification.title!.toString(),
-          message.notification.body!.toString(),
-          notificationdetails);
+        0,
+        message.notification.title!.toString(),
+        message.notification.body!.toString(),
+        notificationdetails,
+        payload: message.data['data'],
+      );
     });
   }
 }
