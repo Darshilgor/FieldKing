@@ -14,4 +14,16 @@ class GetStorageClass {
   static void writeSignup() {
     box.write('isSignup', true);
   }
+
+  static void writeDeviceToken(String token) {
+    box.write('deviceToken', token);
+  }
+
+  static void readDeviceToken() {
+    return box.read('deviceToken');
+  }
+
+  static void writeUserPhoneNumber(String phoneNumber) {
+    box.write('userPhoneNumber', phoneNumber);
+  }
 }

@@ -1,10 +1,8 @@
 import 'dart:async';
-import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:field_king/Pages/otp_page.dart';
 import 'package:field_king/controller/send_otp_controller.dart';
-import 'package:field_king/controller/signup_login_controller.dart';
 import 'package:field_king/controller/verify_otp_controller.dart';
 import 'package:field_king/services/get_storage/get_storage.dart';
 import 'package:field_king/services/notification/notification_services.dart';
@@ -12,7 +10,6 @@ import 'package:field_king/widgets/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 
 Future sendOtp(BuildContext context) async {
   SendOtpController sendOtpController = Get.put(SendOtpController());
@@ -59,7 +56,13 @@ Future verifyOtp(BuildContext context, String otp) async {
       GetStorageClass.writeSignup();
 
       if (user.user != null) {
-        // hive.up
+        NotificationServices services = NotificationServices();
+
+        services.getdevicetoken().then((value) {
+          GetStorageClass.writeDeviceToken(value);
+          // GetStorageClass.writeUserPhoneNumber(phoneNumber);
+        });
+
         // addUserData();
 
         return user.user;
@@ -265,33 +268,4 @@ Future addUserData(String? token) async {
     'Phone Number': '+91${sendOtpController.mobileNumberController.text}',
     'token': token,
   });
-}
-
-Future sendnotification() async {
-  NotificationServices notificationservices = NotificationServices();
-
-  notificationservices.getdevicetoken().then(
-    (value) async {
-      print('value is');
-      print(value);
-
-      var data = {
-        'to': value.toString(),
-        'priority': 'high',
-        'notification': {
-          'title': 'Gor',
-          'body': 'Darshil',
-        }
-      };
-      await http.post(
-        Uri.parse('https://fcm.googleapis.com/fcm/send'),
-        body: jsonEncode(data),
-        headers: {
-          'Content-Type': 'application/json;charset=UTF-8',
-          'Authorization':
-              'Key=AAAAQpaz38E:APA91bFNslLR_Im-MJL8kOqCc9wK3rnajD9rURZaXZAaq-VA-YCj_JQHfW8eaRlUlCM8g_bDXgSiPlbWJW_SM9buSK08Ed4l_9vEc1e5DQsYtybSb_iCjSHhwO8U7n79708It_6QsqJX'
-        },
-      );
-    },
-  );
 }

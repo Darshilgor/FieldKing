@@ -1,8 +1,11 @@
+import 'package:field_king/Pages/login_page.dart';
 import 'package:field_king/controller/send_otp_controller.dart';
 import 'package:field_king/services/app_color/app_colors.dart';
+import 'package:field_king/services/text_style/text_style.dart';
 import 'package:field_king/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -101,40 +104,59 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
             Obx(
               () => Row(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  (signupController.countDown.value != 0)
-                      ? Text(
-                          signupController.countDown.toString(),
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight:
-                                (signupController.countDown.value != 0 ||
-                                        signupController.OtpSend.value == false)
-                                    ? FontWeight.w100
-                                    : FontWeight.w600,
-                          ),
-                        )
-                      : Container(),
-                  SizedBox(width: 5),
                   GestureDetector(
                     onTap: () {
-                      signupController.reSendOtp(context);
+                      Get.to(
+                        LoginPage(),
+                      );
                     },
-                    child: Align(
-                      alignment: Alignment.topRight,
-                      child: Text(
-                        'Resend OTP',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: (signupController.countDown.value != 0 ||
-                                  signupController.OtpSend.value == false)
-                              ? FontWeight.w100
-                              : FontWeight.w600,
-                        ),
+                    child: Text(
+                      'Login',
+                      style: Style.textstyle2.copyWith(
+                        fontSize: 18,
+                        color: Colors.blue,
                       ),
                     ),
                   ),
+                  Row(
+                    children: [
+                      (signupController.countDown.value != 0)
+                          ? Text(
+                              signupController.countDown.toString(),
+                              style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: (signupController.countDown.value !=
+                                            0 ||
+                                        signupController.OtpSend.value == false)
+                                    ? FontWeight.w100
+                                    : FontWeight.w600,
+                              ),
+                            )
+                          : Container(),
+                      SizedBox(width: 5),
+                      GestureDetector(
+                        onTap: () {
+                          signupController.reSendOtp(context);
+                        },
+                        child: Align(
+                          alignment: Alignment.topRight,
+                          child: Text(
+                            'Resend OTP',
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: (signupController.countDown.value !=
+                                          0 ||
+                                      signupController.OtpSend.value == false)
+                                  ? FontWeight.w100
+                                  : FontWeight.w600,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),

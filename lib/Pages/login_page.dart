@@ -1,5 +1,6 @@
 import 'package:field_king/controller/send_otp_controller.dart';
 import 'package:field_king/services/app_color/app_colors.dart';
+import 'package:field_king/services/get_storage/get_storage.dart';
 import 'package:field_king/services/text_style/text_style.dart';
 import 'package:field_king/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -53,7 +54,12 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    controller.signIn(context);
+                    var isSignup = GetStorageClass.readSignup();
+                    if (isSignup == true)
+                      controller.signIn(context);
+                    else {
+                      showtoast(context, 'You are not signup,', 3);
+                    }
                   },
                   child: buttonwidget(
                     context,

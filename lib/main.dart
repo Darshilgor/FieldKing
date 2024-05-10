@@ -19,6 +19,7 @@ import 'package:get_storage/get_storage.dart';
 Future<void> backgroundNotificationHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.messageId}");
   await Firebase.initializeApp();
+
   await setupFlutterNotifications();
   showFlutterNotification(message);
   NotificationServices notificationservices = NotificationServices();
@@ -33,8 +34,9 @@ Future main(List<String> args) async {
   // await FirebaseAppCheck.instance.activate();
   FirebaseMessaging.onBackgroundMessage(backgroundNotificationHandler);
   await GetStorage.init();
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+
+  // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  //     FlutterLocalNotificationsPlugin();
 
   // final notificationAppLaunchDetails =
   //     await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
@@ -46,10 +48,6 @@ Future main(List<String> args) async {
   runApp(const MyApp());
 }
 
-// @pragma('vm:entry-point')
-// Future<void> _firebasemessagingBackgroundHandler(RemoteMessage message) async {
-//   await Firebase.initializeApp();
-// }
 late AndroidNotificationChannel channel;
 
 bool isFlutterLocalNotificationsInitialized = false;
@@ -69,6 +67,91 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     GetStorageClass.initGetStorage();
   }
+
+  // late FirebaseMessaging _firebaseMessaging;
+  // late FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin;
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   GetStorageClass.initGetStorage();
+  //   _firebaseMessaging = FirebaseMessaging.instance;
+  //   _flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  //   // Initialize Firebase Messaging
+  //   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+  //     print('onMessage: $message');
+  //     _showNotification(message);
+  //   });
+
+  //   FirebaseMessaging.onBackgroundMessage(_backgroundNotificationHandler);
+
+  //   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+  //     print('onMessageOpenedApp: $message');
+  //   });
+
+  //   // Initialize Local Notifications
+  //   var initializationSettingsAndroid =
+  //       AndroidInitializationSettings('@mipmap/ic_launcher');
+  //   var initializationSettingsIOS = DarwinInitializationSettings();
+  //   var initializationSettings = InitializationSettings(
+  //     android: initializationSettingsAndroid,
+  //     iOS: initializationSettingsIOS,
+  //   );
+  //   _flutterLocalNotificationsPlugin.initialize(
+  //     initializationSettings,
+  //     // onSelectNotification: (String? payload) async {
+  //     //   if (payload != null) {
+  //     //     print('Notification payload: $payload');
+  //     //   }
+  //     // },
+  //   );
+
+  //   // Request notification permissions
+  //   _requestNotificationPermissions();
+  // }
+
+  // Future<void> _requestNotificationPermissions() async {
+  //   NotificationSettings settings = await _firebaseMessaging.requestPermission(
+  //     alert: true,
+  //     announcement: true,
+  //     badge: true,
+  //     sound: true,
+  //   );
+  //   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+  //     print("User granted permission");
+  //   } else if (settings.authorizationStatus ==
+  //       AuthorizationStatus.provisional) {
+  //     print("User granted provisional permission");
+  //   } else {
+  //     print("User denied permission");
+  //   }
+  // }
+
+  // Future<void> _backgroundNotificationHandler(RemoteMessage message) async {
+  //   print("Handling a background message: ${message.messageId}");
+  //   _showNotification(message);
+  // }
+
+  // Future<void> _showNotification(RemoteMessage message) async {
+  //   AndroidNotificationDetails androidPlatformChannelSpecifics =
+  //       AndroidNotificationDetails(
+  //     'your channel id',
+  //     'your channel name',
+  //     // 'your channel description',
+  //     importance: Importance.max,
+  //     priority: Priority.high,
+  //   );
+  //   NotificationDetails platformChannelSpecifics =
+  //       NotificationDetails(android: androidPlatformChannelSpecifics);
+  //   await _flutterLocalNotificationsPlugin.show(
+  //     0,
+  //     message.notification?.title,
+  //     message.notification?.body,
+  //     platformChannelSpecifics,
+  //     payload: message.data['data'],
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {

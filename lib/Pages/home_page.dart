@@ -1,4 +1,3 @@
-import 'package:field_king/services/function.dart';
 import 'package:field_king/services/notification/notification_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -21,13 +20,7 @@ class _HomePageState extends State<HomePage> {
     notificationservices.firebaseinit(context);
     notificationservices.ontokenrefresh();
 
-    notificationservices.getdevicetoken().then(
-          (value) => print(
-            value,
-          ),
-        );
-    sendnotification();
-    // addUserData();
+    notificationservices.sendnotification();
   }
 
   @override
@@ -38,11 +31,24 @@ class _HomePageState extends State<HomePage> {
           'Home Page',
         ),
       ),
-      body: InkWell(
-          onTap: () {
-            FirebaseAuth.instance.signOut();
-          },
-          child: Text('logout')),
+      body: Column(
+        children: [
+          InkWell(
+              onTap: () {
+                FirebaseAuth.instance.signOut();
+              },
+              child: Text('logout')),
+          InkWell(
+              onTap: () {
+                notificationservices.requestnotificationpermission();
+                notificationservices.firebaseinit(context);
+                notificationservices.ontokenrefresh();
+
+                notificationservices.sendnotification();
+              },
+              child: Text('send notificaion')),
+        ],
+      ),
     );
   }
 }
