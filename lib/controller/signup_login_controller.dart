@@ -48,5 +48,5 @@ import 'package:get/get.dart';
 
 class SignupLoginController extends GetxController {
   RxBool? isSignup;
+  var token = ''.obs;
 }
-

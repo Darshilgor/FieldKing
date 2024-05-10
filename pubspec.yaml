@@ -52,6 +52,7 @@ dependencies:
   flutter_local_notifications: ^17.1.2
   http: ^1.2.1
   app_settings: ^5.1.1
+  get_storage: ^2.1.1
 
 dev_dependencies:
   flutter_test:

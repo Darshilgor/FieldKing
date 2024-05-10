@@ -3,32 +3,57 @@ import 'dart:async';
 import 'package:field_king/Pages/home_page.dart';
 import 'package:field_king/Pages/login_page.dart';
 import 'package:field_king/Pages/singup_page.dart';
-import 'package:field_king/controller/signup_login_controller.dart';
 import 'package:field_king/firebase_options.dart';
-import 'package:field_king/services/hive/hive.dart';
+import 'package:field_king/services/get_storage/get_storage.dart';
 import 'package:field_king/services/notification/notification_services.dart';
-import 'package:firebase_app_check/firebase_app_check.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
+@pragma('vm:entry-point')
+Future<void> backgroundNotificationHandler(RemoteMessage message) async {
+  print("Handling a background message: ${message.messageId}");
+  await Firebase.initializeApp();
+  await setupFlutterNotifications();
+  showFlutterNotification(message);
+  NotificationServices notificationservices = NotificationServices();
+  notificationservices.shownotification(message);
+}
 
 Future main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  await FirebaseAppCheck.instance.activate();
-  FirebaseMessaging.onBackgroundMessage(_firebasemessagingBackgroundHandler);
+  // await FirebaseAppCheck.instance.activate();
+  FirebaseMessaging.onBackgroundMessage(backgroundNotificationHandler);
+  await GetStorage.init();
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+      FlutterLocalNotificationsPlugin();
+
+  // final notificationAppLaunchDetails =
+  //     await flutterLocalNotificationsPlugin.getNotificationAppLaunchDetails();
+
+  // if (notificationAppLaunchDetails?.didNotificationLaunchApp ?? false) {
+  //   final message = notificationAppLaunchDetails!.notificationResponse;
+  // }
 
   runApp(const MyApp());
 }
 
-@pragma('vm:entry-point')
-Future<void> _firebasemessagingBackgroundHandler(RemoteMessage message) async {
-  await Firebase.initializeApp();
-}
+// @pragma('vm:entry-point')
+// Future<void> _firebasemessagingBackgroundHandler(RemoteMessage message) async {
+//   await Firebase.initializeApp();
+// }
+late AndroidNotificationChannel channel;
+
+bool isFlutterLocalNotificationsInitialized = false;
+late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -38,17 +63,11 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // SignupLoginController controller = Get.put(SignupLoginController());
-  notification_Services notificationservices = notification_Services();
-  HiveClass hive = HiveClass();
-  var isSignup;
+  GetStorageClass storage = GetStorageClass();
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
-    hive.intializeHive();
-    isSignup = hive.getSignupHive();
+    GetStorageClass.initGetStorage();
   }
 
   @override
@@ -60,22 +79,58 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Obx(
-        () {
-          // if (controller.isSignup == true &&
-          //     FirebaseAuth.instance.currentUser != null) {
-          //   return HomePage();
-          // } else if (controller.isSignup == true &&
-          //     FirebaseAuth.instance.currentUser == null) {
-          //   return LoginPage();
-          // } else {
-          //   return SignUpPage();
-          // }
-          if (isSignup == null)
-            return SignUpPage();
-          else if (isSignup == true) return HomePage();
-          return LoginPage();
-        },
+      home: (GetStorageClass.readSignup() == false)
+          ? SignUpPage()
+          : (GetStorageClass.readSignup() == true &&
+                  FirebaseAuth.instance.currentUser != null)
+              ? HomePage()
+              : LoginPage(),
+    );
+  }
+}
+
+Future<void> setupFlutterNotifications() async {
+  if (isFlutterLocalNotificationsInitialized) {
+    return;
+  }
+  channel = const AndroidNotificationChannel(
+    'high_importance_channel', // id
+    'High Importance Notifications', // title
+    description:
+        'This channel is used for important notifications.', // description
+    importance: Importance.high,
+  );
+
+  flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+  await FirebaseMessaging.instance.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+  isFlutterLocalNotificationsInitialized = true;
+}
+
+void showFlutterNotification(RemoteMessage message) {
+  RemoteNotification? notification = message.notification;
+  AndroidNotification? android = message.notification?.android;
+  if (notification != null && android != null && !kIsWeb) {
+    flutterLocalNotificationsPlugin.show(
+      notification.hashCode,
+      notification.title,
+      notification.body,
+      NotificationDetails(
+        android: AndroidNotificationDetails(
+          channel.id,
+          channel.name,
+          channelDescription: channel.description,
+          icon: 'ic_launcher',
+        ),
       ),
     );
   }
