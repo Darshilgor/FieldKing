@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:field_king/Pages/home_page.dart';
 import 'package:field_king/services/function.dart';
+import 'package:field_king/services/get_storage/get_storage.dart';
 import 'package:field_king/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -67,15 +69,14 @@ class SendOtpController extends GetxController {
       showtoast(context, 'Enter Last Name', 3);
     } else if (brandNameController.text.isEmpty) {
       showtoast(context, 'Enter Brand Name', 3);
-    } else if (mobileNumberController.text.isEmpty) {
-      showtoast(context, 'Enter Mobile Number', 3);
-    } else if (mobileNumberController.text.length != 10) {
-      showtoast(context, 'Enter Valid Mobile Number', 3);
     } else {
-      isOtpSend();
-      restartCountDown();
-      showprocessindicator(context);
-      sendOtp(context);
+      // isOtpSend();
+      // restartCountDown();
+      // showprocessindicator(context);
+      // sendOtp(context);
+
+      addUserData().whenComplete(() => Get.to(HomePage()));
+      GetStorageClass.writeDetailsEntered();
     }
   }
 

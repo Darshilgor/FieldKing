@@ -15,13 +15,17 @@ Widget formfield(
   TextInputFormatter filteredtextformate,
   LengthLimitingTextInputFormatter lengthLimitingTextInputFormatter, {
   FocusNode? focusNode,
+  bool? readOnly,
 }) {
   return SizedBox(
     height: 80,
     child: TextFormField(
-      textInputAction: TextInputAction.next,
+      textInputAction: (labeltext == 'Enter Your Brand Name')
+          ? TextInputAction.done
+          : TextInputAction.next,
       focusNode: focusNode,
       enabled: true,
+      readOnly: readOnly!,
       onChanged: (value) {
         onchanged(value);
         if (value.length == maxlength) {

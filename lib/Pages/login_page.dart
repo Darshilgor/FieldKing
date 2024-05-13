@@ -51,15 +51,11 @@ class _LoginPageState extends State<LoginPage> {
                   FilteringTextInputFormatter.digitsOnly,
                   LengthLimitingTextInputFormatter(10),
                   focusNode: myFocusNode,
+                  readOnly: false,
                 ),
                 GestureDetector(
                   onTap: () {
-                    var isSignup = GetStorageClass.readSignup();
-                    if (isSignup == true)
-                      controller.signIn(context);
-                    else {
-                      showtoast(context, 'You are not signup,', 3);
-                    }
+                    controller.signIn(context);
                   },
                   child: buttonwidget(
                     context,

@@ -1,5 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:field_king/Pages/home_page.dart';
+import 'package:field_king/Pages/singup_page.dart';
 import 'package:field_king/services/function.dart';
+import 'package:field_king/services/get_storage/get_storage.dart';
 import 'package:field_king/widgets/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -32,10 +35,19 @@ class VerifyOtpController extends GetxController {
           '${controller1.text.toString()}${controller2.text.toString()}${controller3.text.toString()}${controller4.text.toString()}${controller5.text.toString()}${controller6.text.toString()}');
 
       if (user != null) {
-        hideprocessindicator(context);
-        Get.offAll(
-          HomePage(),
-        );
+        FirebaseFirestore.instance
+            .collection('Users')
+            .doc(GetStorageClass.readUserPhoneNumber())
+            .get()
+            .then((DocumentSnapshot snapshot) {
+          hideprocessindicator(context);
+
+          if (snapshot.exists) {
+            Get.offAll(HomePage());
+          } else {
+            Get.off(SignUpPage());
+          }
+        });
       }
     }
   }

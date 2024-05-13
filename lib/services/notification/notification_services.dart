@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:field_king/services/function.dart';
+import 'package:app_settings/app_settings.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -26,9 +26,11 @@ class NotificationServices {
       print("user granted permession");
     } else if (settings.authorizationStatus ==
         AuthorizationStatus.provisional) {
-      print("user granted permession");
+      AppSettings.openAppSettings(
+        type: AppSettingsType.notification,
+      );
     } else {
-      print("user denied permession");
+      AppSettings.openAppSettings(type: AppSettingsType.notification);
     }
   }
 
@@ -44,7 +46,7 @@ class NotificationServices {
   Future<String> getdevicetoken() async {
     String? token = await messaging.getToken();
     print('token $token');
-    addUserData(token);
+    // addUserData(token);
     return token!;
   }
 
@@ -59,6 +61,11 @@ class NotificationServices {
         shownotification(message);
       },
     );
+     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      // Handle tap event here
+      print('Notification tapped: ${message.notification!.title}');
+      // You can navigate to a specific screen or perform any action here
+    });
   }
 
   // void backgroundfirebaseinit() {
@@ -125,14 +132,13 @@ class NotificationServices {
     });
   }
 
-  Future sendnotification() async {
+  Future sendnotification(String deviceToken,String title,String body) async {
     var data = {
-      'to':
-          'eBpaGJ43SAmF24g3uOCIQj:APA91bGMROFs8s78tWYYcsXBwWx_JouYMulkdGFVM0FWUYYZhBlvFE5l1Qy2IC3yuDdsKLHT9Fq5C82zzOeZDRbU6RrUKv3b2gvhku4cMrmfdmZP_5mTSwz-etO9IBxBp2C2v91s8kvE',
+      'to': deviceToken,
       'priority': 'high',
       'notification': {
-        'title': 'Gor',
-        'body': 'Darshil',
+        'title': title,
+        'body': body,
       }
     };
     await http.post(

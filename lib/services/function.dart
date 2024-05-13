@@ -43,7 +43,7 @@ Future sendOtp(BuildContext context) async {
 
 Future verifyOtp(BuildContext context, String otp) async {
   VerifyOtpController verifyOtpController = Get.put(VerifyOtpController());
-
+  SendOtpController sendOtpController = Get.put(SendOtpController());
   UserCredential? user;
 
   try {
@@ -53,20 +53,19 @@ Future verifyOtp(BuildContext context, String otp) async {
     user = await FirebaseAuth.instance.signInWithCredential(userCredential);
 
     if (user.user != null) {
-      GetStorageClass.writeSignup();
+      // GetStorageClass.writeSignup();
 
-      if (user.user != null) {
-        NotificationServices services = NotificationServices();
+      NotificationServices services = NotificationServices();
+      GetStorageClass.writeUserPhoneNumber(
+          '+91${sendOtpController.mobileNumberController.text}');
+      services.ontokenrefresh();
+      services.getdevicetoken().then((value) {
+        print(value);
+        GetStorageClass.writeDeviceToken(value);
+        print('token was writen');
+      });
 
-        services.getdevicetoken().then((value) {
-          GetStorageClass.writeDeviceToken(value);
-          // GetStorageClass.writeUserPhoneNumber(phoneNumber);
-        });
-
-        // addUserData();
-
-        return user.user;
-      }
+      return user.user;
     }
 
     return user.user;
@@ -254,7 +253,7 @@ void verifyOtpVerificationFailed(BuildContext context, e) {
 //   }
 // }
 
-Future addUserData(String? token) async {
+Future addUserData() async {
   SendOtpController sendOtpController = Get.put(SendOtpController());
   // NotificationServices services = NotificationServices();
   // print('services.token.toString()${services.token.toString()}');
@@ -265,7 +264,7 @@ Future addUserData(String? token) async {
     'First Name': sendOtpController.firstNameController.text,
     'Last Name': sendOtpController.lastNameController.text,
     'Brand Name': sendOtpController.brandNameController.text,
-    'Phone Number': '+91${sendOtpController.mobileNumberController.text}',
-    'token': token,
+    'Phone Number': GetStorageClass.readUserPhoneNumber(),
+    'token': GetStorageClass.readDeviceToken(),
   });
 }

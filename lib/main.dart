@@ -33,6 +33,7 @@ Future main(List<String> args) async {
   );
   // await FirebaseAppCheck.instance.activate();
   FirebaseMessaging.onBackgroundMessage(backgroundNotificationHandler);
+  // handleNotification();
   await GetStorage.init();
 
   // FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -48,8 +49,15 @@ Future main(List<String> args) async {
   runApp(const MyApp());
 }
 
-late AndroidNotificationChannel channel;
+// Future handleNotification() async {
+//   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+//     if (message.notification!.body == 'Welcome to Field King') {
+//       print('Welcome to Field King Brand');
+//     }
+//   });
+// }
 
+late AndroidNotificationChannel channel;
 bool isFlutterLocalNotificationsInitialized = false;
 late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
 
@@ -66,6 +74,11 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     GetStorageClass.initGetStorage();
+     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      if (message.notification!.body == 'Welcome to Field King') {
+        print('Welcome to Field King Brand');
+      }
+    });
   }
 
   // late FirebaseMessaging _firebaseMessaging;
@@ -162,12 +175,11 @@ class _MyAppState extends State<MyApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: (GetStorageClass.readSignup() == false)
-          ? SignUpPage()
-          : (GetStorageClass.readSignup() == true &&
-                  FirebaseAuth.instance.currentUser != null)
+      home: (FirebaseAuth.instance.currentUser == null)
+          ? LoginPage()
+          : (GetStorageClass.readDetailsEntered() == true)
               ? HomePage()
-              : LoginPage(),
+              : SignUpPage(),
     );
   }
 }
