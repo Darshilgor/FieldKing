@@ -5,7 +5,6 @@ import 'package:field_king/Pages/login_page.dart';
 import 'package:field_king/Pages/singup_page.dart';
 import 'package:field_king/firebase_options.dart';
 import 'package:field_king/services/get_storage/get_storage.dart';
-import 'package:field_king/services/notification/notification_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -20,10 +19,10 @@ Future<void> backgroundNotificationHandler(RemoteMessage message) async {
   print("Handling a background message: ${message.messageId}");
   await Firebase.initializeApp();
 
-  await setupFlutterNotifications();
-  showFlutterNotification(message);
-  NotificationServices notificationservices = NotificationServices();
-  notificationservices.shownotification(message);
+  // await setupFlutterNotifications();
+  // showFlutterNotification(message);
+  // NotificationServices notificationservices = NotificationServices();
+  // notificationservices.shownotification(message);
 }
 
 Future main(List<String> args) async {
@@ -74,11 +73,11 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     GetStorageClass.initGetStorage();
-     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      if (message.notification!.body == 'Welcome to Field King') {
-        print('Welcome to Field King Brand');
-      }
-    });
+    // FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+    //   if (message.notification!.body == 'Welcome to Field King') {
+    //     print('Welcome to Field King Brand');
+    //   }
+    // });
   }
 
   // late FirebaseMessaging _firebaseMessaging;
@@ -180,6 +179,7 @@ class _MyAppState extends State<MyApp> {
           : (GetStorageClass.readDetailsEntered() == true)
               ? HomePage()
               : SignUpPage(),
+      // home: CameraPage(),
     );
   }
 }

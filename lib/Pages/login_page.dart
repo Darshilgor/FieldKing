@@ -1,6 +1,5 @@
 import 'package:field_king/controller/send_otp_controller.dart';
 import 'package:field_king/services/app_color/app_colors.dart';
-import 'package:field_king/services/get_storage/get_storage.dart';
 import 'package:field_king/services/text_style/text_style.dart';
 import 'package:field_king/widgets/widgets.dart';
 import 'package:flutter/material.dart';
