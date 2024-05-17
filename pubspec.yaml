@@ -53,6 +53,11 @@ dependencies:
   http: ^1.2.1
   app_settings: ^5.1.1
   get_storage: ^2.1.1
+  photo_view: ^0.15.0
+  camera: ^0.10.6
+  image_cropper: ^6.0.0
+  dotted_border: ^2.1.0
+  crop_your_image: ^1.0.2
 
 dev_dependencies:
   flutter_test:

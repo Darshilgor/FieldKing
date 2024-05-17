@@ -64,6 +64,7 @@ Future verifyOtp(BuildContext context, String otp) async {
         GetStorageClass.writeDeviceToken(value);
         print('token was writen');
       });
+      
 
       return user.user;
     }

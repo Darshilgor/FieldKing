@@ -1,6 +1,6 @@
 import 'package:field_king/controller/send_otp_controller.dart';
 import 'package:field_king/services/app_color/app_colors.dart';
-import 'package:field_king/services/get_storage/get_storage.dart';
+import 'package:field_king/services/text_label/text_label.dart';
 import 'package:field_king/services/text_style/text_style.dart';
 import 'package:field_king/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -31,8 +31,8 @@ class _LoginPageState extends State<LoginPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Log In',
-              style: Style.headingtext.copyWith(
+              TextLabel.logIn,
+              style: TextStyleClass.headingtext.copyWith(
                 fontSize: 30,
               ),
             ),
@@ -40,8 +40,8 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 formfield(
                   context,
-                  'Enter Mobile Number',
-                  '9409529203',
+                  TextLabel.enterMobileNumber,
+                  TextLabel.hintMobileNumber,
                   controller.mobileNumberController,
                   10,
                   '', // countertext
@@ -59,7 +59,7 @@ class _LoginPageState extends State<LoginPage> {
                   },
                   child: buttonwidget(
                     context,
-                    'Send OTP',
+                    TextLabel.sendOtp,
                     AppColor.bgcolor1,
                     AppColor.bgcolor2,
                     Colors.white,
@@ -92,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                         child: Align(
                           alignment: Alignment.topRight,
                           child: Text(
-                            'Resend OTP',
+                            TextLabel.resendOtp,
                             style: TextStyle(
                               fontSize: 16,
                               fontWeight: (controller.countDown.value != 0 ||

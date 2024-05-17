@@ -1,5 +1,6 @@
 import 'package:field_king/controller/verify_otp_controller.dart';
 import 'package:field_king/services/app_color/app_colors.dart';
+import 'package:field_king/services/text_label/text_label.dart';
 import 'package:field_king/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,7 @@ class _OtpPageState extends State<OtpPage> {
       appBar: AppBar(
         backgroundColor: Colors.white,
         title: Text(
-          'Enter OTP',
+          TextLabel.enterOtp,
         ),
       ),
       body: Padding(
@@ -54,7 +55,7 @@ class _OtpPageState extends State<OtpPage> {
               },
               child: buttonwidget(
                 context,
-                'Varify OTP',
+                TextLabel.verifyOtp,
                 AppColor.bgcolor1,
                 AppColor.bgcolor2,
                 AppColor.whitecolor,

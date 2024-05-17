@@ -1,5 +1,6 @@
 import 'package:field_king/Pages/singup_page.dart';
 import 'package:field_king/services/navigator.dart';
+import 'package:field_king/services/text_label/text_label.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -63,7 +64,7 @@ class _SplashScreenState extends State<SplashScreen>
               animation: _controller,
               builder: (context, child) {
                 return Text(
-                  "Welcome to Field King",
+                  TextLabel.welcomeToFieldKing,
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.white,

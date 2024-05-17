@@ -3,6 +3,7 @@ import 'package:field_king/controller/send_otp_controller.dart';
 import 'package:field_king/services/app_color/app_colors.dart';
 import 'package:field_king/services/get_storage/get_storage.dart';
 import 'package:field_king/services/notification/notification_services.dart';
+import 'package:field_king/services/text_label/text_label.dart';
 import 'package:field_king/services/text_style/text_style.dart';
 import 'package:field_king/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,7 @@ class _SignUpPageState extends State<SignUpPage> {
       appBar: AppBar(
         leading: Text(''),
         title: Text(
-          'Enter Details',
+          TextLabel.enterDetails,
         ),
         centerTitle: true,
       ),
@@ -46,8 +47,8 @@ class _SignUpPageState extends State<SignUpPage> {
           children: [
             formfield(
               context,
-              'Enter First Name',
-              'Field',
+              TextLabel.enterFirstName,
+              TextLabel.hintFirstName,
               signupController.firstNameController,
               20,
               '',
@@ -60,8 +61,8 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
             formfield(
               context,
-              'Enter Last Name',
-              'King',
+              TextLabel.enterLastName,
+              TextLabel.hintLastName,
               signupController.lastNameController,
               20,
               '',
@@ -74,8 +75,8 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
             formfield(
               context,
-              'Enter Your Brand Name',
-              'Field King Brand',
+              TextLabel.enterBrandName,
+              TextLabel.hintBrandName,
               signupController.brandNameController,
               20,
               '',
@@ -88,8 +89,8 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
             formfield(
                 context,
-                'Mobile Number',
-                '9409529203',
+                TextLabel.enterMobileNumber,
+                TextLabel.hintMobileNumber,
                 TextEditingController(
                     text: GetStorageClass.readUserPhoneNumber()),
                 10,
@@ -108,7 +109,7 @@ class _SignUpPageState extends State<SignUpPage> {
               },
               child: buttonwidget(
                 context,
-                'Submit',
+                TextLabel.submit,
                 AppColor.bgcolor1,
                 AppColor.bgcolor2,
                 AppColor.whitecolor,
