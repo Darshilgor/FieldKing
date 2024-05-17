@@ -22,8 +22,8 @@ Future<void> backgroundNotificationHandler(RemoteMessage message) async {
 
   await setupFlutterNotifications();
   showFlutterNotification(message);
-  NotificationServices notificationservices = NotificationServices();
-  notificationservices.shownotification(message);
+  // NotificationServices notificationservices = NotificationServices();
+  // notificationservices.shownotification(message);
 }
 
 Future main(List<String> args) async {
