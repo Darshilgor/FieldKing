@@ -25,7 +25,6 @@ class _SignUpPageState extends State<SignUpPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    notificationservices.requestnotificationpermission();
   }
 
   @override

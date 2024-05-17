@@ -3,6 +3,7 @@ import 'package:field_king/Pages/home_page.dart';
 import 'package:field_king/Pages/singup_page.dart';
 import 'package:field_king/services/function.dart';
 import 'package:field_king/services/get_storage/get_storage.dart';
+import 'package:field_king/services/notification/notification_services.dart';
 import 'package:field_king/widgets/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -41,6 +42,8 @@ class VerifyOtpController extends GetxController {
             .get()
             .then((DocumentSnapshot snapshot) {
           hideprocessindicator(context);
+          NotificationServices services = NotificationServices();
+          services.requestnotificationpermission();
 
           if (snapshot.exists) {
             Get.offAll(HomePage());

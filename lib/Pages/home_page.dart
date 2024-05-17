@@ -17,8 +17,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
+    notificationservices.forgroundMessage();
     notificationservices.firebaseinit(context);
-
     notificationservices.setupInteractMessage(context);
     notificationservices.sendnotification(GetStorageClass.readDeviceToken(),
         'Field King', 'Welcome to Field King');
