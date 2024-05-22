@@ -449,36 +449,14 @@ class NotificationServices {
   }
 
   Future getContactPermission(BuildContext context) async {
-    // await Permission.contacts.request();
-    // PermissionStatus status = await Permission.contacts.status;
-    // print(status);
-    // if (status.isGranted) {
-    //   if (await Permission.notification.isGranted) {
-    //     return;
-    //   }
-    //   //  else {
-    //   // //   NotificationServices services = NotificationServices();
-    //   // //  await services.requestnotificationpermission();
-    //   //   return;
-    //   // }
-    // }
-    // return;
-
     var galleryAccessStatus = await Permission.contacts.status;
-    print('galleryAccessStatus $galleryAccessStatus');
     if (galleryAccessStatus != PermissionStatus.granted) {
-      //here
       var status;
       if (await Permission.contacts.status.isPermanentlyDenied) {
-        status = await Permission.contacts.request().whenComplete(
-            () => print('inside request........................'));
+        status = await Permission.contacts.request();
       }
-      status = await Permission.contacts
-          .request()
-          .whenComplete(() => print('inside request........................'));
-      print('status $status');
+      status = await Permission.contacts.request();
       if (status != PermissionStatus.granted) {
-        //here
         await openAppSettings();
       }
     }
