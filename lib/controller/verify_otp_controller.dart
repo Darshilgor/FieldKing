@@ -1,5 +1,8 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:contacts_service/contacts_service.dart';
 import 'package:field_king/Pages/home_page.dart';
+import 'package:field_king/Pages/home_page_view.dart';
 import 'package:field_king/Pages/singup_page.dart';
 import 'package:field_king/services/function.dart';
 import 'package:field_king/services/get_storage/get_storage.dart';
@@ -8,6 +11,7 @@ import 'package:field_king/widgets/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class VerifyOtpController extends GetxController {
   RxString otpId = RxString('');
@@ -40,17 +44,18 @@ class VerifyOtpController extends GetxController {
             .collection('Users')
             .doc(GetStorageClass.readUserPhoneNumber())
             .get()
-            .then((DocumentSnapshot snapshot) {
-          hideprocessindicator(context);
-          NotificationServices services = NotificationServices();
-          services.requestnotificationpermission();
+            .then(
+          (DocumentSnapshot snapshot) async {
+            hideprocessindicator(context);
 
-          if (snapshot.exists) {
-            Get.offAll(HomePage());
-          } else {
-            Get.off(SignUpPage());
-          }
-        });
+            
+            if (snapshot.exists) {
+              Get.offAll(HomePageView());
+            } else {
+              Get.off(SignUpPage());
+            }
+          },
+        );
       }
     }
   }

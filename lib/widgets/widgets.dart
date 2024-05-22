@@ -100,7 +100,7 @@ Widget buttonwidget(BuildContext context, String btntext, Color bgSecondry1,
   );
 }
 
-void showtoast(BuildContext context, String msg, int duration) {
+showtoast(BuildContext context, String msg, int duration) {
   showToast(
     context: context,
     msg,

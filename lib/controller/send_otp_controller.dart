@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:field_king/Pages/home_page.dart';
+import 'package:field_king/Pages/home_page_view.dart';
 import 'package:field_king/services/function.dart';
 import 'package:field_king/services/get_storage/get_storage.dart';
 import 'package:field_king/widgets/widgets.dart';
@@ -75,7 +76,7 @@ class SendOtpController extends GetxController {
       // showprocessindicator(context);
       // sendOtp(context);
 
-      addUserData().whenComplete(() => Get.to(HomePage()));
+      addUserData().whenComplete(() => Get.to(HomePageView()));
       GetStorageClass.writeDetailsEntered();
     }
   }

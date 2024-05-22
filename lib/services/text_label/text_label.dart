@@ -26,4 +26,5 @@ class TextLabel {
   static const enterDetails = 'Enter Details';
 
   static const submit = 'Submit';
+
 }

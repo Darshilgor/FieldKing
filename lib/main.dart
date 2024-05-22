@@ -1,11 +1,15 @@
 import 'dart:async';
 
 import 'package:field_king/Pages/home_page.dart';
+import 'package:field_king/Pages/home_page_view.dart';
 import 'package:field_king/Pages/login_page.dart';
 import 'package:field_king/Pages/singup_page.dart';
+import 'package:field_king/Pages/splash_screen.dart';
+import 'package:field_king/Pages/three_task.dart';
 import 'package:field_king/firebase_options.dart';
 import 'package:field_king/services/get_storage/get_storage.dart';
 import 'package:field_king/services/notification/notification_services.dart';
+import 'package:field_king/services/text_label/text_label.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -172,7 +176,7 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Field King',
+      title: TextLabel.branchName,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
@@ -180,9 +184,9 @@ class _MyAppState extends State<MyApp> {
       home: (FirebaseAuth.instance.currentUser == null)
           ? LoginPage()
           : (GetStorageClass.readDetailsEntered() == true)
-              ? HomePage()
+              ? HomePageView()
               : SignUpPage(),
-      // home: SplashScreen(),
+      // home: ThreeTask(),
     );
   }
 }

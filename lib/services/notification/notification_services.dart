@@ -410,19 +410,24 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:app_settings/app_settings.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:contacts_service/contacts_service.dart';
 import 'package:field_king/Pages/login_page.dart';
+import 'package:field_king/widgets/widgets.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:http/http.dart' as http;
+import 'package:permission_handler/permission_handler.dart';
 
 class NotificationServices {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
   final FlutterLocalNotificationsPlugin flutterlocalnotificationplugin =
       FlutterLocalNotificationsPlugin();
 
-  void requestnotificationpermission() async {
+  requestnotificationpermission() async {
     NotificationSettings settings = await messaging.requestPermission(
       alert: true,
       announcement: true,
@@ -441,6 +446,43 @@ class NotificationServices {
     } else {
       AppSettings.openAppSettings(type: AppSettingsType.notification);
     }
+  }
+
+  Future getContactPermission(BuildContext context) async {
+    // await Permission.contacts.request();
+    // PermissionStatus status = await Permission.contacts.status;
+    // print(status);
+    // if (status.isGranted) {
+    //   if (await Permission.notification.isGranted) {
+    //     return;
+    //   }
+    //   //  else {
+    //   // //   NotificationServices services = NotificationServices();
+    //   // //  await services.requestnotificationpermission();
+    //   //   return;
+    //   // }
+    // }
+    // return;
+
+    var galleryAccessStatus = await Permission.contacts.status;
+    print('galleryAccessStatus $galleryAccessStatus');
+    if (galleryAccessStatus != PermissionStatus.granted) {
+      //here
+      var status;
+      if (await Permission.contacts.status.isPermanentlyDenied) {
+        status = await Permission.contacts.request().whenComplete(
+            () => print('inside request........................'));
+      }
+      status = await Permission.contacts
+          .request()
+          .whenComplete(() => print('inside request........................'));
+      print('status $status');
+      if (status != PermissionStatus.granted) {
+        //here
+        await openAppSettings();
+      }
+    }
+    return;
   }
 
   void ontokenrefresh() {
@@ -559,8 +601,7 @@ class NotificationServices {
 
   Future sendnotification(String deviceToken, String title, String body) async {
     var data = {
-      'to':
-          'esfYNfAbSzW-q02BZOX9DP:APA91bEo5UHILSJOv7ER_GosfFpEWYbvihexXz1THQkfpLsG5diEa1xTKFwe4PcRg9-a7gHAK_VUviQrNmrn14O_GB2YpJryDuCWPRe-RMv8RbjCUiJROWDW-p5WtU1DAHGww90PwWt7',
+      'to': deviceToken,
       'priority': 'high',
       'notification': {
         'title': title,
