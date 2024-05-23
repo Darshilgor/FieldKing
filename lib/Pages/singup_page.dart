@@ -1,4 +1,5 @@
 import 'package:app_settings/app_settings.dart';
+import 'package:contacts_service/contacts_service.dart';
 import 'package:field_king/controller/send_otp_controller.dart';
 import 'package:field_king/services/app_color/app_colors.dart';
 import 'package:field_king/services/get_storage/get_storage.dart';
@@ -18,6 +19,8 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
+  List<Contact> list = [];
+
   SendOtpController signupController = Get.put(SendOtpController());
   FocusNode _focusNode = FocusNode();
   NotificationServices notificationservices = NotificationServices();
@@ -53,6 +56,15 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
       showtoast(context, 'Allow contact permission', 3);
       await Future.delayed(Duration(seconds: 3))
           .whenComplete(() => AppSettings.openAppSettings());
+    } else if (await Permission.contacts.isGranted) {
+      list = await ContactsService.getContacts().whenComplete(() {
+        if (list.isNotEmpty) {
+          list.forEach((element) {
+            print(element.displayName);
+          });
+          print('list.length ${list.length}');
+        }
+      });
     } else if (await Permission.notification.isDenied) {
       NotificationServices services = NotificationServices();
       services.requestnotificationpermission();
@@ -140,7 +152,6 @@ class _SignUpPageState extends State<SignUpPage> with WidgetsBindingObserver {
             GestureDetector(
               onTap: () {
                 showprocessindicator(context);
-                // getPermissionAndAddContact();
                 signupController.signUp(context);
               },
               child: buttonwidget(

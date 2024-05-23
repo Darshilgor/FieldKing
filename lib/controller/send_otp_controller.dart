@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:field_king/Pages/home_page.dart';
 import 'package:field_king/Pages/home_page_view.dart';
 import 'package:field_king/services/function.dart';
 import 'package:field_king/services/get_storage/get_storage.dart';
@@ -51,14 +50,17 @@ class SendOtpController extends GetxController {
 
   signIn(BuildContext context) {
     if (mobileNumberController.text.isEmpty) {
+      hideprocessindicator(context);
       showtoast(context, 'Enter Mobile Number', 3);
+      
     } else if (mobileNumberController.text.length != 10) {
+      hideprocessindicator(context);
+
       showtoast(context, 'Enter 10 Digit Mobile Numner', 3);
     } else {
       isOtpSend();
       restartCountDown();
-      showprocessindicator(context);
-
+  
       sendOtp(context);
     }
   }

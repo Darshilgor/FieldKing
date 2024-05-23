@@ -3,6 +3,7 @@ import 'package:field_king/services/app_color/app_colors.dart';
 import 'package:field_king/services/text_label/text_label.dart';
 import 'package:field_king/widgets/widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 class OtpPage extends StatefulWidget {
   const OtpPage({
@@ -15,6 +16,7 @@ class OtpPage extends StatefulWidget {
 
 class _OtpPageState extends State<OtpPage> {
   VerifyOtpController verifyOtpController = VerifyOtpController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,6 +48,7 @@ class _OtpPageState extends State<OtpPage> {
                     context, verifyOtpController.controller5, true, false),
                 otpformfield(
                     context, verifyOtpController.controller6, true, true),
+                    PinFieldAutoFill()
               ],
             ),
             GestureDetector(

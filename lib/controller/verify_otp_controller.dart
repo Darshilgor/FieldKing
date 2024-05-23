@@ -22,6 +22,18 @@ class VerifyOtpController extends GetxController {
   TextEditingController controller5 = TextEditingController().obs.value;
   TextEditingController controller6 = TextEditingController().obs.value;
 
+  void fillOtpFields(String otp) {
+    if (otp.length == 6) {
+      print('inside opt length');
+      controller1.text = otp[0];
+      controller2.text = otp[1];
+      controller3.text = otp[2];
+      controller4.text = otp[3];
+      controller5.text = otp[4];
+      controller6.text = otp[5];
+    }
+  }
+
   verifyOtpMethod(BuildContext context) async {
     if (controller1.text.isEmpty ||
         controller2.text.isEmpty ||
@@ -48,7 +60,6 @@ class VerifyOtpController extends GetxController {
           (DocumentSnapshot snapshot) async {
             hideprocessindicator(context);
 
-            
             if (snapshot.exists) {
               Get.offAll(HomePageView());
             } else {

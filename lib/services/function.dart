@@ -10,31 +10,63 @@ import 'package:field_king/widgets/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sms_autofill/sms_autofill.dart';
 
 Future sendOtp(BuildContext context) async {
   SendOtpController sendOtpController = Get.put(SendOtpController());
   VerifyOtpController verifyOtpController = Get.put(VerifyOtpController());
   try {
+    await SmsAutoFill().listenForCode;
     await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: '+91${sendOtpController.mobileNumberController.text}',
-      verificationCompleted: (phoneAuthCredential) {},
-      verificationFailed: (e) {
-        hideprocessindicator(context);
-        sendOtpverificationFailed(context, e.code);
-      },
-      codeSent: (verificationId, forceResendingToken) {
-        print(verificationId);
-        verifyOtpController.otpId.value = verificationId.toString();
-        print(verifyOtpController.otpId.value);
-        if (verifyOtpController.otpId.isNotEmpty) {
+        phoneNumber: '+91${sendOtpController.mobileNumberController.text}',
+        verificationCompleted: (PhoneAuthCredential phoneAuthCredential) async {
+          // print('inside verification completed');
+          // String smsCode = phoneAuthCredential.smsCode!;
+          // verifyOtpController.fillOtpFields(smsCode);
+          // print(
+          //     'phoneAuthCredential.smsCode.toString()${phoneAuthCredential.smsCode.toString()}');
+
+          // Read OTP from phoneAuthCredential
+          String? smsCode = phoneAuthCredential.smsCode;
+
+          if (smsCode != null) {
+            // Fill OTP fields
+            verifyOtpController.fillOtpFields(smsCode);
+            print('OTP from SMS: $smsCode');
+
+            // Proceed with verification
+            await FirebaseAuth.instance
+                .signInWithCredential(phoneAuthCredential);
+
+            // Optionally, navigate to the OTP page
+            Get.to(const OtpPage());
+          }
+        },
+        verificationFailed: (e) {
           hideprocessindicator(context);
-          Get.to(const OtpPage());
-        }
-      },
-      codeAutoRetrievalTimeout: (verificationId) {
-        verifyOtpController.otpId.value = verificationId.toString();
-      },
-    );
+          sendOtpverificationFailed(context, e.code);
+        },
+        codeSent: (verificationId, forceResendingToken) {
+          print(verificationId);
+          verifyOtpController.otpId.value = verificationId.toString();
+          print(verifyOtpController.otpId.value);
+          if (verifyOtpController.otpId.isNotEmpty) {
+            hideprocessindicator(context);
+            Get.to(const OtpPage());
+          }
+        },
+        codeAutoRetrievalTimeout: (verificationId) {
+          if (Get.currentRoute == '/OtpPage') {
+            print('inside the opt page');
+            return;
+          } else {
+            hideprocessindicator(context);
+            print('after timeout');
+            verifyOtpController.otpId.value = verificationId.toString();
+            return;
+          }
+        },
+        timeout: Duration(seconds: 20));
   } catch (e) {
     hideprocessindicator(context);
     showtoast(context, e.toString(), 5);
@@ -102,6 +134,9 @@ void sendOtpverificationFailed(context, String code) {
       showtoast(context,
           'Network request failed. Please check your internet connection.', 5);
       break;
+    case 'too-many-requests':
+      showtoast(context,
+          'To many request try after some times,Or call on +919409529203', 10);
     default:
       print('Unhandled error: ${code}');
       break;

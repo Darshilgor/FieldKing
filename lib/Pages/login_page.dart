@@ -1,3 +1,4 @@
+import 'package:field_king/controller/login_controller.dart';
 import 'package:field_king/controller/send_otp_controller.dart';
 import 'package:field_king/services/app_color/app_colors.dart';
 import 'package:field_king/services/text_label/text_label.dart';
@@ -15,9 +16,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final SendOtpController controller = Get.put(SendOtpController());
-
-  FocusNode myFocusNode = FocusNode();
+  final SendOtpController sendOtpController = Get.put(SendOtpController());
+  final LoginController loginController = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -42,20 +42,22 @@ class _LoginPageState extends State<LoginPage> {
                   context,
                   TextLabel.enterMobileNumber,
                   TextLabel.hintMobileNumber,
-                  controller.mobileNumberController,
+                  sendOtpController.mobileNumberController,
                   10,
-                  '', // countertext
+                  '',
                   TextInputType.phone,
                   onchange,
                   onfieldsubmitted,
                   FilteringTextInputFormatter.digitsOnly,
                   LengthLimitingTextInputFormatter(10),
-                  focusNode: myFocusNode,
+                  focusNode: loginController.focusNode,
                   readOnly: false,
                 ),
                 GestureDetector(
                   onTap: () {
-                    controller.signIn(context);
+      showprocessindicator(context);
+
+                    sendOtpController.signIn(context);
                   },
                   child: buttonwidget(
                     context,
@@ -72,22 +74,24 @@ class _LoginPageState extends State<LoginPage> {
                   () => Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      (controller.countDown.value != 0)
+                      (sendOtpController.countDown.value != 0)
                           ? Text(
-                              controller.countDown.toString(),
+                              sendOtpController.countDown.toString(),
                               style: TextStyle(
                                 fontSize: 16,
-                                fontWeight: (controller.countDown.value != 0 ||
-                                        controller.OtpSend.value == false)
-                                    ? FontWeight.w100
-                                    : FontWeight.w600,
+                                fontWeight:
+                                    (sendOtpController.countDown.value != 0 ||
+                                            sendOtpController.OtpSend.value ==
+                                                false)
+                                        ? FontWeight.w100
+                                        : FontWeight.w600,
                               ),
                             )
                           : Container(),
                       SizedBox(width: 5),
                       GestureDetector(
                         onTap: () {
-                          controller.reSendOtp(context);
+                          sendOtpController.reSendOtp(context);
                         },
                         child: Align(
                           alignment: Alignment.topRight,
@@ -95,8 +99,9 @@ class _LoginPageState extends State<LoginPage> {
                             TextLabel.resendOtp,
                             style: TextStyle(
                               fontSize: 16,
-                              fontWeight: (controller.countDown.value != 0 ||
-                                      controller.OtpSend.value == false)
+                              fontWeight: (sendOtpController.countDown.value !=
+                                          0 ||
+                                      sendOtpController.OtpSend.value == false)
                                   ? FontWeight.w100
                                   : FontWeight.w600,
                             ),

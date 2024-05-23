@@ -44,8 +44,11 @@
 //   }
 // }
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SignupLoginController extends GetxController {
+class LoginController extends GetxController {
+  FocusNode focusNode = FocusNode();
+
   var token = ''.obs.value;
 }
