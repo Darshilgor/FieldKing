@@ -1,38 +1,213 @@
+
 import 'package:flutter/material.dart';
 
-class TextStyleClass {
-  static TextStyle headingtext = TextStyle(
-    fontSize: 34,
-    fontWeight: FontWeight.w600,
-  );
+class Constant {
+  static const String fontFamily = "Roboto";
+}
 
-  static TextStyle textstyle1 = TextStyle(
-    fontSize: 26,
-    fontWeight: FontWeight.w500,
-  );
-
-  static TextStyle textstyle2 = TextStyle(
-    fontSize: 24,
-    fontWeight: FontWeight.w400,
-  );
-
-  static TextStyle textstyle3 = TextStyle(
-    fontSize: 22,
-    fontWeight: FontWeight.w400,
-  );
-
-  static TextStyle textstyle4 = TextStyle(
-    fontSize: 20,
-    fontWeight: FontWeight.w400,
-  );
-
-  static TextStyle textstyle5 = TextStyle(
-    fontSize: 18,
-    fontWeight: FontWeight.w400,
-  );
-
-  static TextStyle textstyle6 = TextStyle(
+extension TextStyleExtensions on TextStyle {
+  TextStyle get black16 => customStyle(
+    letterSpacing: 0.0,
     fontSize: 16,
-    fontWeight: FontWeight.w400,
+    weight: FontWeight.w900,
   );
+
+  TextStyle get heavy16 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 16,
+    weight: FontWeight.w800,
+  );
+
+  TextStyle get bold16 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 16,
+    weight: FontWeight.w700,
+  );
+
+  TextStyle get semiBold16 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 16,
+    weight: FontWeight.w600,
+  );
+
+  TextStyle get semiBold11 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 11,
+    weight: FontWeight.w600,
+  );
+
+  TextStyle get semiBold12 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 12,
+    weight: FontWeight.w600,
+  );
+
+  TextStyle get semiBold14 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 14,
+    weight: FontWeight.w600,
+  );
+
+  TextStyle get medium16 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 16,
+    weight: FontWeight.w500,
+  );
+
+  TextStyle get medium14 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 14,
+    weight: FontWeight.w500,
+  );
+
+  TextStyle get regular16 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 16,
+    weight: FontWeight.w400,
+  );
+  TextStyle get regular10 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 10,
+    weight: FontWeight.w400,
+  );
+
+  TextStyle get light16 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 16,
+    weight: FontWeight.w300,
+  );
+
+  TextStyle get light12 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 12,
+    weight: FontWeight.w300,
+  );
+
+  TextStyle get thin16 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 16,
+    weight: FontWeight.w200,
+  );
+
+  /// font size 14.
+  TextStyle get bold14 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 14,
+    weight: FontWeight.w700,
+  );
+
+  TextStyle get bold26 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 26,
+    weight: FontWeight.w700,
+  );
+
+  TextStyle get regular14 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 14,
+    weight: FontWeight.w400,
+  );
+
+  TextStyle get regular15 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 15,
+    weight: FontWeight.w400,
+  );
+
+  /// font size 13.
+  TextStyle get regular13 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 13,
+    weight: FontWeight.w400,
+  );
+
+  TextStyle get regular11 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 11,
+    weight: FontWeight.w400,
+  );
+
+  TextStyle get regular12 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 12,
+    weight: FontWeight.w400,
+  );
+
+  /// font size 15.
+  TextStyle get semiBold15 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 15,
+    weight: FontWeight.w600,
+  );
+
+  /// font size 18.
+  TextStyle get semiBold18 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 18,
+    weight: FontWeight.w600,
+  );
+
+  TextStyle get semiBold17 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 17,
+    weight: FontWeight.w600,
+  );TextStyle get semiBold13 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 13,
+    weight: FontWeight.w600,
+  );
+
+  /// font size 24.
+  TextStyle get medium24 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 24,
+    weight: FontWeight.w500,
+  );
+
+  TextStyle get medium13 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 13,
+    weight: FontWeight.w500,
+  );
+
+  TextStyle get medium12 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 12,
+    weight: FontWeight.w500,
+  );
+
+  TextStyle get medium11 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 11,
+    weight: FontWeight.w500,
+  );
+
+  /// text color and weight and size.
+
+  /// font size 28.
+  TextStyle get medium28 => customStyle(
+    letterSpacing: 0.0,
+    fontSize: 28,
+    weight: FontWeight.w500,
+  );
+
+  TextStyle textColor(Color v) => copyWith(color: v);
+
+  TextStyle weight(FontWeight v) => copyWith(fontWeight: v);
+
+  TextStyle size(double v) => copyWith(fontSize: v);
+
+  TextStyle letterSpace(double v) => copyWith(letterSpacing: v);
+
+  TextStyle customStyle({
+    required double letterSpacing,
+    required double fontSize,
+    required FontWeight weight,
+  }) =>
+      copyWith(
+        letterSpacing: letterSpacing,
+        fontSize: fontSize,
+        fontWeight: weight,
+        fontFamily: Constant.fontFamily,
+      );
 }

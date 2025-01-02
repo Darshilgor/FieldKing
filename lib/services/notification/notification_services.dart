@@ -412,7 +412,6 @@ import 'dart:math';
 import 'package:app_settings/app_settings.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:contacts_service/contacts_service.dart';
-import 'package:field_king/Pages/login_page.dart';
 import 'package:field_king/widgets/widgets.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
@@ -623,49 +622,48 @@ class NotificationServices {
     if (initialMessage != null) {
       print('message');
 
-      handleNotificationTap(context, jsonEncode(initialMessage.data));
+      // handleNotificationTap(context, jsonEncode(initialMessage.data));
     }
 
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('message');
 
       print('message $message');
-      handleNotificationTap(context, jsonEncode(message.data));
+      // handleNotificationTap(context, jsonEncode(message.data));
     });
   }
 
-  void handleNotificationTap(BuildContext context, String? payload) {
-    if (payload != null) {
-      var data = jsonDecode(payload);
-      if (data['type'] == 'Gor') {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => LoginPage()),
-        );
-      }
-    }
-  }
-
-  // Future<void> setupInteractMessage(BuildContext context) async {
-  //   // when app is terminated
-  //   RemoteMessage? initialMessage =
-  //       await FirebaseMessaging.instance.getInitialMessage();
-
-  //   if (initialMessage != null) {
-  //     handleMessage(context, initialMessage);
-  //   }
-
-  //   //when app ins background
-  //   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-  //     handleMessage(context, message);
-  //   });
-  // }
-
-  // void handleMessage(BuildContext context, RemoteMessage message) {
-
-  //   if (message.data['type'] == 'Gor') {
-  //     Navigator.push(
-  //         context, MaterialPageRoute(builder: (context) => SignUpPage()));
-  //   }
-  // }
+// void handleNotificationTap(BuildContext context, String? payload) {
+//   if (payload != null) {
+//     var data = jsonDecode(payload);
+//     if (data['type'] == 'Gor') {
+//       Navigator.push(
+//         context,
+//         MaterialPageRoute(builder: (context) => LoginPage()),
+//       );
+//     }
+//   }
 }
+
+// Future<void> setupInteractMessage(BuildContext context) async {
+//   // when app is terminated
+//   RemoteMessage? initialMessage =
+//       await FirebaseMessaging.instance.getInitialMessage();
+
+//   if (initialMessage != null) {
+//     handleMessage(context, initialMessage);
+//   }
+
+//   //when app ins background
+//   FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+//     handleMessage(context, message);
+//   });
+// }
+
+// void handleMessage(BuildContext context, RemoteMessage message) {
+
+//   if (message.data['type'] == 'Gor') {
+//     Navigator.push(
+//         context, MaterialPageRoute(builder: (context) => SignUpPage()));
+//   }
+// }
