@@ -10,7 +10,9 @@ class SplashScreenController extends GetxController {
 
   Future<void> callOnboardingScreen() async {
     await Future.delayed(
-      const Duration(seconds: 3),
+      const Duration(
+        seconds: 3,
+      ),
       () async {
         Get.offNamed(
           Routes.login,

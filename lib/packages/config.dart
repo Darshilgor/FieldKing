@@ -12,3 +12,6 @@ export 'package:flutter/foundation.dart';
 export 'package:flutter_local_notifications/flutter_local_notifications.dart';
 export 'package:get/get.dart';
 export 'package:get_storage/get_storage.dart';
+export 'package:field_king/services/app_icon/app_icon.dart';
+export 'package:field_king/components/text_form_field.dart';
+export 'package:gap/gap.dart';

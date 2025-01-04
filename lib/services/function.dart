@@ -1,13 +1,6 @@
-import 'dart:async';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:field_king/services/get_storage/get_storage.dart';
-import 'package:field_king/services/notification/notification_services.dart';
 import 'package:field_king/widgets/widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:sms_autofill/sms_autofill.dart';
 
 // Future sendOtp(BuildContext context) async {
 //   // SendOtpController sendOtpController = Get.put(SendOtpController());

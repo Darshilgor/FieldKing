@@ -3,13 +3,13 @@ import 'package:field_king/packages/config.dart';
 typedef OnValidation = dynamic Function(String? text);
 
 class InputField extends StatelessWidget {
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final FocusNode? focusNode;
   final bool obscureText;
   final bool firstCapital;
   final bool disable;
   final bool readOnly;
-  final String hint;
+  final String hintText;
   final String? suffixIcon;
   final String? prefixIcon;
   final bool? isHasInVisibleBorder;
@@ -36,10 +36,12 @@ class InputField extends StatelessWidget {
   final EdgeInsetsGeometry? prefixIconPadding;
   final BorderRadius? borderRadius;
   final double? suffixIconSize;
+  final String? labelText;
+  final int? maxLength;
 
   const InputField({
     super.key,
-    required this.controller,
+    this.controller,
     this.suffixIcon,
     this.prefixIcon,
     this.readOnly = false,
@@ -47,7 +49,7 @@ class InputField extends StatelessWidget {
     this.obscureText = false,
     this.disable = false,
     this.firstCapital = false,
-    this.hint = "",
+    this.hintText = "",
     this.onChange,
     this.fillColor,
     this.inputFormatter,
@@ -75,6 +77,8 @@ class InputField extends StatelessWidget {
     this.prefixIconPadding,
     this.borderRadius,
     this.suffixIconSize,
+    this.labelText,
+    this.maxLength,
   });
 
   @override
@@ -86,6 +90,7 @@ class InputField extends StatelessWidget {
         ),
       ),
       child: TextFormField(
+        maxLength: maxLength,
         readOnly: readOnly,
         onTap: onTap ?? () {},
         textCapitalization:
@@ -103,10 +108,17 @@ class InputField extends StatelessWidget {
         inputFormatters: inputFormatter ?? [],
         style: textStyle ??
             const TextStyle().regular14.textColor(
-                  // AppColor.optionalColor,
                   AppColor.blackColor,
                 ),
         decoration: InputDecoration(
+          counterText: "",
+          floatingLabelStyle: TextStyle().medium17.textColor(
+                AppColor.blackColor,
+              ),
+          labelText: labelText,
+          labelStyle: TextStyle().regular16.textColor(
+                AppColor.labeColor,
+              ),
           contentPadding: const EdgeInsets.symmetric(
             horizontal: 15,
             vertical: 15,
@@ -119,21 +131,21 @@ class InputField extends StatelessWidget {
                     padding: prefixIconPadding ??
                         const EdgeInsets.only(
                           left: 15,
-                          right: 8,
-                          top: 12,
-                          bottom: 12,
+                          right: 10,
+                          top: 10,
+                          bottom: 10,
                         ),
                     child: isPngPrefixIcon == true
                         ? Image.asset(
                             prefixIcon ?? "",
-                            height: 16,
-                            width: 16,
+                            height: 22,
+                            width: 22,
                             color: prefixIconColor ?? AppColor.blackColor,
                           )
                         : SvgPicture.asset(
                             prefixIcon ?? "",
-                            height: 30,
-                            width: 30,
+                            height: 22,
+                            width: 22,
                             colorFilter: ColorFilter.mode(
                               prefixIconColor ?? AppColor.blackColor,
                               BlendMode.srcIn,
@@ -160,7 +172,6 @@ class InputField extends StatelessWidget {
                             height: suffixIconSize ?? 16,
                             width: suffixIconSize ?? 16,
                             color: suffixIconColor ??
-                                // AppColor.optionalColor.withOpacity(0.50),
                                 AppColor.blackColor.withOpacity(0.50),
                           )
                         : SvgPicture.asset(
@@ -168,7 +179,6 @@ class InputField extends StatelessWidget {
                             height: suffixIconSize ?? 16,
                             width: suffixIconSize ?? 16,
                             colorFilter: ColorFilter.mode(
-                              // suffixIconColor ?? AppColor.optionalColor.withOpacity(0.50),
                               suffixIconColor ??
                                   AppColor.blackColor.withOpacity(0.50),
                               BlendMode.srcIn,
@@ -179,41 +189,41 @@ class InputField extends StatelessWidget {
           enabled: !disable,
           hintStyle: hintStyle ??
               const TextStyle().regular16.textColor(
-                    AppColor.blackColor,
+                    AppColor.hintColor,
                   ),
-          hintText: hint,
+          hintText: hintText,
           filled: false,
           fillColor: fillColor ?? AppColor.whiteColor,
           disabledBorder: OutlineInputBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(7),
+            borderRadius: borderRadius ?? BorderRadius.circular(50),
             borderSide: BorderSide(
               width: 1,
               color: AppColor.borderColor,
             ),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(7),
+            borderRadius: borderRadius ?? BorderRadius.circular(50),
             borderSide: BorderSide(
               width: 1,
               color: AppColor.borderColor,
             ),
           ),
           border: OutlineInputBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(7),
+            borderRadius: borderRadius ?? BorderRadius.circular(50),
             borderSide: BorderSide(
               width: 1,
               color: AppColor.borderColor,
             ),
           ),
           errorBorder: OutlineInputBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(7),
+            borderRadius: borderRadius ?? BorderRadius.circular(50),
             borderSide: BorderSide(
               width: 1,
               color: AppColor.errorColor,
             ),
           ),
           focusedErrorBorder: OutlineInputBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(7),
+            borderRadius: borderRadius ?? BorderRadius.circular(50),
             borderSide: BorderSide(
               width: 1.5,
               color: AppColor.errorColor,
@@ -223,7 +233,7 @@ class InputField extends StatelessWidget {
                 AppColor.errorColor,
               ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(7),
+            borderRadius: borderRadius ?? BorderRadius.circular(50),
             borderSide: BorderSide(
               width: 1,
               color: AppColor.borderColor,

@@ -1,4 +1,4 @@
-import 'package:field_king/packages/app/model/splash_screen/controller/splash_screen_controller.dart';
+import 'package:field_king/packages/app/module/splash_screen/controller/splash_screen_controller.dart';
 import 'package:field_king/packages/config.dart';
 
 class SplashScreenView extends StatefulWidget {
