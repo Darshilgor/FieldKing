@@ -12,5 +12,6 @@ class AppColor {
   );
   static Color hintColor = Colors.grey.withOpacity(0.4);
   static Color errorColor = Colors.red;
-   static const Color buttonBackgroundColor = Colors.black;
+  static const Color buttonBackgroundColor = Colors.black;
+  static Color descriptionColor = Colors.black.withOpacity(0.4);
 }

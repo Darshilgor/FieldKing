@@ -5,8 +5,11 @@ import 'package:field_king/packages/routes/app_pages.dart';
 @pragma('vm:entry-point')
 Future<void> backgroundNotificationHandler(RemoteMessage message) async {
   print("Handling a background message: \${message.messageId}");
-  await Firebase.initializeApp();
-  GetStorageClass.initGetStorage();
+
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  // await Preference().init();
 
   await setupFlutterNotifications();
   showFlutterNotification(message);
@@ -14,15 +17,17 @@ Future<void> backgroundNotificationHandler(RemoteMessage message) async {
 
 Future<void> main(List<String> args) async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
   FirebaseMessaging.onBackgroundMessage(backgroundNotificationHandler);
   await GetStorage.init();
-
+  await Preference().init();
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   String? token = await messaging.getToken();
+  Preference.writeToken(token ?? '');
   print("FCM Token: $token");
 
   runApp(const MyApp());
@@ -45,7 +50,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       getPages: AppPages.routes,
-      initialRoute: Routes.login,
+      initialRoute:  Routes.login,
     );
   }
 }

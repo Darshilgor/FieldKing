@@ -1,6 +1,7 @@
+import 'package:field_king/packages/app/module/home_screen/view/home_screen_view.dart';
 import 'package:field_king/packages/app/module/login/view/login_view.dart';
+import 'package:field_king/packages/app/module/sign_up/view/sign_up_screen_view.dart';
 import 'package:field_king/packages/app/module/splash_screen/view/splash_screen_view.dart';
-import 'package:field_king/packages/app/module/verify_otp/view/verify_otp_view.dart';
 import 'package:field_king/packages/config.dart';
 
 part 'app_routes.dart';
@@ -21,8 +22,12 @@ class AppPages {
       page: () => LoginScreenView(),
     ),
     GetPage(
-      name: _Paths.verifyOtp,
-      page: () => VerifyOtpView(),
+      name: _Paths.signUp,
+      page: () => SignUpScreenView(),
+    ),
+    GetPage(
+      name: _Paths.homeScreen,
+      page: () => HomeScreenView(),
     ),
   ];
 }

@@ -5,7 +5,8 @@ abstract class Routes {
 
   static const splashScreen = _Paths.splashScreen;
   static const login = _Paths.login;
-  static const verifyOtp= _Paths.verifyOtp;
+  static const signUp = _Paths.signUp;
+  static const homeScreen = _Paths.homeScreen;
 }
 
 abstract class _Paths {
@@ -13,5 +14,6 @@ abstract class _Paths {
 
   static const splashScreen = '/splash-screen';
   static const login = '/login-screen';
-  static const verifyOtp = '/verify-otp';
+  static const signUp = '/sign-up';
+  static const homeScreen = '/home-screen';
 }

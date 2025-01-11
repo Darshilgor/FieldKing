@@ -33,7 +33,7 @@ bottomSheet({
             Gap(Get.height * 0.02),
             Container(
               height: 5,
-              width: 150,
+              width: 120,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(
                   10,
@@ -41,15 +41,17 @@ bottomSheet({
                 color: Colors.grey,
               ),
             ),
-            const Gap(40),
+            const Gap(20),
             ...widgetList,
             const Gap(40),
-            CommonAppButton(
-              text: buttonTitle ?? '',
-              buttonType: (isLoading?.value ?? false)
-                  ? ButtonType.progress
-                  : ButtonType.enable,
-              onTap: onTap,
+            Obx(
+              () => CommonAppButton(
+                text: buttonTitle ?? '',
+                buttonType: (isLoading?.value ?? false)
+                    ? ButtonType.progress
+                    : ButtonType.enable,
+                onTap: onTap,
+              ),
             ),
             Gap((isShowResendCode ?? false) ? 15 : 10),
             Visibility(

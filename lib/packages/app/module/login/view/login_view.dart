@@ -4,7 +4,8 @@ import 'package:field_king/components/pin_put.dart';
 import 'package:field_king/components/unfocus_keyboard.dart';
 import 'package:field_king/packages/app/module/login/controller/login_controller.dart';
 import 'package:field_king/packages/config.dart';
-import 'package:field_king/packages/routes/app_pages.dart';
+import 'package:field_king/services/firebase_services/firebase_services.dart';
+import 'package:field_king/services/toast_message/toast_message.dart';
 
 class LoginScreenView extends StatelessWidget {
   LoginScreenView({super.key});
@@ -26,15 +27,22 @@ class LoginScreenView extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Gap(50),
+                  Gap(Get.height * 0.1),
                   Text(
-                    'Login',
+                    'Welcome to Field King!',
                     style: TextStyle().bold26.textColor(
                           AppColor.blackColor,
                         ),
                   ),
+                  Gap(20),
+                  Text(
+                    'Please enter phone number to get opt.',
+                    style: TextStyle().regular16.textColor(
+                          AppColor.descriptionColor,
+                        ),
+                  ),
                   Gap(
-                    Get.height * 0.25,
+                    Get.height * 0.2,
                   ),
                   InputField(
                     controller: controller.phoneNoController.value,
@@ -47,34 +55,88 @@ class LoginScreenView extends StatelessWidget {
                     maxLength: 10,
                     validator: (value) {
                       if (value?.length == 0) {
-                        return 'Please enter phone number';
+                        return 'Please enter phone number.';
                       } else if (value?.length != 10) {
-                        return 'Please enter valid phone number';
+                        return 'Please enter valid phone number.';
                       } else {
                         return null;
                       }
                     },
                   ),
-                  CommonAppButton(
-                    text: 'Send Otp',
-                    buttonType: ButtonType.enable,
-                    onTap: () {
-                      // if (controller.loginFormKey.currentState!.validate()) {
-                      bottomSheet(
-                        buttonTitle: 'Verify',
-                        context: context,
-                        isShowResendCode: true,
-                        formKey: controller.loginFormKey,
-                        widgetList: [
-                          otpWidget(
-                            controller: controller.pinPutController.value,
-                          ),
-                        ],
-                        onTap: () {},
-                       
-                      );
-                      // }
-                    },
+                  Gap(20),
+                  Obx(
+                    () => CommonAppButton(
+                      text: 'Send Otp',
+                      buttonType: controller.isSendOtpBtnLoad.value
+                          ? ButtonType.progress
+                          : ButtonType.enable,
+                      onTap: () {
+                        if (controller.loginFormKey.currentState!.validate()) {
+                          unFocusKeyboard();
+                          controller.isSendOtpBtnLoad.value = true;
+
+                          controller.sendOtpFunction(
+                            context: context,
+                            onCodeSentFunction: (verificationId) {
+                              if (verificationId.isNotEmpty) {
+                                {
+                                  controller.isSendOtpBtnLoad.value = false;
+                                  controller.pinPutController.value.text = '';
+                                  bottomSheet(
+                                    isLoading: controller.isVerifyOtpBtnLoad,
+                                    buttonTitle: 'Verify',
+                                    context: context,
+                                    isShowResendCode: true,
+                                    formKey: controller.loginFormKey,
+                                    widgetList: [
+                                      Text(
+                                        'Verify phone number',
+                                        style: TextStyle().semiBold18.textColor(
+                                              AppColor.blackColor,
+                                            ),
+                                      ),
+                                      Gap(20),
+                                      Text(
+                                        'We have send verification code to your phone number, please verify your phone number.',
+                                        style: TextStyle().regular16.textColor(
+                                              AppColor.descriptionColor,
+                                            ),
+                                        textAlign: TextAlign.center,
+                                      ),
+                                      Gap(50),
+                                      otpWidget(
+                                        controller:
+                                            controller.pinPutController.value,
+                                      ),
+                                    ],
+                                    onTap: () {
+                                      if (controller.pinPutController.value.text
+                                              .length ==
+                                          6) {
+                                            controller.isVerifyOtpBtnLoad.value=true;
+                                            controller.isVerifyOtpBtnLoad.refresh();
+                                        controller.verifyOtpFunction(
+                                          verificationId: verificationId,
+                                        );
+                                      } else {
+                                        ToastMessage.getSnackToast(
+                                          message: 'Please enter otp.',
+                                        );
+                                      }
+                                    },
+                                  );
+                                }
+                              } else {
+                                ToastMessage.getSnackToast(
+                                  message:
+                                      'Something went wrong.Please try again later',
+                                );
+                              }
+                            },
+                          );
+                        }
+                      },
+                    ),
                   ),
                 ],
               ),
