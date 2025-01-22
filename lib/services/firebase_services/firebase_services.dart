@@ -72,7 +72,7 @@ class FirebaseFirestoreServices {
     Map<String, dynamic> user = {
       'brandName': brandName,
       'createdAt': FieldValue.serverTimestamp(),
-      'deviceId': Preference.readToken(),
+      'deviceId': Preference.fcmToken,
       'firstName': firstName,
       'lastName': lastName,
       'phoneNo': phoneNumber,
@@ -88,7 +88,6 @@ class FirebaseFirestoreServices {
     DocumentReference documentref =
         await firebaseFirestore.collection('Users').add(user);
     await documentref.update({'userId': documentref.id});
-    Preference.writeUserId(documentref.id);
-     
+    Preference.userId = documentref.id;
   }
 }

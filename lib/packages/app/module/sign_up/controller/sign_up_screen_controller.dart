@@ -1,6 +1,7 @@
 import 'package:field_king/packages/config.dart';
 import 'package:field_king/packages/routes/app_pages.dart';
 import 'package:field_king/services/firebase_services/firebase_services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpScreenController extends GetxController {
   Rx<TextEditingController> phoneNoController = TextEditingController().obs;
@@ -21,7 +22,7 @@ class SignUpScreenController extends GetxController {
     if (argument != null) {
       phoneNoController = argument['phoneNo'];
     } else {
-      phoneNoController.value.text = Preference.readPhoneNumber();
+      phoneNoController.value.text = Preference.phoneNumber ?? '';
     }
   }
 
@@ -33,16 +34,15 @@ class SignUpScreenController extends GetxController {
       phoneNumber: phoneNoController.value.text,
     ).then(
       (value) {
-        Preference.writeBrandName(brandNameController.value.text);
-        Preference.writeFirstName(firstNameController.value.text);
-        Preference.writeLastName(lastNameController.value.text);
-        Preference.writePhoneNumber(phoneNoController.value.text);
-        Preference.writeUserType(
-            (phoneNoController.value.text == '9409529203' ||
-                    phoneNoController.value.text == '9426781202')
-                ? 'Admin'
-                : 'User');
-
+        Preference.brandName = brandNameController.value.text;
+        Preference.firstName = firstNameController.value.text;
+        Preference.lastName = lastNameController.value.text;
+        Preference.phoneNumber = phoneNoController.value.text;
+        Preference.userType = (phoneNoController.value.text == '9409529203' ||
+                phoneNoController.value.text == '9426781202')
+            ? 'Admin'
+            : 'User';
+        Preference.isLogin = true;
         isSubmitBtnLoading.value = false;
         Get.offAllNamed(
           Routes.homeScreen,

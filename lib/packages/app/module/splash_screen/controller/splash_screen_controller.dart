@@ -14,9 +14,9 @@ class SplashScreenController extends GetxController {
         seconds: 3,
       ),
       () async {
-        Get.offNamed(
-          Routes.login,
-        );
+        Preference.isLogin == true
+            ? Get.offAllNamed(Routes.homeScreen)
+            : Get.offAllNamed(Routes.login);
       },
     );
   }

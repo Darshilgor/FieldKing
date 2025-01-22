@@ -44,6 +44,7 @@ class _SplashScreenViewState extends State<SplashScreenView>
             opacity: _animation,
             child: Text(
               'Field King',
+              style: TextStyle().medium28.textColor(AppColor.blackColor),
             ),
           ),
         ),

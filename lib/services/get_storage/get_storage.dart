@@ -12,73 +12,45 @@ class Preference {
   static const userTypeKey = "userTypeKey";
   static const userIdKey = "userIdKey";
   static const sbPreference = "field_king_preference";
+  static const isLoginKey = "isLogin";
 
   init() async {
     await GetStorage.init(sbPreference);
     box = GetStorage(sbPreference);
   }
+ 
+  static String? get fcmToken => box?.read<String>(fcmTokenKey);
+  static set fcmToken(String? token) => box?.write(fcmTokenKey, token);
 
-  static void writeToken(String? token) {
-    box?.write(fcmTokenKey, token);
-  }
+  // OTP Verification Status
+  static bool? get isOtpVerified => box?.read<bool>(isOtpVerifyKey);
+  static set isOtpVerified(bool? value) => box?.write(isOtpVerifyKey, value);
 
-  static readToken() {
-    return box?.read(fcmTokenKey);
-  }
+  // Is Login.
+  static bool? get isLogin => box?.read<bool>(isLoginKey);
+  static set isLogin(bool? value) => box?.write(isLoginKey, value);
 
-  static void writeIsOtpVerify(bool? isOtpVerify) {
-    box?.write(isOtpVerifyKey, isOtpVerify);
-  }
+  // Phone Number
+  static String? get phoneNumber => box?.read<String>(phoneNumberKey);
+  static set phoneNumber(String? number) => box?.write(phoneNumberKey, number);
 
-  static readIsOtpVerify() {
-    return box?.read(isOtpVerifyKey);
-  }
+  // First Name
+  static String? get firstName => box?.read<String>(firstNameKey);
+  static set firstName(String? name) => box?.write(firstNameKey, name);
 
-  static void writePhoneNumber(String? phoneNumber) {
-    box?.write(phoneNumberKey, phoneNumber);
-  }
+  // Last Name
+  static String? get lastName => box?.read<String>(lastNameKey);
+  static set lastName(String? name) => box?.write(lastNameKey, name);
 
-  static readPhoneNumber() {
-    return box?.read(phoneNumberKey);
-  }
+  // Brand Name
+  static String? get brandName => box?.read<String>(brandNameKey);
+  static set brandName(String? name) => box?.write(brandNameKey, name);
 
-  static void writeFirstName(String? firstName) {
-    box?.write(firstNameKey, firstName);
-  }
+  // User Type
+  static String? get userType => box?.read<String>(userTypeKey);
+  static set userType(String? type) => box?.write(userTypeKey, type);
 
-  static readFirstName() {
-    return box?.read(firstNameKey);
-  }
-
-  static void writeLastName(String? lastName) {
-    box?.write(lastNameKey, lastName);
-  }
-
-  static readLastName() {
-    return box?.read(lastNameKey);
-  }
-
-  static void writeBrandName(String? brandName) {
-    box?.write(brandNameKey, brandName);
-  }
-
-  static readBrandName() {
-    return box?.read(brandNameKey);
-  }
-
-  static void writeUserType(String? userType) {
-    box?.write(userTypeKey, userType);
-  }
-
-  static readUserType() {
-    return box?.read(userTypeKey);
-  }
-
-  static void writeUserId(String? userId) {
-    box?.write(userIdKey, userId);
-  }
-
-  static readUserId() {
-    return box?.read(userIdKey);
-  }
+  // User ID
+  static String? get userId => box?.read<String>(userIdKey);
+  static set userId(String? id) => box?.write(userIdKey, id);
 }

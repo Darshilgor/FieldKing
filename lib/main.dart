@@ -27,7 +27,7 @@ Future<void> main(List<String> args) async {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   String? token = await messaging.getToken();
-  Preference.writeToken(token ?? '');
+  Preference.fcmToken = token;
   print("FCM Token: $token");
 
   runApp(const MyApp());
@@ -50,7 +50,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       getPages: AppPages.routes,
-      initialRoute:  Routes.login,
+      initialRoute:
+          Routes.splashScreen,
     );
   }
 }
