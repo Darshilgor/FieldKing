@@ -4,12 +4,12 @@ import 'package:field_king/packages/config.dart';
 import 'package:field_king/services/notification_permission/notification_permission.dart';
 
 class HomeScreenController extends GetxController {
-  final List<Product> products = [];
+  RxList<Product> products = <Product>[].obs;
   @override
   void onInit() {
     getPermission();
 
-    getProductList();
+    // getProductList();
     super.onInit();
   }
 
@@ -18,23 +18,40 @@ class HomeScreenController extends GetxController {
     await ContactPermission.requestContactPermission();
   }
 
-  Future<void> getProductList() async {
+  // Future<void> getProductList() async {
+  //   try {
+  //     final snapshot =
+  //         await FirebaseFirestore.instance.collection('Products').get();
+
+  //     for (var doc in snapshot.docs) {
+  //       final data = doc.data() as Map<String, dynamic>;
+  //       final product = Product.fromMap(doc.id, data);
+  //       products.add(product);
+  //     }
+
+  //     print('Products fetched successfully!');
+  //     print('Total products: ${products.length}');
+  //   } catch (e) {
+  //     print("Error fetching products: $e");
+  //   }
+  // }
+  Future<List<Product>> getProducts() async {
     try {
-      final snapshot =
-          await FirebaseFirestore.instance.collection('products').get();
+      // Fetch all documents from the 'product' collection
+      QuerySnapshot snapshot =
+          await FirebaseFirestore.instance.collection('Products').get();
 
-      for (var doc in snapshot.docs) {
-        print("Document ID: ${doc.id}");
-        print("Raw Data: ${doc.data()}");
-
+      // Parse the documents into Product models
+      return snapshot.docs.map((doc) {
+        // Extract the document data
         final data = doc.data() as Map<String, dynamic>;
-        final product = Product.fromMap(doc.id, data);
-        products.add(product);
-        print('product length is');
-        print(products.length);
-      }
+
+        // Create Product model from Firestore data
+        return Product.fromMap(doc.id, data);
+      }).toList();
     } catch (e) {
-      print("Error fetching products: $e");
+      print('Error fetching products: $e');
+      return [];
     }
   }
 }
