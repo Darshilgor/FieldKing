@@ -42,66 +42,35 @@
 // }
 
 class Product {
-  final String documentId; // The Firestore document ID
-  final Map<String, Cable> cables; // Map for "1MM", "1.5MM", etc.
-
-  Product({required this.documentId, required this.cables});
-
-  factory Product.fromMap(String documentId, Map<String, dynamic> data) {
-    final cables = <String, Cable>{};
-    if (data['cable'] is Map<String, dynamic>) {
-      (data['cable'] as Map<String, dynamic>).forEach((key, value) {
-        if (value is Map<String, dynamic>) {
-          cables[key] = Cable.fromMap(value);
-        }
-      });
-    }
-
-    return Product(
-      documentId: documentId,
-      cables: cables,
-    );
-  }
-}
-
-class Cable {
-  final Map<String, SubCable>? cableType;
-
-  Cable({  this.cableType});
-
-  factory Cable.fromMap(Map<String, dynamic> data) {
-    final subCables = <String, SubCable>{};
-    data.forEach((key, value) {
-      if (value is Map<String, dynamic>) {
-        subCables[key] = SubCable.fromMap(value);
-      }
-    });
-
-    return Cable(cableType: subCables);
-  }
-}
-
-class SubCable {
-  final String? name;
-  final String? price;
   final String? amp;
-  final String? chipestPrice;
+  final String? chipeshPrice;
+  final String? flat;
   final String? gej;
+  final String? id;
+  final String? price;
+  final String? size;
+  final String? type;
 
-  SubCable({
-      this.name,
-      this.price,
-       this.amp,
-       this.chipestPrice,
-      this.gej,
+  Product({
+    this.id,
+    this.amp,
+    this.price,
+    this.chipeshPrice,
+    this.size,
+    this.type,
+    this.flat,
+    this.gej,
   });
 
-  factory SubCable.fromMap(Map<String, dynamic> data) {
-    return SubCable(
-      name: data['name'] ?? 'Unknown',
-      price: data['price'] ?? '0',
-      amp: data['amp'] ?? '',
-      chipestPrice: data['chipestPrice'],
+  factory Product.fromMap(String id, Map<String, dynamic> data) {
+    return Product(
+      id: id,
+      amp: data['amp'],
+      price: data['price'],
+      chipeshPrice: data['chipestPrice'],
+      size: data['size'],
+      type: data['type'],
+      flat: data['flat'],
       gej: data['gej'],
     );
   }

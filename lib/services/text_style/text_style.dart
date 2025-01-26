@@ -16,6 +16,11 @@ extension TextStyleExtensions on TextStyle {
         fontSize: 16,
         weight: FontWeight.w800,
       );
+  TextStyle get heavy20 => customStyle(
+        letterSpacing: 0.0,
+        fontSize: 20,
+        weight: FontWeight.w800,
+      );
 
   TextStyle get bold16 => customStyle(
         letterSpacing: 0.0,
@@ -70,7 +75,7 @@ extension TextStyleExtensions on TextStyle {
         fontSize: 16,
         weight: FontWeight.w400,
       );
-      TextStyle get regular20 => customStyle(
+  TextStyle get regular20 => customStyle(
         letterSpacing: 0.0,
         fontSize: 20,
         weight: FontWeight.w400,
@@ -109,6 +114,11 @@ extension TextStyleExtensions on TextStyle {
   TextStyle get bold26 => customStyle(
         letterSpacing: 0.0,
         fontSize: 26,
+        weight: FontWeight.w700,
+      );
+  TextStyle get bold20 => customStyle(
+        letterSpacing: 0.0,
+        fontSize: 20,
         weight: FontWeight.w700,
       );
 
@@ -172,6 +182,16 @@ extension TextStyleExtensions on TextStyle {
   TextStyle get medium24 => customStyle(
         letterSpacing: 0.0,
         fontSize: 24,
+        weight: FontWeight.w500,
+      );
+  TextStyle get medium20 => customStyle(
+        letterSpacing: 0.0,
+        fontSize: 20,
+        weight: FontWeight.w500,
+      );
+  TextStyle get medium18 => customStyle(
+        letterSpacing: 0.0,
+        fontSize: 18,
         weight: FontWeight.w500,
       );
 
