@@ -41,15 +41,18 @@
 //   }
 // }
 
+import 'package:field_king/packages/config.dart';
+
 class Product {
-  final String? amp;
-  final String? chipeshPrice;
-  final String? flat;
-  final String? gej;
-  final String? id;
-  final String? price;
-  final String? size;
-  final String? type;
+  String? amp;
+  String? chipeshPrice;
+  String? flat;
+  String? gej;
+  String? id;
+  String? price;
+  String? size;
+  String? type;
+  RxBool isExpanded;
 
   Product({
     this.id,
@@ -60,7 +63,8 @@ class Product {
     this.type,
     this.flat,
     this.gej,
-  });
+    RxBool? isExpanded,
+  }) : isExpanded = isExpanded ?? RxBool(false);
 
   factory Product.fromMap(String id, Map<String, dynamic> data) {
     return Product(

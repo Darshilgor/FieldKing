@@ -5,9 +5,13 @@ import 'package:field_king/services/notification_permission/notification_permiss
 
 class HomeScreenController extends GetxController {
   RxList<Product> products = <Product>[].obs;
+  Rx<TextEditingController> orderMeterController = TextEditingController().obs;
+
+
   @override
   void onInit() {
     getPermission();
+    getProducts();
     super.onInit();
   }
 
@@ -16,15 +20,22 @@ class HomeScreenController extends GetxController {
     await ContactPermission.requestContactPermission();
   }
 
-  Future<List<Product>> getProducts() async {
+  getProducts() async {
+    print('inside the get product.');
     try {
       QuerySnapshot snapshot =
           await FirebaseFirestore.instance.collection('Products').get();
 
-      return snapshot.docs.map((doc) {
-        final data = doc.data() as Map<String, dynamic>;
-        return Product.fromMap(doc.id, data);
-      }).toList();
+      final product = snapshot.docs.map(
+        (doc) {
+          final data = doc.data() as Map<String, dynamic>;
+          return Product.fromMap(doc.id, data);
+        },
+      ).toList();
+      products.assignAll(product);
+
+      print('product list lenght is');
+      print(products.length);
     } catch (e) {
       print('Error fetching products: $e');
       return [];

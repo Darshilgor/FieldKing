@@ -50,9 +50,8 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       getPages: AppPages.routes,
-      initialRoute:
-      Routes.homeScreen,
-          // Routes.splashScreen,
+      initialRoute: Routes.tabBarScreen,
+      // Routes.splashScreen,
     );
   }
 }

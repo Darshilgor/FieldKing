@@ -2,6 +2,7 @@ import 'package:field_king/packages/app/module/home_screen/view/home_screen_view
 import 'package:field_king/packages/app/module/login/view/login_view.dart';
 import 'package:field_king/packages/app/module/sign_up/view/sign_up_screen_view.dart';
 import 'package:field_king/packages/app/module/splash_screen/view/splash_screen_view.dart';
+import 'package:field_king/packages/app/module/tab_bar/view/tab_bar_view.dart';
 import 'package:field_king/packages/config.dart';
 
 part 'app_routes.dart';
@@ -28,6 +29,10 @@ class AppPages {
     GetPage(
       name: _Paths.homeScreen,
       page: () => HomeScreenView(),
+    ),
+    GetPage(
+      name: _Paths.tabBarScreen,
+      page: () => TabBarScreenView(),
     ),
   ];
 }
