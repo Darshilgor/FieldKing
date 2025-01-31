@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:field_king/packages/app/model/get_product_model.dart';
 import 'package:field_king/packages/config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -42,20 +43,16 @@ class FirebaseAuthServices {
     final FirebaseAuth auth = FirebaseAuth.instance;
 
     try {
-      // Create a PhoneAuthCredential using the verificationId and the entered OTP
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
         verificationId: verificationId,
         smsCode: otp,
       );
 
-      // Sign in the user using the credential
       UserCredential userCredential =
           await auth.signInWithCredential(credential);
 
-      // If successful, return the signed-in user
       onVerified(userCredential.user);
     } on FirebaseAuthException catch (e) {
-      // If there's an error, handle it
       onError(e);
     }
   }
@@ -63,6 +60,8 @@ class FirebaseAuthServices {
 
 class FirebaseFirestoreServices {
   static final FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+
+  /// add user details to firestore on sign up.
   static Future<void> addUserDetails({
     String? brandName,
     String? firstName,
@@ -89,5 +88,28 @@ class FirebaseFirestoreServices {
         await firebaseFirestore.collection('Users').add(user);
     await documentref.update({'userId': documentref.id});
     Preference.userId = documentref.id;
+  }
+
+  /// get is show with out get from firestore.
+  static Future<void> getIsShowWithOutGst() async {
+    var isShowWithOutGst;
+    DocumentSnapshot snapshot = await firebaseFirestore
+        .collection('IsShowWithOutGST')
+        .doc('IsShowWithOutGST')
+        .get();
+    isShowWithOutGst = snapshot.data();
+    Preference.isShowWithOutGst = isShowWithOutGst['IsShowWithOutGST'];
+  }
+
+  static Future getProductList() async {
+    QuerySnapshot snapshot =
+        await FirebaseFirestore.instance.collection('Products').get();
+
+    return snapshot.docs.map(
+      (doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        return Product.fromMap(doc.id, data);
+      },
+    ).toList();
   }
 }

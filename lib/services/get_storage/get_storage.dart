@@ -13,6 +13,7 @@ class Preference {
   static const userIdKey = "userIdKey";
   static const sbPreference = "field_king_preference";
   static const isLoginKey = "isLogin";
+  static const isShowWithOutGstKey='isShowWithOutGst';
 
   init() async {
     await GetStorage.init(sbPreference);
@@ -29,6 +30,10 @@ class Preference {
   // Is Login.
   static bool? get isLogin => box?.read<bool>(isLoginKey);
   static set isLogin(bool? value) => box?.write(isLoginKey, value);
+
+  // Is isShowWithOutGst.
+  static bool? get isShowWithOutGst => box?.read<bool>(isShowWithOutGstKey);
+  static set isShowWithOutGst(bool? value) => box?.write(isShowWithOutGstKey, value);
 
   // Phone Number
   static String? get phoneNumber => box?.read<String>(phoneNumberKey);

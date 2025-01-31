@@ -75,6 +75,11 @@ extension TextStyleExtensions on TextStyle {
         fontSize: 16,
         weight: FontWeight.w400,
       );
+  TextStyle get regular18 => customStyle(
+        letterSpacing: 0.0,
+        fontSize: 18,
+        weight: FontWeight.w400,
+      );
   TextStyle get regular20 => customStyle(
         letterSpacing: 0.0,
         fontSize: 20,
