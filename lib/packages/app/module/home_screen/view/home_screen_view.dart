@@ -197,7 +197,7 @@ class HomeScreenView extends StatelessWidget {
                                           3,
                                           (index) {
                                             final options = [
-                                              '50 %',
+                                              '50%',
                                               'With GST',
                                               'Without GST',
                                             ];
@@ -259,8 +259,43 @@ class HomeScreenView extends StatelessWidget {
                                     if (controller
                                         .enterMeterFormKey.currentState!
                                         .validate()) {
-                                          
-                                        }
+                                      controller.addToCart(
+                                        flat: product.flat,
+                                        gej: product.gej,
+                                        orderType: controller
+                                            .gstRadioButtonValue.value,
+                                        price: (controller.gstRadioButtonValue
+                                                    .value ==
+                                                '50%')
+                                            ? (
+                                                ((int.parse(controller
+                                                            .orderMeterController
+                                                            .value
+                                                            .text)) /
+                                                        2 *
+                                                        (int.parse(
+                                                            product.price ??
+                                                                '0'))) +
+                                                    ((int.parse(controller
+                                                            .orderMeterController
+                                                            .value
+                                                            .text)) /
+                                                        2 *
+                                                        (int.parse(product
+                                                                .chipeshPrice ??
+                                                            '0'))),
+                                              ).toString()
+                                            : controller.gstRadioButtonValue
+                                                        .value ==
+                                                    'With GST'
+                                                ? product.price
+                                                : product.chipeshPrice,
+                                        size: product.size,
+                                        type: product.type,
+                                        orderMeter: controller
+                                            .orderMeterController.value.text,
+                                      );
+                                    }
                                   },
                                 ),
                               ],

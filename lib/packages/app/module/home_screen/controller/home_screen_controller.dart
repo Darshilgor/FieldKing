@@ -9,7 +9,7 @@ class HomeScreenController extends GetxController {
   Rx<TextEditingController> orderMeterController = TextEditingController().obs;
   RxBool isShowWithOutGst = RxBool(false);
   final enterMeterFormKey = GlobalKey<FormState>();
-  RxString gstRadioButtonValue = RxString('With & Without GST');
+  RxString gstRadioButtonValue = RxString('50%');
 
   @override
   void onInit() {
@@ -37,5 +37,28 @@ class HomeScreenController extends GetxController {
 
   setPreference() {
     isShowWithOutGst.value = Preference.isShowWithOutGst ?? false;
+  }
+
+  addToCart({
+    String? flat,
+    String? gej,
+    String? orderType,
+    String? price,
+    String? size,
+    String? type,
+    String? orderMeter,
+  }) {
+    FirebaseFirestoreServices.addToCart(
+      cableDetails: {
+        'amp': '11',
+        'flat': flat,
+        'gej': gej,
+        'orderType': orderType,
+        'price': price,
+        'size': size,
+        'type': type,
+        'orderMeter': orderMeter,
+      },
+    );
   }
 }
