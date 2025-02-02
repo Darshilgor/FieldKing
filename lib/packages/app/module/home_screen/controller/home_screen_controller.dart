@@ -1,7 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:field_king/components/unfocus_keyboard.dart';
 import 'package:field_king/packages/app/model/get_product_model.dart';
 import 'package:field_king/packages/config.dart';
 import 'package:field_king/services/firebase_services/firebase_services.dart';
+import 'package:field_king/services/global_variable/global_variable.dart';
 import 'package:field_king/services/notification_permission/notification_permission.dart';
 
 class HomeScreenController extends GetxController {
@@ -47,8 +49,10 @@ class HomeScreenController extends GetxController {
     String? size,
     String? type,
     String? orderMeter,
-  }) {
-    FirebaseFirestoreServices.addToCart(
+    String? chipestPrice,
+    int? index,
+  }) async {
+    await FirebaseFirestoreServices.addToCart(
       cableDetails: {
         'amp': '11',
         'flat': flat,
@@ -58,7 +62,11 @@ class HomeScreenController extends GetxController {
         'size': size,
         'type': type,
         'orderMeter': orderMeter,
+        'chipestPrice': chipestPrice,
       },
     );
+    GlobalVariable.isUpdateCart.value = true;
+    unFocusKeyboard();
+    products[index ?? 0].isExpanded.value = false;
   }
 }

@@ -131,6 +131,26 @@ class HomeScreenView extends StatelessWidget {
                           ),
                         ],
                       ),
+                      Visibility(
+                        visible: controller.isShowWithOutGst.value,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              'Price : ',
+                              style: TextStyle().semiBold16.textColor(
+                                    AppColor.blackColor,
+                                  ),
+                            ),
+                            Text(
+                              '${product.price} PM with out GST',
+                              style: TextStyle().regular16.textColor(
+                                    AppColor.blackColor,
+                                  ),
+                            ),
+                          ],
+                        ),
+                      ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
@@ -140,11 +160,24 @@ class HomeScreenView extends StatelessWidget {
                                   AppColor.blackColor,
                                 ),
                           ),
-                          Text(
-                            '${product.price} per meter.',
-                            style: TextStyle().regular16.textColor(
-                                  AppColor.blackColor,
+                          Row(
+                            children: [
+                              Text(
+                                '${product.price} PM',
+                                style: TextStyle().regular16.textColor(
+                                      AppColor.blackColor,
+                                    ),
+                              ),
+                              Visibility(
+                                visible: controller.isShowWithOutGst.value,
+                                child: Text(
+                                  'with GST',
+                                  style: TextStyle().regular16.textColor(
+                                        AppColor.blackColor,
+                                      ),
                                 ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -262,38 +295,18 @@ class HomeScreenView extends StatelessWidget {
                                       controller.addToCart(
                                         flat: product.flat,
                                         gej: product.gej,
-                                        orderType: controller
-                                            .gstRadioButtonValue.value,
-                                        price: (controller.gstRadioButtonValue
-                                                    .value ==
-                                                '50%')
-                                            ? (
-                                                ((int.parse(controller
-                                                            .orderMeterController
-                                                            .value
-                                                            .text)) /
-                                                        2 *
-                                                        (int.parse(
-                                                            product.price ??
-                                                                '0'))) +
-                                                    ((int.parse(controller
-                                                            .orderMeterController
-                                                            .value
-                                                            .text)) /
-                                                        2 *
-                                                        (int.parse(product
-                                                                .chipeshPrice ??
-                                                            '0'))),
-                                              ).toString()
-                                            : controller.gstRadioButtonValue
-                                                        .value ==
-                                                    'With GST'
-                                                ? product.price
-                                                : product.chipeshPrice,
+                                        orderType:
+                                            controller.isShowWithOutGst.value
+                                                ? controller
+                                                    .gstRadioButtonValue.value
+                                                : 'With GST',
+                                        price: product.price,
                                         size: product.size,
                                         type: product.type,
                                         orderMeter: controller
                                             .orderMeterController.value.text,
+                                        chipestPrice: product.chipeshPrice,
+                                        index: index,
                                       );
                                     }
                                   },

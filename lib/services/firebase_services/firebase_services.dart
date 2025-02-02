@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:field_king/packages/app/model/cart_list_model.dart';
 import 'package:field_king/packages/app/model/get_product_model.dart';
 import 'package:field_king/packages/config.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -149,6 +150,20 @@ class FirebaseFirestoreServices {
         },
       );
     }
+  }
+
+  /// get cart.
+  static Future getCart() async {
+    DocumentSnapshot cartDoc = await firebaseFirestore
+        .collection('Users')
+        .doc(Preference.userId)
+        .collection('Cart')
+        .doc('cart')
+        .get();
+    if (cartDoc.exists) {
+      return CartModel.fromMap(cartDoc.data() as Map<String, dynamic>);
+    }
+    return null;
   }
 
   // /// add to cart.

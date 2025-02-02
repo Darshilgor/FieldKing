@@ -45,7 +45,7 @@ class SignUpScreenController extends GetxController {
         Preference.isLogin = true;
         isSubmitBtnLoading.value = false;
         Get.offAllNamed(
-          Routes.homeScreen,
+          Routes.tabBarScreen,
         );
       },
     );
