@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:field_king/packages/app/model/cart_list_model.dart';
 import 'package:field_king/packages/app/model/get_product_model.dart';
 import 'package:field_king/packages/config.dart';
+import 'package:field_king/services/general_controller/general_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class FirebaseAuthServices {
@@ -99,7 +100,12 @@ class FirebaseFirestoreServices {
         .doc('IsShowWithOutGST')
         .get();
     isShowWithOutGst = snapshot.data();
-    Preference.isShowWithOutGst = isShowWithOutGst['IsShowWithOutGST'];
+    if (isShowWithOutGst['IsShowWithOutGST'] != null) {
+      GeneralController.isShowWithOutGst.value =
+          isShowWithOutGst['IsShowWithOutGST'];
+    } else {
+      GeneralController.isShowWithOutGst.value = false;
+    }
   }
 
   /// get product list.
@@ -161,6 +167,8 @@ class FirebaseFirestoreServices {
         .doc('cart')
         .get();
     if (cartDoc.exists) {
+      print('cart is exits');
+      print(cartDoc.id.length);
       return CartModel.fromMap(cartDoc.data() as Map<String, dynamic>);
     }
     return null;
@@ -212,4 +220,27 @@ class FirebaseFirestoreServices {
   //     });
   //   }
   // }
+  static Future<bool> deleteCart({int? index}) async {
+    DocumentReference cartDoc = await firebaseFirestore
+        .collection('Users')
+        .doc(Preference.userId)
+        .collection('Cart')
+        .doc('cart');
+
+    DocumentSnapshot cartSnapshot = await cartDoc.get();
+    if (cartSnapshot.exists) {
+      List<dynamic> cartList = cartSnapshot['cartList'];
+
+      if ((index ?? 0) < 0 || (index ?? 0) >= cartList.length) {
+        return false;
+      }
+
+      cartList.removeAt(index ?? 0);
+
+      await cartDoc.update({'cartList': cartList});
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

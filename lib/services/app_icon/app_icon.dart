@@ -8,5 +8,6 @@ class Assets {
   static const String chat = '$baseUrl/chat.svg';
   static const String cart = '$baseUrl/cart.svg';
   static const String profile = '$baseUrl/profile.svg';
+  static const String deleteIcon = '$baseUrl/delete_icon.svg';
   static const String brandNameIcon = '$baseUrl/brand_name_icon.png';
 }

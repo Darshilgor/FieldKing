@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:field_king/components/unfocus_keyboard.dart';
 import 'package:field_king/packages/app/model/get_product_model.dart';
 import 'package:field_king/packages/config.dart';
@@ -9,7 +8,6 @@ import 'package:field_king/services/notification_permission/notification_permiss
 class HomeScreenController extends GetxController {
   RxList<Product> products = <Product>[].obs;
   Rx<TextEditingController> orderMeterController = TextEditingController().obs;
-  RxBool isShowWithOutGst = RxBool(false);
   final enterMeterFormKey = GlobalKey<FormState>();
   RxString gstRadioButtonValue = RxString('50%');
 
@@ -17,7 +15,6 @@ class HomeScreenController extends GetxController {
   void onInit() {
     getPermission();
     getProducts();
-    setPreference();
     super.onInit();
   }
 
@@ -37,9 +34,7 @@ class HomeScreenController extends GetxController {
     }
   }
 
-  setPreference() {
-    isShowWithOutGst.value = Preference.isShowWithOutGst ?? false;
-  }
+  
 
   addToCart({
     String? flat,

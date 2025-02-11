@@ -31,9 +31,9 @@ class Preference {
   static bool? get isLogin => box?.read<bool>(isLoginKey);
   static set isLogin(bool? value) => box?.write(isLoginKey, value);
 
-  // Is isShowWithOutGst.
-  static bool? get isShowWithOutGst => box?.read<bool>(isShowWithOutGstKey);
-  static set isShowWithOutGst(bool? value) => box?.write(isShowWithOutGstKey, value);
+  // // Is isShowWithOutGst.
+  // static bool? get isShowWithOutGst => box?.read<bool>(isShowWithOutGstKey);
+  // static set isShowWithOutGst(bool? value) => box?.write(isShowWithOutGstKey, value);
 
   // Phone Number
   static String? get phoneNumber => box?.read<String>(phoneNumberKey);

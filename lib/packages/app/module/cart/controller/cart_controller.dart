@@ -29,4 +29,13 @@ class CartController extends GetxController {
   fetchCart() async {
     cart.value = await FirebaseFirestoreServices.getCart();
   }
+
+  deleteCart({int? index}) async {
+    bool result = await FirebaseFirestoreServices.deleteCart(index: index);
+
+    if (result == true) {
+      cart.value?.cartList?.removeAt(index ?? 0);
+    }
+    cart.refresh();
+  }
 }

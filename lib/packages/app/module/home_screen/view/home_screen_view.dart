@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:field_king/components/unfocus_keyboard.dart';
 import 'package:field_king/packages/app/model/get_product_model.dart';
 import 'package:field_king/packages/app/module/home_screen/controller/home_screen_controller.dart';
@@ -6,6 +5,7 @@ import 'package:field_king/packages/config.dart';
 import 'package:field_king/services/app_bar.dart';
 import 'package:field_king/services/common_calculation/common_calculation.dart';
 import 'package:field_king/services/common_code/common_code.dart';
+import 'package:field_king/services/general_controller/general_controller.dart';
 
 class HomeScreenView extends StatelessWidget {
   HomeScreenView({super.key});
@@ -42,20 +42,7 @@ class HomeScreenView extends StatelessWidget {
                 ),
                 child: Container(
                   width: Get.width,
-                  decoration: BoxDecoration(
-                    color: AppColor.whiteColor,
-                    boxShadow: [
-                      BoxShadow(
-                        blurRadius: 2,
-                        offset: Offset(1.5, 0.5),
-                        spreadRadius: .5,
-                        color: Colors.grey.withOpacity(0.5),
-                      ),
-                    ],
-                    borderRadius: BorderRadius.circular(
-                      20,
-                    ),
-                  ),
+                  decoration: ContainerDecoration.decoration(),
                   padding: EdgeInsets.symmetric(
                     horizontal: 20,
                     vertical: 10,
@@ -132,7 +119,7 @@ class HomeScreenView extends StatelessWidget {
                         ],
                       ),
                       Visibility(
-                        visible: controller.isShowWithOutGst.value,
+                        visible: GeneralController.isShowWithOutGst.value,
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
@@ -169,7 +156,8 @@ class HomeScreenView extends StatelessWidget {
                                     ),
                               ),
                               Visibility(
-                                visible: controller.isShowWithOutGst.value,
+                                visible:
+                                    GeneralController.isShowWithOutGst.value,
                                 child: Text(
                                   'with GST',
                                   style: TextStyle().regular16.textColor(
@@ -211,7 +199,8 @@ class HomeScreenView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Visibility(
-                                  visible: controller.isShowWithOutGst.value,
+                                  visible:
+                                      GeneralController.isShowWithOutGst.value,
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -295,11 +284,11 @@ class HomeScreenView extends StatelessWidget {
                                       controller.addToCart(
                                         flat: product.flat,
                                         gej: product.gej,
-                                        orderType:
-                                            controller.isShowWithOutGst.value
-                                                ? controller
-                                                    .gstRadioButtonValue.value
-                                                : 'With GST',
+                                        orderType: GeneralController
+                                                .isShowWithOutGst.value
+                                            ? controller
+                                                .gstRadioButtonValue.value
+                                            : 'With GST',
                                         price: product.price,
                                         size: product.size,
                                         type: product.type,

@@ -29,3 +29,22 @@ Widget customContainer({
     ),
   );
 }
+
+class ContainerDecoration {
+  static BoxDecoration decoration({Color? color}) {
+    return BoxDecoration(
+      color: AppColor.whiteColor,
+      boxShadow: [
+        BoxShadow(
+          blurRadius: 2,
+          offset: Offset(1.5, 0.5),
+          spreadRadius: .5,
+          color: Colors.grey.withOpacity(0.5),
+        ),
+      ],
+      borderRadius: BorderRadius.circular(
+        20,
+      ),
+    );
+  }
+}
