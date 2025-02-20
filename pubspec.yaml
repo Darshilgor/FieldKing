@@ -69,6 +69,9 @@ dependencies:
   extended_image: ^9.1.0
   image_picker: ^1.1.2
   flutter_image_compress: ^2.3.0
+  google_sign_in: ^6.2.2
+  googleapis: ^13.2.0
+  googleapis_auth: ^1.6.0
 
 dev_dependencies:
   flutter_test:
@@ -101,6 +104,7 @@ flutter:
     - assets/images/
     - assets/images/icons/
     - assets/images/images/
+    - assets/files/credential.json
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

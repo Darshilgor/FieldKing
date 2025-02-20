@@ -151,7 +151,7 @@ class EditProfileView extends StatelessWidget {
               onTap: () {
                 controller.isButtonLoading.value = true;
 
-                controller.updateProfileApiCall();
+                controller.updateProfile();
               },
             ),
           ],

@@ -1,7 +1,10 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:field_king/packages/config.dart';
 import 'package:field_king/services/firebase_services/firebase_services.dart';
+import 'package:field_king/services/google_services/google_services.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class EditProfileController extends GetxController {
   Rx<TextEditingController> firstNameController = TextEditingController().obs;
@@ -25,9 +28,25 @@ class EditProfileController extends GetxController {
     phoneNumberController.value.text = Preference.phoneNumber ?? '';
     profilePhoto.value = Preference.profileImage ?? '';
   }
+ Future<void> updateProfile() async {
 
-  updateProfileApiCall() {
-    
-    FirebaseFirestoreServices.updateProfile();
+    final FirebaseAuth auth = FirebaseAuth.instance;
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final GoogleDriveService googleDriveService = GoogleDriveService();
+
+
+    if (profileImage.value == null) {
+      print("No image selected.");
+      return;
+    }
+
+    String? newImageUrl =
+        await googleDriveService.uploadProfileImage(profileImage.value!);
+    if (newImageUrl != null) {
+      
+      print("Profile image updated successfully.");
+    } else {
+      print("Image upload failed.");
+    }
   }
 }

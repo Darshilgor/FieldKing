@@ -2,6 +2,12 @@
   "configVersion": 2,
   "packages": [
     {
+      "name": "_discoveryapis_commons",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/_discoveryapis_commons-1.0.7",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
       "name": "_flutterfire_internals",
       "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/_flutterfire_internals-1.3.35",
       "packageUri": "lib/",
@@ -450,6 +456,54 @@
       "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/go_router-14.6.2",
       "packageUri": "lib/",
       "languageVersion": "3.3"
+    },
+    {
+      "name": "google_identity_services_web",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/google_identity_services_web-0.3.3",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "google_sign_in",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in-6.2.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "google_sign_in_android",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_android-6.1.31",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "google_sign_in_ios",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_ios-5.8.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "google_sign_in_platform_interface",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_platform_interface-2.4.5",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "google_sign_in_web",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/google_sign_in_web-0.12.4+3",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "googleapis",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/googleapis-13.2.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "googleapis_auth",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/googleapis_auth-1.6.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
     },
     {
       "name": "hive",
@@ -938,7 +992,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2025-02-20T18:19:43.136251Z",
+  "generated": "2025-02-20T19:59:15.136516Z",
   "generator": "pub",
   "generatorVersion": "3.5.0-180.3.beta",
   "flutterRoot": "file:///C:/Users/91940/Flutter/flutter_3.23.0-0.1.pre-beta",
