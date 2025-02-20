@@ -1,7 +1,7 @@
 import 'package:field_king/packages/app/module/cart/view/cart_view.dart';
 import 'package:field_king/packages/app/module/chat/view/chat_view.dart';
 import 'package:field_king/packages/app/module/home_screen/view/home_screen_view.dart';
-import 'package:field_king/packages/app/module/profile/view/profile_view.dart';
+import 'package:field_king/packages/app/module/profile/view_profile/view/view_profile_view.dart';
 import 'package:field_king/packages/app/module/tab_bar/controller/tab_bar_controller.dart';
 import 'package:field_king/packages/config.dart';
 

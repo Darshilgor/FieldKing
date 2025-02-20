@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
       ),
       getPages: AppPages.routes,
       initialRoute: Routes.splashScreen,
-      // Routes.splashScreen,
+      // Routes.splashScreen, 
     );
   }
 }

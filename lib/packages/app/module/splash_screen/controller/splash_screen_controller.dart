@@ -25,5 +25,6 @@ class SplashScreenController extends GetxController {
 
   startUpFunction() {
     FirebaseFirestoreServices.getIsShowWithOutGst();
+    FirebaseFirestoreServices.getUser();
   }
 }

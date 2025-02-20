@@ -243,4 +243,27 @@ class FirebaseFirestoreServices {
       return false;
     }
   }
+
+  static Future<void> getUser() async {
+    DocumentSnapshot userSnapShot = await firebaseFirestore
+        .collection('Users')
+        .doc(Preference.userId)
+        .get();
+
+    Preference.firstName = userSnapShot['firstName'];
+    Preference.lastName = userSnapShot['lastName'];
+    Preference.brandName = userSnapShot['brandName'];
+    Preference.phoneNumber = userSnapShot['phoneNo'];
+    Preference.profileImage = userSnapShot['profilePhoto'];
+    Preference.totatotalOrderMeter = userSnapShot['totalOrderMeter'] == ''
+        ? '0'
+        : userSnapShot['totalOrderMeter'];
+    Preference.totalOrderAmount = userSnapShot['totalOrderAmount'] == ''
+        ? '0'
+        : userSnapShot['totalOrderAmount'];
+    Preference.deviceId = userSnapShot['deviceId'];
+  }
+
+  /// update profile.
+  static void updateProfile() {}
 }

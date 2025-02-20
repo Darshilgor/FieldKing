@@ -158,6 +158,18 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "extended_image",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/extended_image-9.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.18"
+    },
+    {
+      "name": "extended_image_library",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/extended_image_library-4.0.6",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
+    },
+    {
       "name": "fake_async",
       "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/fake_async-1.3.1",
       "packageUri": "lib/",
@@ -174,6 +186,30 @@
       "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/file-7.0.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "file_selector_linux",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_linux-0.9.3+2",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "file_selector_macos",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_macos-0.9.4+2",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "file_selector_platform_interface",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_platform_interface-2.6.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "file_selector_windows",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_windows-0.9.3+4",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
     },
     {
       "name": "firebase_app_check",
@@ -296,6 +332,42 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_image_compress",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_image_compress-2.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_image_compress_common",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_image_compress_common-1.0.6",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_image_compress_macos",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_image_compress_macos-1.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_image_compress_ohos",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_image_compress_ohos-0.0.3",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_image_compress_platform_interface",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_image_compress_platform_interface-1.0.5",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
+      "name": "flutter_image_compress_web",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_image_compress_web-0.1.4+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.16"
+    },
+    {
       "name": "flutter_local_notifications",
       "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/flutter_local_notifications-18.0.1",
       "packageUri": "lib/",
@@ -392,6 +464,12 @@
       "languageVersion": "3.3"
     },
     {
+      "name": "http_client_helper",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/http_client_helper-3.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
+    },
+    {
       "name": "http_parser",
       "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/http_parser-4.0.2",
       "packageUri": "lib/",
@@ -420,6 +498,54 @@
       "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/image_cropper_platform_interface-5.0.0",
       "packageUri": "lib/",
       "languageVersion": "2.18"
+    },
+    {
+      "name": "image_picker",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker-1.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.3"
+    },
+    {
+      "name": "image_picker_android",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_android-0.8.12+12",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "image_picker_for_web",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_for_web-3.0.6",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "image_picker_ios",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_ios-0.8.12+2",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "image_picker_linux",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_linux-0.2.1+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
+    },
+    {
+      "name": "image_picker_macos",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_macos-0.2.1+2",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "image_picker_platform_interface",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_platform_interface-2.10.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
+    },
+    {
+      "name": "image_picker_windows",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/image_picker_windows-0.2.1+1",
+      "packageUri": "lib/",
+      "languageVersion": "2.19"
     },
     {
       "name": "intl",
@@ -474,6 +600,12 @@
       "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/meta-1.14.0",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "mime",
+      "rootUri": "file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/mime-2.0.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.2"
     },
     {
       "name": "nested",
@@ -806,7 +938,7 @@
       "languageVersion": "3.2"
     }
   ],
-  "generated": "2025-01-19T07:56:38.331127Z",
+  "generated": "2025-02-20T18:19:43.136251Z",
   "generator": "pub",
   "generatorVersion": "3.5.0-180.3.beta",
   "flutterRoot": "file:///C:/Users/91940/Flutter/flutter_3.23.0-0.1.pre-beta",
