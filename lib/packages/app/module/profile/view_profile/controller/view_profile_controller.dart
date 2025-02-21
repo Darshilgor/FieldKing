@@ -1,6 +1,6 @@
 import 'package:field_king/packages/config.dart';
 
-class ProfileController extends GetxController {
+class ViewProfileController extends GetxController {
   Rx<TextEditingController> firstNameController = TextEditingController().obs;
   Rx<TextEditingController> lastNameController = TextEditingController().obs;
   Rx<TextEditingController> brandNameController = TextEditingController().obs;
@@ -25,5 +25,9 @@ class ProfileController extends GetxController {
     profilePhoto.value = Preference.profileImage ?? '';
     totalOrderMeterController.value.text = Preference.totalOrderMeter ?? '0';
     totalOrderAmountController.value.text = Preference.totalOrderAmount ?? '0';
+  }
+
+  updateProfileImage() {
+    profilePhoto.value = Preference.profileImage ?? '';
   }
 }

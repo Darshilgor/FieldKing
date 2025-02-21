@@ -7,7 +7,7 @@ import 'package:field_king/services/common_code/common_code.dart';
 class ProfileView extends StatelessWidget {
   ProfileView({super.key});
 
-  final controller = Get.put(ProfileController());
+  final controller = Get.put(ViewProfileController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,10 +46,19 @@ class ProfileView extends StatelessWidget {
           child: Column(
             children: [
               Gap(20),
-              extendedImage(
-                imageUrl: controller.profilePhoto.value,
-                height: 120,
-                width: 120,
+              Obx(
+                () => Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    shape: BoxShape.circle,
+                  ),
+                  child: extendedImage(
+                    imageUrl: controller.profilePhoto.value,
+                    height: 135,
+                    width: 135,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
               Gap(40),
               InputField(

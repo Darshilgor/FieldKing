@@ -61,12 +61,13 @@ ExtendedImage extendedImage({
   required String imageUrl,
   final double? width,
   final double? height,
+  final BoxFit? fit,
 }) {
   return ExtendedImage.network(
     imageUrl,
     width: width,
     height: height,
-    fit: BoxFit.cover,
+    fit: fit ?? BoxFit.cover,
     shape: BoxShape.circle,
     cache: true,
     mode: ExtendedImageMode.gesture,
@@ -78,7 +79,7 @@ ExtendedImage extendedImage({
       switch (state.extendedImageLoadState) {
         case LoadState.loading:
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(20),
             child: CircularProgressIndicator(
               color: AppColor.blackColor,
               strokeWidth: 1,
@@ -104,12 +105,18 @@ Widget editProfileExtendedImage(
     double? height,
     File? selectedProfileImage}) {
   if (selectedProfileImage != null) {
-    return ClipOval(
-      child: Image.file(
-        selectedProfileImage,
-        fit: BoxFit.cover,
-        width: width ?? 100.0,
-        height: height ?? 100.0,
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey,
+        shape: BoxShape.circle,
+      ),
+      child: ClipOval(
+        child: Image.file(
+          selectedProfileImage,
+          fit: BoxFit.cover,
+          width: width ?? 100.0,
+          height: height ?? 100.0,
+        ),
       ),
     );
   } else if ((profileImage ?? '').isNotEmpty) {
