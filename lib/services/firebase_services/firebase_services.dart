@@ -174,6 +174,19 @@ class FirebaseFirestoreServices {
     return null;
   }
 
+  /// stream builder of get cart.
+// static Stream<CartModel> getCart() {
+//     print('inside the get cart');
+//     return firebaseFirestore
+//         .collection('Users')
+//         .doc(Preference.userId)
+//         .collection('Cart')
+//         .doc('cart')
+//         .snapshots()
+//         .map((snapshot) => CartModel.fromFirestore(snapshot));
+//   }
+
+
   // /// add to cart.
   // static Future<void> addToCart({Map<String, dynamic>? cableDetails}) async {
   //   print('Inside add to cart');

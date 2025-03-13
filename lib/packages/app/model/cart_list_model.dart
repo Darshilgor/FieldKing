@@ -62,7 +62,21 @@ class CartModel {
     this.createdAt,
     this.updatedAt,
   });
+factory CartModel.fromFirestore(DocumentSnapshot snapshot) {
+    final data = snapshot.data() as Map<String, dynamic>?;
 
+    if (data == null) {
+      return CartModel(cartList: [], createdAt: null, updatedAt: null);
+    }
+
+    return CartModel(
+      cartList: (data['cartList'] as List<dynamic>?)
+          ?.map((item) => CartItem.fromMap(item as Map<String, dynamic>))
+          .toList(),
+      createdAt: data['createdAt'] as Timestamp?,
+      updatedAt: data['updatedAt'] as Timestamp?,
+    );
+  }
   factory CartModel.fromMap(Map<String, dynamic> data) {
     return CartModel(
       cartList: (data['cartList'] as List<dynamic>?)

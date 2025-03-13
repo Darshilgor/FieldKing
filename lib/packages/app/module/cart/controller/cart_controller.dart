@@ -16,7 +16,6 @@ class CartController extends GetxController {
         if (index == 2) {
           if (GlobalVariable.isUpdateCart.value) {
             fetchCart();
-            print('inside the if condition');
           } else {
             print('inside the else condition');
           }
@@ -26,6 +25,7 @@ class CartController extends GetxController {
     super.onInit();
   }
 
+  /// fetch cart list.
   fetchCart() async {
     cart.value = await FirebaseFirestoreServices.getCart();
   }

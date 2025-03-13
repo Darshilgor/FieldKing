@@ -4,6 +4,7 @@ import 'package:field_king/packages/config.dart';
 import 'package:field_king/services/app_bar.dart';
 import 'package:field_king/services/common_calculation/common_calculation.dart';
 import 'package:field_king/services/common_code/common_code.dart';
+import 'package:field_king/services/firebase_services/firebase_services.dart';
 import 'package:field_king/services/general_controller/general_controller.dart';
 
 class CartView extends StatelessWidget {
@@ -205,7 +206,7 @@ class CartView extends StatelessWidget {
                                             ),
                                       ),
                                       Text(
-                                        '${cartItem.price} PM with out GST',
+                                        '${cartItem.chipestPrice} PM with out GST',
                                         style: TextStyle().regular16.textColor(
                                               AppColor.blackColor,
                                             ),
@@ -225,7 +226,7 @@ class CartView extends StatelessWidget {
                                     Row(
                                       children: [
                                         Text(
-                                          '${cartItem.price} PM',
+                                          '${cartItem.price} PM ',
                                           style:
                                               TextStyle().regular16.textColor(
                                                     AppColor.blackColor,
@@ -281,23 +282,28 @@ class CartView extends StatelessWidget {
                                       children: [
                                         Text(
                                           (cartItem.orderType == 'With GST')
-                                              ? (int.parse(
-                                                          cartItem.orderMeter ??
-                                                              '') *
-                                                      double.parse(
-                                                          cartItem.price ?? ''))
-                                                  .toString()
-                                              : (int.parse(
-                                                          cartItem.orderMeter ??
-                                                              '') *
-                                                      double.parse(cartItem
-                                                              .chipestPrice ??
-                                                          ''))
-                                                  .toString(),
-                                          style:
-                                              TextStyle().regular16.textColor(
-                                                    AppColor.blackColor,
-                                                  ),
+                                              ? (double.parse(cartItem.orderMeter ?? '0') * double.parse(cartItem.price ?? '0'))
+                                                  .toStringAsFixed(
+                                                      2) // Convert to 2 decimal places
+                                              : cartItem.orderType == '50%'
+                                                  ? (((double.parse(cartItem.orderMeter ?? '0') /
+                                                                  2) *
+                                                              double.parse(cartItem
+                                                                      .chipestPrice ??
+                                                                  '0')) +
+                                                          ((double.parse(cartItem.orderMeter ?? '0') /
+                                                                  2) *
+                                                              double.parse(
+                                                                  cartItem.price ??
+                                                                      '0')))
+                                                      .toStringAsFixed(
+                                                          2) // Convert to 2 decimal places
+                                                  : (double.parse(cartItem.orderMeter ?? '0') *
+                                                          double.parse(cartItem.chipestPrice ?? '0'))
+                                                      .toStringAsFixed(2), // Convert to 2 decimal places
+                                          style: TextStyle()
+                                              .regular16
+                                              .textColor(AppColor.blackColor),
                                         ),
                                       ],
                                     ),

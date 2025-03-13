@@ -130,7 +130,7 @@ class HomeScreenView extends StatelessWidget {
                                   ),
                             ),
                             Text(
-                              '${product.price} PM with out GST',
+                              '${product.chipeshPrice} PM with out GST',
                               style: TextStyle().regular16.textColor(
                                     AppColor.blackColor,
                                   ),
@@ -150,7 +150,7 @@ class HomeScreenView extends StatelessWidget {
                           Row(
                             children: [
                               Text(
-                                '${product.price} PM',
+                                '${product.price} PM ',
                                 style: TextStyle().regular16.textColor(
                                       AppColor.blackColor,
                                     ),
