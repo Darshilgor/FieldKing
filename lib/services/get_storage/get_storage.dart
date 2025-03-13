@@ -6,6 +6,7 @@ class Preference {
   static const fcmTokenKey = "fcmToken";
   static const isOtpVerifyKey = "isOtpVerify";
   static const phoneNumberKey = "phoneNumberKey";
+  static const addresssKey = "addressKey";
   static const firstNameKey = "firstNameKey";
   static const lastNameKey = "lastNameKey";
   static const brandNameKey = "brandNameKey";
@@ -43,6 +44,11 @@ class Preference {
   static String? get phoneNumber => box?.read<String>(phoneNumberKey);
   static set phoneNumber(String? number) => box?.write(phoneNumberKey, number);
 
+  // Address.
+  static String? get address => box?.read<String>(addresssKey);
+  static set address(String? number) =>
+      box?.write(addresssKey, number);
+
   // profile Photo.
   static String? get profileImage => box?.read<String>(profileImageKey);
   static set profileImage(String? profileImage) =>
@@ -57,12 +63,10 @@ class Preference {
   static String? get totalOrderAmount => box?.read<String>(totalOrderAmountKey);
   static set totalOrderAmount(String? totalOrderAmount) =>
       box?.write(totalOrderAmountKey, totalOrderAmount);
-  
-  
+
   // device id.
   static String? get deviceId => box?.read<String>(deviceIdKey);
-  static set deviceId(String? deviceId) =>
-      box?.write(deviceIdKey, deviceId);
+  static set deviceId(String? deviceId) => box?.write(deviceIdKey, deviceId);
 
   // First Name
   static String? get firstName => box?.read<String>(firstNameKey);

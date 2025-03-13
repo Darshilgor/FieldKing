@@ -45,7 +45,7 @@ class SignUpScreenView extends StatelessWidget {
                     textInputAction: TextInputAction.next,
                     validator: (value) {
                       if ((value ?? '').isEmpty) {
-                        return 'Please enter first name.';
+                        return 'Please enter first name';
                       } else {
                         return null;
                       }
@@ -62,7 +62,7 @@ class SignUpScreenView extends StatelessWidget {
                     textInputAction: TextInputAction.next,
                     validator: (value) {
                       if ((value ?? '').isEmpty) {
-                        return 'Please enter last name.';
+                        return 'Please enter last name';
                       } else {
                         return null;
                       }
@@ -80,7 +80,7 @@ class SignUpScreenView extends StatelessWidget {
                     textInputAction: TextInputAction.next,
                     validator: (value) {
                       if ((value ?? '').isEmpty) {
-                        return 'Please enter brand name.';
+                        return 'Please enter brand name';
                       } else {
                         return null;
                       }
@@ -100,9 +100,27 @@ class SignUpScreenView extends StatelessWidget {
                     maxLength: 10,
                     validator: (value) {
                       if (value?.length == 0) {
-                        return 'Please enter phone number.';
+                        return 'Please enter phone number';
                       } else if (value?.length != 10) {
-                        return 'Please enter valid phone number.';
+                        return 'Please enter valid phone number';
+                      } else {
+                        return null;
+                      }
+                    },
+                  ),
+                  Gap(20),
+                  InputField(
+                    controller: controller.locationController.value,
+                    labelText: 'Address',
+                    hintText: 'Address',
+                    prefixIcon: Assets.lcoationIcon,
+                    isPngPrefixIcon: true,
+                    prefixIconColor: AppColor.blackColor,
+                    keyboardType: TextInputType.name,
+                    textInputAction: TextInputAction.next,
+                    validator: (value) {
+                      if ((value ?? '').isEmpty) {
+                        return 'Please enter address';
                       } else {
                         return null;
                       }

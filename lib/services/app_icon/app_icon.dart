@@ -16,6 +16,7 @@ class Assets {
   static const String cameraIcon = '$iconBaseUrl/camera_icon.svg';
   static const String galleryIcon = '$iconBaseUrl/gallery_icon.svg';
   static const String editIcon = '$iconBaseUrl/edit_icon.svg';
+  static const String lcoationIcon = '$iconBaseUrl/location.svg';
   static const String defaultProfileImage =
       '$imageBaseUrl/default_profile_image.png';
 }

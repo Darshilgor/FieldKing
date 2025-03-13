@@ -1,9 +1,12 @@
+import 'dart:core';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:field_king/packages/app/model/cart_list_model.dart';
 import 'package:field_king/packages/app/model/get_product_model.dart';
 import 'package:field_king/packages/config.dart';
 import 'package:field_king/services/general_controller/general_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'dart:core' as core;
 
 class FirebaseAuthServices {
   static Future<void> sendOTP({
@@ -14,7 +17,7 @@ class FirebaseAuthServices {
     final FirebaseAuth auth = FirebaseAuth.instance;
     await auth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
-      timeout: const Duration(seconds: 60),
+      timeout: core.Duration(seconds: 60),
       verificationCompleted: (PhoneAuthCredential credential) {
         auth.signInWithCredential(credential).then(
           (user) {
@@ -69,6 +72,7 @@ class FirebaseFirestoreServices {
     String? firstName,
     String? lastName,
     String? phoneNumber,
+    String? address,
   }) async {
     Map<String, dynamic> user = {
       'brandName': brandName,
@@ -81,6 +85,7 @@ class FirebaseFirestoreServices {
       'totalOrderAmount': '',
       'totalOrderMeter': '',
       'userId': '',
+      'address': address,
       'userType': (phoneNumber == '9409529203' || phoneNumber == '9426781202')
           ? 'Admin'
           : 'User',
@@ -185,7 +190,6 @@ class FirebaseFirestoreServices {
 //         .snapshots()
 //         .map((snapshot) => CartModel.fromFirestore(snapshot));
 //   }
-
 
   // /// add to cart.
   // static Future<void> addToCart({Map<String, dynamic>? cableDetails}) async {
