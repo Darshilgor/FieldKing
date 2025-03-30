@@ -46,8 +46,7 @@ class Preference {
 
   // Address.
   static String? get address => box?.read<String>(addresssKey);
-  static set address(String? number) =>
-      box?.write(addresssKey, number);
+  static set address(String? number) => box?.write(addresssKey, number);
 
   // profile Photo.
   static String? get profileImage => box?.read<String>(profileImageKey);
@@ -56,7 +55,7 @@ class Preference {
 
   // total order meter.
   static String? get totalOrderMeter => box?.read<String>(totalOrderMeterKey);
-  static set totatotalOrderMeter(String? totalOrderMeter) =>
+  static set totalOrderMeter(String? totalOrderMeter) =>
       box?.write(totalOrderMeterKey, totalOrderMeter);
 
   // total order amout.

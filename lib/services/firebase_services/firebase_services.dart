@@ -276,7 +276,7 @@ class FirebaseFirestoreServices {
     Preference.brandName = userSnapShot['brandName'];
     Preference.phoneNumber = userSnapShot['phoneNo'];
     Preference.profileImage = userSnapShot['profilePhoto'];
-    Preference.totatotalOrderMeter = userSnapShot['totalOrderMeter'] == ''
+    Preference.totalOrderMeter = userSnapShot['totalOrderMeter'] == ''
         ? '0'
         : userSnapShot['totalOrderMeter'];
     Preference.totalOrderAmount = userSnapShot['totalOrderAmount'] == ''
@@ -318,9 +318,29 @@ class FirebaseFirestoreServices {
       return;
     }
 
+    /// add to order collection.
+    double? totalOrderMeter = 0.0;
+    double? totalOrderAmount = 0.0;
     List<Map<String, dynamic>> orderList =
         (cart.value ?? CartModel()).cartList!.map(
       (cartItem) {
+        totalOrderMeter =
+            (totalOrderMeter ?? 0.0) + double.parse(cartItem.orderMeter ?? '');
+        totalOrderAmount = (totalOrderAmount ?? 0.0) +
+            double.parse((cartItem.orderType == 'With GST')
+                ? (double.parse(cartItem.orderMeter ?? '0') *
+                        double.parse(cartItem.price ?? '0'))
+                    .toStringAsFixed(2)
+                : cartItem.orderType == '50%'
+                    ? (((double.parse(cartItem.orderMeter ?? '0') / 2) *
+                                double.parse(cartItem.chipestPrice ?? '0')) +
+                            ((double.parse(cartItem.orderMeter ?? '0') / 2) *
+                                double.parse(cartItem.price ?? '0')))
+                        .toStringAsFixed(2)
+                    : (double.parse(cartItem.orderMeter ?? '0') *
+                            double.parse(cartItem.chipestPrice ?? '0'))
+                        .toStringAsFixed(2));
+
         return CreateOrderModel(
           ppmoo: cartItem.price,
           flat: cartItem.flat,
@@ -341,7 +361,7 @@ class FirebaseFirestoreServices {
       },
     ).toList();
 
-    await firebaseFirestore
+    DocumentReference documentReference = await firebaseFirestore
         .collection('Users')
         .doc(Preference.userId)
         .collection('Order')
@@ -353,6 +373,55 @@ class FirebaseFirestoreServices {
         'order': orderList,
       },
     );
+    await documentReference.update(
+      {
+        'orderId': documentReference.id,
+        'totalOrderAmout': totalOrderAmount,
+        'totalOrderMeter': totalOrderMeter,
+      },
+    );
+
+    /// remove cart items.
+    await firebaseFirestore
+        .collection('Users')
+        .doc(Preference.userId)
+        .collection('Cart')
+        .doc('cart')
+        .update(
+      {
+        'cartList': [],
+        'updatedAt': DateTime.now(),
+      },
+    );
+
+    DocumentSnapshot documentSnapshot = await firebaseFirestore
+        .collection('Users')
+        .doc(Preference.userId)
+        .get();
+
+    String? userProfileTotalOrderAmount =
+        documentSnapshot.get('totalOrderAmount');
+    String? userProfileTotalOrderMeter =
+        documentSnapshot.get('totalOrderMeter');
+
+    userProfileTotalOrderMeter =
+        ((double.tryParse(userProfileTotalOrderMeter ?? '0') ?? 0.0) +
+                (totalOrderMeter ?? 0.0))
+            .toString();
+
+    userProfileTotalOrderAmount =
+        ((double.tryParse(userProfileTotalOrderAmount ?? '0') ?? 0.0) +
+                (totalOrderAmount ?? 0.0))
+            .toString();
+
+    await firebaseFirestore.collection('Users').doc(Preference.userId).update(
+      {
+        'totalOrderAmount': userProfileTotalOrderAmount,
+        'totalOrderMeter': userProfileTotalOrderMeter,
+      },
+    );
+    Preference.totalOrderAmount = userProfileTotalOrderAmount;
+    Preference.totalOrderMeter = userProfileTotalOrderMeter;
   }
 
   static generateRandomId({int length = 20}) {

@@ -366,15 +366,17 @@ class CartView extends StatelessWidget {
                   top: 5,
                 ),
                 child: CommonAppButton(
-                  buttonType: ButtonType.enable,
+                  buttonType: (controller.cart.value?.cartList ?? []).isNotEmpty
+                      ? ButtonType.enable
+                      : ButtonType.disable,
                   text: 'Continue',
                   buttonColor: AppColor.blackColor,
                   onTap: () {
                     /// move to payment screen.
-                    // Get.toNamed(
-                    //   Routes.paymentView,
-                    // );
-                    controller.createOrder();
+                    Get.toNamed(Routes.paymentView, arguments: {
+                      'cart': controller.cart,
+                    });
+                    // controller.createOrder();
                   },
                   width: Get.width,
                   textColor: AppColor.whiteColor,

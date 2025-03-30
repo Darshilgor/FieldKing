@@ -30,9 +30,5 @@ class CartController extends GetxController {
     cart.refresh();
   }
 
-  createOrder() async {
-    await FirebaseFirestoreServices.createOrder(
-      cart: cart,
-    );
-  }
+  
 }
