@@ -1,33 +1,24 @@
 import 'package:field_king/packages/app/model/cart_list_model.dart';
-import 'package:field_king/packages/app/module/tab_bar/controller/tab_bar_controller.dart';
 import 'package:field_king/packages/config.dart';
 import 'package:field_king/services/firebase_services/firebase_services.dart';
-import 'package:field_king/services/global_variable/global_variable.dart';
 
 class CartController extends GetxController {
   Rx<CartModel?> cart = Rx<CartModel?>(null);
+  RxBool isApiCalled = RxBool(false);
 
   @override
   void onInit() {
+    isApiCalled.value = false;
     fetchCart();
-    ever(
-      Get.find<TabbarController>().currentIndex,
-      (index) {
-        if (index == 2) {
-          if (GlobalVariable.isUpdateCart.value) {
-            fetchCart();
-          } else {
-            print('inside the else condition');
-          }
-        }
-      },
-    );
+
     super.onInit();
   }
 
   /// fetch cart list.
   fetchCart() async {
     cart.value = await FirebaseFirestoreServices.getCart();
+    isApiCalled.value = true;
+    isApiCalled.refresh();
   }
 
   deleteCart({int? index}) async {
@@ -37,5 +28,11 @@ class CartController extends GetxController {
       cart.value?.cartList?.removeAt(index ?? 0);
     }
     cart.refresh();
+  }
+
+  createOrder() async {
+    await FirebaseFirestoreServices.createOrder(
+      cart: cart,
+    );
   }
 }

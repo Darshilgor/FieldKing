@@ -1,7 +1,10 @@
+import 'dart:convert';
 import 'dart:core';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:field_king/packages/app/model/cart_list_model.dart';
+import 'package:field_king/packages/app/model/createCartModel.dart';
 import 'package:field_king/packages/app/model/get_product_model.dart';
 import 'package:field_king/packages/config.dart';
 import 'package:field_king/services/general_controller/general_controller.dart';
@@ -165,6 +168,7 @@ class FirebaseFirestoreServices {
 
   /// get cart.
   static Future getCart() async {
+    print('inside the get cart');
     DocumentSnapshot cartDoc = await firebaseFirestore
         .collection('Users')
         .doc(Preference.userId)
@@ -180,16 +184,16 @@ class FirebaseFirestoreServices {
   }
 
   /// stream builder of get cart.
-// static Stream<CartModel> getCart() {
-//     print('inside the get cart');
-//     return firebaseFirestore
-//         .collection('Users')
-//         .doc(Preference.userId)
-//         .collection('Cart')
-//         .doc('cart')
-//         .snapshots()
-//         .map((snapshot) => CartModel.fromFirestore(snapshot));
-//   }
+  // static Stream<CartModel> getCart() {
+  //   print('inside the get cart');
+  //   return firebaseFirestore
+  //       .collection('Users')
+  //       .doc(Preference.userId)
+  //       .collection('Cart')
+  //       .doc('cart')
+  //       .snapshots()
+  //       .map((snapshot) => CartModel.fromFirestore(snapshot));
+  // }
 
   // /// add to cart.
   // static Future<void> addToCart({Map<String, dynamic>? cableDetails}) async {
@@ -304,5 +308,56 @@ class FirebaseFirestoreServices {
         Preference.profileImage = profileImage;
       },
     );
+  }
+
+  static createOrder({Rx<CartModel?>? cart}) async {
+    if (cart == null ||
+        cart.value == null ||
+        cart.value!.cartList == null ||
+        cart.value!.cartList!.isEmpty) {
+      return;
+    }
+
+    List<Map<String, dynamic>> orderList =
+        (cart.value ?? CartModel()).cartList!.map(
+      (cartItem) {
+        return CreateOrderModel(
+          ppmoo: cartItem.price,
+          flat: cartItem.flat,
+          gej: cartItem.gej,
+          isDelete: false,
+          isWithGst: cartItem.orderType,
+          orderStatus: "Pending",
+          size: cartItem.size,
+          subOrderId: generateRandomId(
+            length: 20,
+          ),
+          totalAmount: (double.parse(cartItem.orderMeter ?? '0') *
+                  double.parse(cartItem.price ?? '0'))
+              .toStringAsFixed(2),
+          totalMeter: cartItem.orderMeter,
+          type: cartItem.type,
+        ).toJson();
+      },
+    ).toList();
+
+    await firebaseFirestore
+        .collection('Users')
+        .doc(Preference.userId)
+        .collection('Order')
+        .add(
+      {
+        'createdAt': DateTime.now(),
+        'paymentStatus': false,
+        'paymentType': 'Offline',
+        'order': orderList,
+      },
+    );
+  }
+
+  static generateRandomId({int length = 20}) {
+    final random = Random.secure();
+    final bytes = List<int>.generate(length, (_) => random.nextInt(256));
+    return base64Url.encode(bytes).replaceAll('=', '').substring(0, length);
   }
 }

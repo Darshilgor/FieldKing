@@ -36,7 +36,6 @@ class EditProfileController extends GetxController {
 
     if (profileImage.value == null) {
       print("No image selected.");
-      return;
     }
 
     String? newImageUrl =

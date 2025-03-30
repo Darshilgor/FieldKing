@@ -9,6 +9,8 @@ abstract class Routes {
   static const homeScreen = _Paths.homeScreen;
   static const tabBarScreen = _Paths.tabBarScreen;
   static const editProfile = _Paths.editProfile;
+  static const cartView = _Paths.cartView;
+  static const paymentView = _Paths.paymentView;
 }
 
 abstract class _Paths {
@@ -20,4 +22,6 @@ abstract class _Paths {
   static const homeScreen = '/home-screen';
   static const tabBarScreen = '/tabbar-screen';
   static const editProfile = '/edit-profile';
+  static const cartView = '/cart-view';
+  static const paymentView = '/payment-view';
 }

@@ -1,5 +1,7 @@
+import 'package:field_king/packages/app/module/cart/view/cart_view.dart';
 import 'package:field_king/packages/app/module/home_screen/view/home_screen_view.dart';
 import 'package:field_king/packages/app/module/login/view/login_view.dart';
+import 'package:field_king/packages/app/module/payment/view/payment_view.dart';
 import 'package:field_king/packages/app/module/profile/edit_profile/view/edit_profile_view.dart';
 import 'package:field_king/packages/app/module/sign_up/view/sign_up_screen_view.dart';
 import 'package:field_king/packages/app/module/splash_screen/view/splash_screen_view.dart';
@@ -38,6 +40,14 @@ class AppPages {
     GetPage(
       name: _Paths.editProfile,
       page: () => EditProfileView(),
+    ),
+    GetPage(
+      name: _Paths.cartView,
+      page: () => CartView(),
+    ),
+    GetPage(
+      name: _Paths.paymentView,
+      page: () => PaymentView(),
     ),
   ];
 }

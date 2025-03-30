@@ -29,7 +29,7 @@ class TabBarScreenView extends StatelessWidget {
             children: [
               HomeScreenView(),
               ChatView(),
-              CartView(),
+              // CartView(),
               ProfileView(),
             ],
           ),
@@ -125,19 +125,54 @@ class TabBarScreenView extends StatelessWidget {
                     ),
                   ],
                 ),
+                // Row(
+                //   children: [
+                //     Visibility(
+                //       visible: controller.currentIndex.value == 2,
+                //       child: Padding(
+                //         padding: const EdgeInsets.only(
+                //           bottom: 1,
+                //         ),
+                //         child: SvgPicture.asset(
+                //           Assets.cart,
+                //           width: 28,
+                //           height: 28,
+                //         ),
+                //       ),
+                //     ),
+                //     GestureDetector(
+                //       onTap: () {
+                //         controller.currentIndex.value = 2;
+                //       },
+                //       child: Padding(
+                //         padding: const EdgeInsets.only(
+                //           left: 5,
+                //           right: 10,
+                //           bottom: 10,
+                //           top: 10,
+                //         ),
+                //         child: Text(
+                //           'Cart',
+                //           style: controller.currentIndex.value == 2
+                //               ? TextStyle().semiBold18.textColor(
+                //                     AppColor.blackColor,
+                //                   )
+                //               : TextStyle().medium16.textColor(
+                //                     AppColor.blackColor,
+                //                   ),
+                //         ),
+                //       ),
+                //     ),
+                //   ],
+                // ),
                 Row(
                   children: [
                     Visibility(
                       visible: controller.currentIndex.value == 2,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          bottom: 1,
-                        ),
-                        child: SvgPicture.asset(
-                          Assets.cart,
-                          width: 28,
-                          height: 28,
-                        ),
+                      child: SvgPicture.asset(
+                        Assets.profile,
+                        width: 27,
+                        height: 27,
                       ),
                     ),
                     GestureDetector(
@@ -152,43 +187,8 @@ class TabBarScreenView extends StatelessWidget {
                           top: 10,
                         ),
                         child: Text(
-                          'Cart',
-                          style: controller.currentIndex.value == 2
-                              ? TextStyle().semiBold18.textColor(
-                                    AppColor.blackColor,
-                                  )
-                              : TextStyle().medium16.textColor(
-                                    AppColor.blackColor,
-                                  ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Visibility(
-                      visible: controller.currentIndex.value == 3,
-                      child: SvgPicture.asset(
-                        Assets.profile,
-                        width: 27,
-                        height: 27,
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        controller.currentIndex.value = 3;
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 5,
-                          right: 10,
-                          bottom: 10,
-                          top: 10,
-                        ),
-                        child: Text(
                           'Profile',
-                          style: controller.currentIndex.value == 3
+                          style: controller.currentIndex.value == 2
                               ? TextStyle().semiBold18.textColor(
                                     AppColor.blackColor,
                                   )

@@ -2,6 +2,7 @@ import 'package:field_king/components/unfocus_keyboard.dart';
 import 'package:field_king/packages/app/model/get_product_model.dart';
 import 'package:field_king/packages/app/module/home_screen/controller/home_screen_controller.dart';
 import 'package:field_king/packages/config.dart';
+import 'package:field_king/packages/routes/app_pages.dart';
 import 'package:field_king/services/app_bar.dart';
 import 'package:field_king/services/common_calculation/common_calculation.dart';
 import 'package:field_king/services/common_code/common_code.dart';
@@ -24,6 +25,26 @@ class HomeScreenView extends StatelessWidget {
             'Field King',
           ),
           isLeading: false,
+          action: [
+            Padding(
+              padding: const EdgeInsets.only(
+                right: 20,
+              ),
+              child: GestureDetector(
+                onTap: () {
+                  Get.toNamed(
+                    Routes.cartView,
+                  );
+                },
+                child: Text(
+                  'Cart',
+                  style: TextStyle().regular16.textColor(
+                        AppColor.blackColor,
+                      ),
+                ),
+              ),
+            ),
+          ],
         ),
         body: Obx(
           () => ListView.separated(

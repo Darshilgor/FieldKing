@@ -2,10 +2,10 @@ import 'package:field_king/components/app_button.dart';
 import 'package:field_king/packages/app/model/cart_list_model.dart';
 import 'package:field_king/packages/app/module/cart/controller/cart_controller.dart';
 import 'package:field_king/packages/config.dart';
+import 'package:field_king/packages/routes/app_pages.dart';
 import 'package:field_king/services/app_bar.dart';
 import 'package:field_king/services/common_calculation/common_calculation.dart';
 import 'package:field_king/services/common_code/common_code.dart';
-import 'package:field_king/services/firebase_services/firebase_services.dart';
 import 'package:field_king/services/general_controller/general_controller.dart';
 
 class CartView extends StatelessWidget {
@@ -20,7 +20,7 @@ class CartView extends StatelessWidget {
         title: Text(
           'Cart',
         ),
-        isLeading: false,
+        isLeading: true,
       ),
       body: Obx(
         () => Column(
@@ -68,7 +68,7 @@ class CartView extends StatelessWidget {
                                                       ?.length ??
                                                   0) -
                                               1
-                                      ? 20
+                                      ? 10
                                       : 0,
                                 ),
                                 child: Container(
@@ -356,14 +356,30 @@ class CartView extends StatelessWidget {
                 ),
               ),
             ),
-            CommonAppButton(
-              text: 'Send Otp',
-              onTap: () {
-                
-              },
-            ),
-            Gap(
-              Get.height * 0.2,
+            Visibility(
+              visible: controller.isApiCalled.value == true,
+              child: Padding(
+                padding: EdgeInsets.only(
+                  bottom: 10,
+                  left: 20,
+                  right: 20,
+                  top: 5,
+                ),
+                child: CommonAppButton(
+                  buttonType: ButtonType.enable,
+                  text: 'Continue',
+                  buttonColor: AppColor.blackColor,
+                  onTap: () {
+                    /// move to payment screen.
+                    // Get.toNamed(
+                    //   Routes.paymentView,
+                    // );
+                    controller.createOrder();
+                  },
+                  width: Get.width,
+                  textColor: AppColor.whiteColor,
+                ),
+              ),
             ),
           ],
         ),
