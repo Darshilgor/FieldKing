@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:field_king/packages/app/model/cart_list_model.dart';
 import 'package:field_king/packages/app/model/createCartModel.dart';
 import 'package:field_king/packages/app/model/get_product_model.dart';
+import 'package:field_king/packages/app/model/user_chat_model.dart';
 import 'package:field_king/packages/config.dart';
 import 'package:field_king/services/general_controller/general_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -428,5 +429,18 @@ class FirebaseFirestoreServices {
     final random = Random.secure();
     final bytes = List<int>.generate(length, (_) => random.nextInt(256));
     return base64Url.encode(bytes).replaceAll('=', '').substring(0, length);
+  }
+
+  static Future<List<UserChatModel>> getAdminList() async {
+    QuerySnapshot snapshot = await firebaseFirestore
+        .collection('Users')
+        .where('userType', isEqualTo: 'Admin')
+        .get();
+
+    List<UserChatModel> adminList = snapshot.docs.map((doc) {
+      return UserChatModel.fromJson(doc.data() as Map<String, dynamic>);
+    }).toList();
+
+    return adminList;
   }
 }
