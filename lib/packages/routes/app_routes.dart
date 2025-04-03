@@ -11,6 +11,7 @@ abstract class Routes {
   static const editProfile = _Paths.editProfile;
   static const cartView = _Paths.cartView;
   static const paymentView = _Paths.paymentView;
+  static const chatScreenView = _Paths.chatScreenView;
 }
 
 abstract class _Paths {
@@ -24,4 +25,5 @@ abstract class _Paths {
   static const editProfile = '/edit-profile';
   static const cartView = '/cart-view';
   static const paymentView = '/payment-view';
+  static const chatScreenView = '/chat-screen-view';
 }

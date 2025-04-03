@@ -1,4 +1,5 @@
 import 'package:field_king/packages/app/module/cart/view/cart_view.dart';
+import 'package:field_king/packages/app/module/chat/chat_screen/view/chat_screen_view.dart';
 import 'package:field_king/packages/app/module/home_screen/view/home_screen_view.dart';
 import 'package:field_king/packages/app/module/login/view/login_view.dart';
 import 'package:field_king/packages/app/module/payment/view/payment_view.dart';
@@ -48,6 +49,10 @@ class AppPages {
     GetPage(
       name: _Paths.paymentView,
       page: () => PaymentView(),
+    ),
+    GetPage(
+      name: _Paths.chatScreenView,
+      page: () => ChatScreenView(),
     ),
   ];
 }
