@@ -21,6 +21,7 @@ class InputField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final TextInputType? keyboardType;
   final int? maxLine;
+  final int? minLine;
   final double? width;
   final double? height;
   final Color? textFieldColor;
@@ -38,6 +39,11 @@ class InputField extends StatelessWidget {
   final double? suffixIconSize;
   final String? labelText;
   final int? maxLength;
+  final InputBorder? disableBorder;
+  final InputBorder? border;
+  final InputBorder? focusBorder;
+  final InputBorder? enableBorder;
+  final InputBorder? errorBorder;
 
   const InputField({
     super.key,
@@ -79,6 +85,12 @@ class InputField extends StatelessWidget {
     this.suffixIconSize,
     this.labelText,
     this.maxLength,
+    this.minLine = 1,
+    this.border,
+    this.disableBorder,
+    this.focusBorder,
+    this.enableBorder,
+    this.errorBorder,
   });
 
   @override
@@ -104,6 +116,7 @@ class InputField extends StatelessWidget {
         focusNode: focusNode,
         autofocus: false,
         obscureText: obscureText,
+        minLines: minLine,
         maxLines: maxLine,
         inputFormatters: inputFormatter ?? [],
         style: textStyle ??
@@ -194,51 +207,57 @@ class InputField extends StatelessWidget {
           hintText: hintText,
           filled: false,
           fillColor: fillColor ?? AppColor.whiteColor,
-          disabledBorder: OutlineInputBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(50),
-            borderSide: BorderSide(
-              width: 1,
-              color: AppColor.borderColor,
-            ),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(50),
-            borderSide: BorderSide(
-              width: 1,
-              color: AppColor.borderColor,
-            ),
-          ),
-          border: OutlineInputBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(50),
-            borderSide: BorderSide(
-              width: 1,
-              color: AppColor.borderColor,
-            ),
-          ),
-          errorBorder: OutlineInputBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(50),
-            borderSide: BorderSide(
-              width: 1,
-              color: AppColor.errorColor,
-            ),
-          ),
-          focusedErrorBorder: OutlineInputBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(50),
-            borderSide: BorderSide(
-              width: 1.5,
-              color: AppColor.errorColor,
-            ),
-          ),
+          disabledBorder: disableBorder ??
+              OutlineInputBorder(
+                borderRadius: borderRadius ?? BorderRadius.circular(50),
+                borderSide: BorderSide(
+                  width: 1,
+                  color: AppColor.borderColor,
+                ),
+              ),
+          enabledBorder: enableBorder ??
+              OutlineInputBorder(
+                borderRadius: borderRadius ?? BorderRadius.circular(50),
+                borderSide: BorderSide(
+                  width: 1,
+                  color: AppColor.borderColor,
+                ),
+              ),
+          border: border ??
+              OutlineInputBorder(
+                borderRadius: borderRadius ?? BorderRadius.circular(50),
+                borderSide: BorderSide(
+                  width: 1,
+                  color: AppColor.borderColor,
+                ),
+              ),
+          errorBorder: errorBorder ??
+              OutlineInputBorder(
+                borderRadius: borderRadius ?? BorderRadius.circular(50),
+                borderSide: BorderSide(
+                  width: 1,
+                  color: AppColor.errorColor,
+                ),
+              ),
+          focusedErrorBorder: errorBorder ??
+              OutlineInputBorder(
+                borderRadius: borderRadius ?? BorderRadius.circular(50),
+                borderSide: BorderSide(
+                  width: 1.5,
+                  color: AppColor.errorColor,
+                ),
+              ),
           errorStyle: TextStyle().regular13.textColor(
                 AppColor.errorColor,
               ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: borderRadius ?? BorderRadius.circular(50),
-            borderSide: BorderSide(
-              width: 1,
-              color: AppColor.borderColor,
-            ),
-          ),
+          focusedBorder: focusBorder ??
+              OutlineInputBorder(
+                borderRadius: borderRadius ?? BorderRadius.circular(50),
+                borderSide: BorderSide(
+                  width: 1,
+                  color: AppColor.borderColor,
+                ),
+              ),
         ),
         textInputAction: textInputAction ?? TextInputAction.next,
         keyboardType: keyboardType ?? TextInputType.visiblePassword,

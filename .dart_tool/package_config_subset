@@ -126,6 +126,10 @@ file
 3.0
 file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/file-7.0.0/
 file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/file-7.0.0/lib/
+file_picker
+2.19
+file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/file_picker-8.0.7/
+file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/file_picker-8.0.7/lib/
 file_selector_linux
 3.3
 file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/file_selector_linux-0.9.3+2/
@@ -554,6 +558,10 @@ shared_preferences_windows
 2.19
 file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_windows-2.3.2/
 file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/shared_preferences_windows-2.3.2/lib/
+smooth_page_indicator
+2.12
+file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/smooth_page_indicator-1.2.1/
+file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/smooth_page_indicator-1.2.1/lib/
 sms_autofill
 2.12
 file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/sms_autofill-2.3.1/
@@ -623,9 +631,9 @@ web
 file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/web-0.5.1/
 file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/web-0.5.1/lib/
 win32
-3.3
-file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/win32-5.3.0/
-file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/win32-5.3.0/lib/
+3.4
+file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/win32-5.5.4/
+file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/win32-5.5.4/lib/
 xdg_directories
 3.0
 file:///C:/Users/91940/AppData/Local/Pub/Cache/hosted/pub.dev/xdg_directories-1.0.4/

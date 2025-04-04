@@ -73,6 +73,8 @@ dependencies:
   googleapis: ^13.2.0
   googleapis_auth: ^1.6.0
   intl: ^0.19.0
+  file_picker: ^8.0.7
+  smooth_page_indicator: ^1.2.1
 
 dev_dependencies:
   flutter_test:

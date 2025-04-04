@@ -85,48 +85,128 @@ class _ChatScreenViewState extends State<ChatScreenView> {
               },
             ),
           ),
-          Padding(
-            padding: EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: AppColor.blackColor,
-                ),
-                borderRadius: BorderRadius.circular(
-                  10,
-                ),
+          Obx(
+            () => Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 10,
               ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: controller.messageController.value,
-                      decoration: InputDecoration(
-                        hintText: "Type a message...",
-                        // border: OutlineInputBorder(
-                        //   borderRadius: BorderRadius.circular(10),
-                        // ),
-                        
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: AppColor.blackColor,
+                  ),
+                  borderRadius: BorderRadius.circular(
+                    20,
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: InputField(
+                        controller: controller.messageController.value,
+                        hintText: 'Type a message...',
+                        textInputAction: TextInputAction.done,
+                        validator: (value) {},
+                        onChange: (value) {
+                          controller.messageController.refresh();
+                        },
+                        minLine: 1,
+                        maxLine: 3,
+                        border: InputBorder.none,
+                        disableBorder: InputBorder.none,
+                        enableBorder: InputBorder.none,
+                        focusBorder: InputBorder.none,
                       ),
                     ),
-                  ),
-                  SizedBox(width: 10),
-                  IconButton(
-                    icon: Icon(Icons.send, color: Colors.blue),
-                    onPressed: () {
-                      controller.sendMessage(
-                        adminId: controller.adminId.value,
-                        message: controller.messageController.value.text,
-                        userId: Preference.userId,
-                      );
-                    },
-                  ),
-                ],
+                    Row(
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            openBottomSheet();
+                          },
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.grey,
+                            size: 30,
+                          ),
+                        ),
+                        Gap(5),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            right: 5,
+                          ),
+                          child: GestureDetector(
+                            onTap: () {
+                              controller.sendMessage(
+                                adminId: controller.adminId.value,
+                                message:
+                                    controller.messageController.value.text,
+                                userId: Preference.userId,
+                              );
+                            },
+                            child: Icon(
+                              Icons.send,
+                              size: 25,
+                              color: controller
+                                      .messageController.value.text.isNotEmpty
+                                  ? Colors.blue
+                                  : Colors.grey,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  openBottomSheet() {
+    return showModalBottomSheet(
+      context: Get.context!,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) {
+        return Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              ListTile(
+                leading: Icon(Icons.attach_file, color: Colors.blue),
+                title: Text("Choose a File"),
+                onTap: () {
+                  Navigator.pop(context);
+                  controller.pickDocument();
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.image, color: Colors.green),
+                title: Text("Pick from Gallery"),
+                onTap: () {
+                  Navigator.pop(context);
+                  controller.pickImageFromGallery();
+                },
+              ),
+              ListTile(
+                leading: Icon(Icons.camera_alt, color: Colors.red),
+                title: Text("Take a Photo"),
+                onTap: () {
+                  Navigator.pop(context);
+                  controller.takePhoto();
+                },
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }
