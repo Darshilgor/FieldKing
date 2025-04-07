@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'dart:io';
 
 import 'package:get/get_core/src/get_main.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class ImagePreviewScreen extends StatelessWidget {
   final List<File> imageFiles;
@@ -41,40 +42,85 @@ class ImagePreviewScreen extends StatelessWidget {
                     },
                     itemBuilder: (context, index) {
                       return Center(
-                        child: Image.file(
-                          imageFiles[index],
-                          fit: BoxFit.contain,
+                        child: Container(
+                          width: Get.width,
+                          child: Image.file(
+                            imageFiles[index],
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       );
                     },
                   ),
                 ),
               ),
+              Visibility(
+                visible: imageFiles.length != 1,
+                child: Column(
+                  children: [
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SmoothPageIndicator(
+                      controller: pageController,
+                      count: imageFiles.length,
+                      effect: WormEffect(
+                        activeDotColor: Colors.white,
+                        dotColor: Colors.grey,
+                        dotHeight: 10,
+                        dotWidth: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
               Padding(
                 padding: const EdgeInsets.only(
                   bottom: 10,
-                  right: 10,
+                  right: 20,
                   top: 10,
+                  left: 20,
                 ),
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: GestureDetector(
-                    onTap: onSend,
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        shape: BoxShape.circle,
-                      ),
-                      padding: EdgeInsets.all(
-                        13,
-                      ),
-                      child: Icon(
-                        Icons.send,
-                        color: AppColor.whiteColor,
-                        size: 25,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    GestureDetector(
+                      onTap: () {
+                        Get.back();
+                      },
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          shape: BoxShape.circle,
+                        ),
+                        padding: EdgeInsets.all(
+                          13,
+                        ),
+                        child: Icon(
+                          Icons.close,
+                          size: 25,
+                          color: AppColor.whiteColor,
+                        ),
                       ),
                     ),
-                  ),
+                    GestureDetector(
+                      onTap: onSend,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.blue,
+                          shape: BoxShape.circle,
+                        ),
+                        padding: EdgeInsets.all(
+                          13,
+                        ),
+                        child: Icon(
+                          Icons.send,
+                          color: AppColor.whiteColor,
+                          size: 25,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

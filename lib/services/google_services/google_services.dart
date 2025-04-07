@@ -51,4 +51,20 @@ class GoogleDriveService {
       ..role = "reader";
     await driveApi.permissions.create(permission, fileId);
   }
+
+  static Future<List<String>> uploadMultipleImagesToDrive(List<File> images) async {
+    final GoogleDriveService googleDriveService = GoogleDriveService();
+    List<String> imageUrls = [];
+
+    for (var image in images) {
+      String? url = await googleDriveService.uploadProfileImage(image);
+      if (url != null) {
+        imageUrls.add(url);
+      } else {
+        print("Failed to upload ${image.path}");
+      }
+    }
+
+    return imageUrls;
+  }
 }

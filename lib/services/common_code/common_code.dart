@@ -62,24 +62,33 @@ ExtendedImage extendedImage({
   final double? width,
   final double? height,
   final BoxFit? fit,
+  final BoxShape? boxShap,
+  final int? catchWidth,
+  final int? catchHeight,
+  final EdgeInsetsGeometry? circularProcessPadding,
+  final BorderRadius? BorderRadius,
 }) {
   return ExtendedImage.network(
     imageUrl,
     width: width,
     height: height,
     fit: fit ?? BoxFit.cover,
-    shape: BoxShape.circle,
+    shape: boxShap ?? BoxShape.circle,
     cache: true,
+    borderRadius: BorderRadius,
     mode: ExtendedImageMode.gesture,
-    cacheHeight: 150,
-    cacheWidth: 150,
+    cacheHeight: catchHeight ?? 300,
+    cacheWidth: catchWidth ?? 300,
     clearMemoryCacheWhenDispose: true,
     clearMemoryCacheIfFailed: true,
     loadStateChanged: (ExtendedImageState state) {
       switch (state.extendedImageLoadState) {
         case LoadState.loading:
           return Padding(
-            padding: const EdgeInsets.all(20),
+            padding: circularProcessPadding ??
+                const EdgeInsets.all(
+                  20,
+                ),
             child: CircularProgressIndicator(
               color: AppColor.blackColor,
               strokeWidth: 1,
@@ -98,6 +107,59 @@ ExtendedImage extendedImage({
     },
   );
 }
+
+// Widget cachedImageView({
+//   required String imageUrl,
+//   double? width,
+//   double? height,
+//   BoxFit fit = BoxFit.cover,
+//   BoxShape shape = BoxShape.rectangle,
+//   double borderRadius = 10,
+// }) {
+//   Widget image = ExtendedImage.network(
+//     imageUrl,
+//     width: width,
+//     height: height,
+//     fit: fit,
+//     shape: shape,
+//     borderRadius: shape == BoxShape.rectangle
+//         ? BorderRadius.circular(borderRadius)
+//         : null,
+//     cache: true,
+//     mode: ExtendedImageMode.gesture,
+//     cacheWidth: 300,
+//     cacheHeight: 300,
+//     clearMemoryCacheWhenDispose: true,
+//     clearMemoryCacheIfFailed: true,
+//     loadStateChanged: (ExtendedImageState state) {
+//       switch (state.extendedImageLoadState) {
+//         case LoadState.loading:
+//           return Center(
+//             child: CircularProgressIndicator(
+//               strokeWidth: 1.5,
+//               color: AppColor.blackColor,
+//             ),
+//           );
+//         case LoadState.completed:
+//           return state.completedWidget;
+//         case LoadState.failed:
+//           return Image.asset(
+//             Assets.defaultProfileImage,
+//             width: width,
+//             height: height,
+//             fit: BoxFit.cover,
+//           );
+//       }
+//     },
+//   );
+
+//   return shape == BoxShape.rectangle
+//       ? ClipRRect(
+//           borderRadius: BorderRadius.circular(borderRadius),
+//           child: image,
+//         )
+//       : image;
+// }
 
 Widget editProfileExtendedImage(
     {String? profileImage,

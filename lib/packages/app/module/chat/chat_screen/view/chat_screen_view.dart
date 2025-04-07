@@ -1,10 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:field_king/components/unfocus_keyboard.dart';
 import 'package:field_king/packages/app/module/chat/chat_screen/controller/chat_screen_controller.dart';
+import 'package:field_king/packages/app/module/chat/image_gallery_view.dart';
 import 'package:field_king/packages/config.dart';
 import 'package:field_king/packages/routes/app_pages.dart';
 import 'package:field_king/services/app_bar.dart';
 import 'package:field_king/services/app_color/app_colors.dart';
+import 'package:field_king/services/common_code/common_code.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -16,11 +18,34 @@ class ChatScreenView extends StatefulWidget {
   State<ChatScreenView> createState() => _ChatScreenViewState();
 }
 
-class _ChatScreenViewState extends State<ChatScreenView> {
+class _ChatScreenViewState extends State<ChatScreenView>
+    with WidgetsBindingObserver {
   final controller = Get.put(ChatScreenController());
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    controller.scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    final bottomInset = WidgetsBinding.instance.window.viewInsets.bottom;
+    if (bottomInset > 0.0) {
+      controller.scrollToBottom();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: true,
       backgroundColor: AppColor.whiteColor,
       appBar: CustomAppBar(
         title: Text(
@@ -40,6 +65,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return Center(child: CircularProgressIndicator());
                 }
+                controller.scrollToBottom();
 
                 var chats = snapshot.data!.docs;
 
@@ -57,27 +83,87 @@ class _ChatScreenViewState extends State<ChatScreenView> {
 
                 return ListView.builder(
                   itemCount: chats.length,
+                  controller: controller.scrollController,
                   padding: EdgeInsets.all(10),
                   itemBuilder: (context, index) {
-                    var message = chats[index].data() as Map<String, dynamic>;
-                    bool isSender = message['senderId'] == Preference.userId;
+                    var chat = chats[index].data() as Map<String, dynamic>;
+                    bool isSender = chat['senderId'] == Preference.userId;
 
                     return Align(
                       alignment: isSender
                           ? Alignment.centerRight
                           : Alignment.centerLeft,
                       child: Container(
-                        margin: EdgeInsets.symmetric(vertical: 5),
-                        padding: EdgeInsets.all(10),
-                        decoration: BoxDecoration(
-                          color: isSender ? Colors.blue : Colors.grey[300],
-                          borderRadius: BorderRadius.circular(10),
+                        margin: EdgeInsets.symmetric(
+                          vertical: 5,
                         ),
-                        child: Text(
-                          message['message'] ?? '',
-                          style: TextStyle(
-                              color: isSender ? Colors.white : Colors.black),
-                        ),
+                        padding: chat['messageType'] == 'text'
+                            ? EdgeInsets.all(10)
+                            : EdgeInsets.all(0),
+                        decoration: chat['messageType'] == 'text'
+                            ? BoxDecoration(
+                                color:
+                                    isSender ? Colors.blue : Colors.grey[300],
+                                borderRadius: BorderRadius.circular(10),
+                              )
+                            : BoxDecoration(
+                                border: Border.all(
+                                  color: Colors.blue,
+                                  width: 2,
+                                ),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                        child: chat['messageType'] == 'text'
+                            ? Text(
+                                chat['message'] ?? '',
+                                style: TextStyle(
+                                    color:
+                                        isSender ? Colors.white : Colors.black),
+                              )
+                            : GestureDetector(
+                                onTap: () {
+                                  unFocusKeyboard();
+                                  final imageMessages = chats
+                                      .where((e) =>
+                                          (e.data() as Map<String, dynamic>)[
+                                              'messageType'] ==
+                                          'image')
+                                      .toList();
+
+                                  final currentImageIndex =
+                                      imageMessages.indexWhere(
+                                    (e) =>
+                                        (e.data() as Map<String, dynamic>)[
+                                            'mediaUrl'] ==
+                                        chat['mediaUrl'],
+                                  );
+
+                                  Get.to(
+                                    () => ImageGalleryView(
+                                      imageUrls: imageMessages
+                                          .map((e) => (e.data() as Map<String,
+                                              dynamic>)['mediaUrl'] as String)
+                                          .toList(),
+                                      initialIndex: currentImageIndex,
+                                    ),
+                                  );
+                                },
+                                child: extendedImage(
+                                  imageUrl: chat['mediaUrl'],
+                                  height: Get.height * 0.2,
+                                  width: Get.width * 0.7,
+                                  fit: BoxFit.fitWidth,
+                                  boxShap: BoxShape.rectangle,
+                                  catchHeight: 2000,
+                                  catchWidth: 2000,
+                                  circularProcessPadding: EdgeInsets.all(
+                                    100,
+                                  ),
+                                  BorderRadius: BorderRadius.circular(
+                                    10,
+                                  ),
+                                ),
+                              ),
                       ),
                     );
                   },
@@ -138,6 +224,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                           ),
                           child: GestureDetector(
                             onTap: () {
+                              controller.scrollToBottom();
                               controller.sendMessage(
                                 adminId: controller.adminId.value,
                                 message:
@@ -183,7 +270,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                 leading: Icon(Icons.attach_file, color: Colors.blue),
                 title: Text("Choose a File"),
                 onTap: () {
-                  Navigator.pop(context);
+                  Get.back();
                   controller.pickDocument();
                 },
               ),
@@ -191,7 +278,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                 leading: Icon(Icons.image, color: Colors.green),
                 title: Text("Pick from Gallery"),
                 onTap: () {
-                  Navigator.pop(context);
+                  Get.back();
                   controller.pickImageFromGallery();
                 },
               ),
@@ -199,7 +286,7 @@ class _ChatScreenViewState extends State<ChatScreenView> {
                 leading: Icon(Icons.camera_alt, color: Colors.red),
                 title: Text("Take a Photo"),
                 onTap: () {
-                  Navigator.pop(context);
+                  Get.back();
                   controller.takePhoto();
                 },
               ),

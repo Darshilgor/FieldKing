@@ -5,6 +5,8 @@ import 'package:field_king/packages/app/module/chat/iamge_preview.dart';
 import 'package:field_king/packages/app/module/chat/pdf_preview_screen.dart';
 import 'package:field_king/packages/config.dart';
 import 'package:field_king/services/firebase_services/firebase_services.dart';
+import 'package:field_king/services/google_services/google_services.dart';
+import 'package:field_king/services/toast_message/toast_message.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -16,6 +18,8 @@ class ChatScreenController extends GetxController {
   File? selectedFile;
   List<File>? imageFiles;
   Rx<TextEditingController> messageController = TextEditingController().obs;
+  final ScrollController scrollController = ScrollController();
+
   @override
   void onInit() {
     getArgument();
@@ -87,19 +91,23 @@ class ChatScreenController extends GetxController {
         }
 
         for (var pdf in pdfFiles) {
-          Get.to(() => PdfPreviewScreen(
-                fileName: pdf.toString(),
-                onSend: () {
-                  print('Send PDF: ${pdf.path}');
-                },
-              ));
+          Get.to(
+            () => PdfPreviewScreen(
+              fileName: pdf.toString(),
+              onSend: () {},
+            ),
+          );
         }
 
         if (imageFiles.isNotEmpty) {
-          Get.to(() => ImagePreviewScreen(
-                imageFiles: imageFiles,
-                onSend: () {},
-              ));
+          Get.to(
+            () => ImagePreviewScreen(
+              imageFiles: imageFiles,
+              onSend: () async {
+                await sendImagesInChat(imageFiles);
+              },
+            ),
+          );
         }
       } else {
         print("No file selected");
@@ -110,16 +118,130 @@ class ChatScreenController extends GetxController {
   }
 
   Future<void> pickImageFromGallery() async {
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-    if (image != null) {
-      File file = File(image.path);
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        allowMultiple: true,
+        type: FileType.image,
+      );
+
+      if (result != null && result.files.isNotEmpty) {
+        List<File> selectedImages = result.files
+            .where((file) => file.path != null)
+            .map((file) => File(file.path!))
+            .toList();
+
+        Get.to(
+          () => ImagePreviewScreen(
+            imageFiles: selectedImages,
+            onSend: () async {
+              await sendImagesInChat(selectedImages);
+            },
+          ),
+        );
+      } else {
+        print("No image selected.");
+      }
+    } catch (e) {
+      print("Error picking images: $e");
     }
   }
 
   Future<void> takePhoto() async {
-    final XFile? photo = await picker.pickImage(source: ImageSource.camera);
-    if (photo != null) {
-      File file = File(photo.path);
+    try {
+      String? userIds;
+
+      userIds = await Preference.userId;
+
+      String? docId = '${adminId.value}$userIds';
+
+      final XFile? photo = await picker.pickImage(source: ImageSource.camera);
+
+      if (photo != null) {
+        File imageFile = File(photo.path);
+        List<File> imageFileList = [];
+        imageFileList.add(imageFile);
+        List<String>? imageUrl =
+            await GoogleDriveService.uploadMultipleImagesToDrive(imageFileList);
+
+        if (imageUrl.isNotEmpty) {
+          imageUrl.forEach(
+            (url) async {
+              await FirebaseFirestore.instance
+                  .collection('Chats')
+                  .doc(docId)
+                  .collection('Messages')
+                  .add(
+                {
+                  'isRead': false,
+                  'senderId': userIds,
+                  'receiverId': adminId.value,
+                  'timestamp': DateTime.now(),
+                  'messageType': 'image',
+                  'message': '',
+                  'mediaUrl': url,
+                },
+              );
+            },
+          );
+
+          print("Chat message with images sent.");
+        } else {
+          print("No image URLs found.");
+        }
+      }
+    } catch (e) {
+      print("Error taking photo: $e");
     }
+  }
+
+  Future<void> sendImagesInChat(List<File> images) async {
+    String? userIds;
+
+    userIds = await Preference.userId;
+
+    String? docId = '${adminId.value}$userIds';
+
+    List<String> urls =
+        await GoogleDriveService.uploadMultipleImagesToDrive(images);
+
+    if (urls.isNotEmpty) {
+      urls.forEach(
+        (url) async {
+          await FirebaseFirestore.instance
+              .collection('Chats')
+              .doc(docId)
+              .collection('Messages')
+              .add(
+            {
+              'isRead': false,
+              'senderId': userIds,
+              'receiverId': adminId.value,
+              'timestamp': DateTime.now(),
+              'messageType': 'image',
+              'message': '',
+              'mediaUrl': url,
+            },
+          );
+        },
+      );
+
+      print("Chat message with images sent.");
+    } else {
+      print("No image URLs found.");
+    }
+    Get.back();
+  }
+
+  scrollToBottom() {
+    Future.delayed(
+      Duration(milliseconds: 100),
+      () {
+        scrollController.animateTo(
+          scrollController.position.maxScrollExtent,
+          duration: Duration(milliseconds: 300),
+          curve: Curves.easeOut,
+        );
+      },
+    );
   }
 }
