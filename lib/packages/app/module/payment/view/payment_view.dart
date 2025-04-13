@@ -7,6 +7,7 @@ import 'package:field_king/services/app_color/app_colors.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get_core/get_core.dart';
+import 'package:googleapis/androidpublisher/v3.dart';
 
 class PaymentView extends StatelessWidget {
   PaymentView({super.key});
@@ -47,20 +48,21 @@ class PaymentView extends StatelessWidget {
 
                       controller.totalOrderAmount?.value += (item?.orderType ==
                               'With GST')
-                          ? (double.tryParse(item?.orderMeter ?? '0') ?? 0) *
-                              (double.tryParse(item?.price ?? '0') ?? 0)
+                          ? ((double.tryParse(item?.orderMeter ?? '0') ?? 0) *
+                              (double.tryParse(item?.price ?? '0') ?? 0) *
+                              1.18)
                           : (item?.orderType == '50%')
-                              ? (((double.tryParse(item?.orderMeter ?? '0') ??
-                                              0) /
+                              ? (((double.tryParse(item?.orderMeter ?? '0') ?? 0) /
                                           2) *
                                       (double.tryParse(
                                               item?.chipestPrice ?? '0') ??
                                           0)) +
-                                  (((double.tryParse(item?.orderMeter ?? '0') ??
-                                              0) /
-                                          2) *
-                                      (double.tryParse(item?.price ?? '0') ??
-                                          0))
+                                  ((((double.tryParse(item?.orderMeter ?? '0') ??
+                                                  0) /
+                                              2) *
+                                          (double.tryParse(item?.price ?? '0') ??
+                                              0)) *
+                                      1.18)
                               : (double.tryParse(item?.orderMeter ?? '0') ?? 0) *
                                   (double.tryParse(item?.chipestPrice ?? '0') ??
                                       0);
@@ -94,48 +96,72 @@ class PaymentView extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisSize: MainAxisSize.max,
                                   children: [
-                                    Text((orderType == '50% with GST')
-                                        ? ((double.parse(
-                                                    item?.orderMeter ?? '0')) /
-                                                2)
-                                            .toString()
-                                        : (item?.orderMeter ?? '0')),
-                                    Text(
-                                      ' x ',
-                                    ),
-                                    Text(
-                                      (orderType == '50% with GST')
-                                          ? (item?.price ?? '')
-                                          : orderType == 'With GST'
+                                    Row(
+                                      children: [
+                                        Text((orderType == '50% with GST')
+                                            ? ((double.parse(item?.orderMeter ??
+                                                        '0')) /
+                                                    2)
+                                                .toString()
+                                            : (item?.orderMeter ?? '0')),
+                                        Text(
+                                          ' x ',
+                                        ),
+                                        Text(
+                                          (orderType == '50% with GST')
                                               ? (item?.price ?? '')
-                                              : (item?.chipestPrice ?? ''),
+                                              : orderType == 'With GST'
+                                                  ? (item?.price ?? '')
+                                                  : (item?.chipestPrice ?? ''),
+                                        ),
+                                        Visibility(
+                                          visible:
+                                              orderType == '50% with GST' ||
+                                                  orderType == 'With GST',
+                                          child: Text('  +  18%'),
+                                        ),
+                                      ],
+                                    ),
+                                    Visibility(
+                                      visible:
+                                          item?.orderType == '50% with GST',
+                                      child: Text(
+                                        (((double.tryParse(item?.orderMeter ??
+                                                            '0') ??
+                                                        0) /
+                                                    2) *
+                                                (double.tryParse(
+                                                        item?.price ?? '0') ??
+                                                    0))
+                                            .toStringAsFixed(2),
+                                      ),
                                     ),
                                   ],
                                 ),
-                                Visibility(
-                                  visible: orderType != '50% with GST',
-                                  child: Text(
-                                    (item?.orderType == 'With GST')
-                                        ? (double.parse(item?.orderMeter ?? '0') *
-                                                double.parse(
-                                                    item?.price ?? '0'))
-                                            .toStringAsFixed(
-                                                2) // Convert to 2 decimal places
-                                        : item?.orderType == '50%'
-                                            ? (((double.parse(item?.orderMeter ?? '0') / 2) *
-                                                        double.parse(
-                                                            item?.chipestPrice ??
-                                                                '0')) +
-                                                    ((double.parse(item?.orderMeter ?? '0') /
-                                                            2) *
-                                                        double.parse(item?.price ??
-                                                            '0')))
-                                                .toStringAsFixed(2)
-                                            : (double.parse(item?.orderMeter ?? '0') *
-                                                    double.parse(item?.chipestPrice ?? '0'))
-                                                .toStringAsFixed(2),
-                                  ),
+                                Text(
+                                  (item?.orderType == 'With GST')
+                                      ? (double.parse(item?.orderMeter ?? '0') *
+                                              double.parse(item?.price ?? '0') *
+                                              1.18)
+                                          .toStringAsFixed(2)
+                                      : item?.orderType == '50%'
+                                          ? ((double.parse(item?.orderMeter ??
+                                                          '0') /
+                                                      2) *
+                                                  double.parse(
+                                                      item?.price ?? '0') *
+                                                  1.18)
+                                              .toStringAsFixed(2)
+                                          : (double.parse(
+                                                      item?.orderMeter ?? '0') *
+                                                  double.parse(
+                                                      item?.chipestPrice ??
+                                                          '0'))
+                                              .toStringAsFixed(2),
                                 ),
                               ],
                             ),
@@ -166,20 +192,20 @@ class PaymentView extends StatelessWidget {
                                         ? (double.parse(item?.orderMeter ?? '0') *
                                                 double.parse(
                                                     item?.price ?? '0'))
-                                            .toStringAsFixed(
-                                                2) // Convert to 2 decimal places
+                                            .toStringAsFixed(2)
                                         : item?.orderType == '50%'
-                                            ? (((double.parse(item?.orderMeter ?? '0') / 2) *
-                                                        double.parse(
-                                                            item?.chipestPrice ??
-                                                                '0')) +
-                                                    ((double.parse(item?.orderMeter ?? '0') /
-                                                            2) *
-                                                        double.parse(item?.price ??
+                                            ? (((double.parse(
+                                                            item?.orderMeter ??
+                                                                '0') /
+                                                        2) *
+                                                    double.parse(
+                                                        item?.chipestPrice ??
                                                             '0')))
                                                 .toStringAsFixed(2)
                                             : (double.parse(item?.orderMeter ?? '0') *
-                                                    double.parse(item?.chipestPrice ?? '0'))
+                                                    double.parse(
+                                                        item?.chipestPrice ??
+                                                            '0'))
                                                 .toStringAsFixed(2),
                                   ),
                                 ],
@@ -202,7 +228,9 @@ class PaymentView extends StatelessWidget {
                                         'Total order meter',
                                       ),
                                       Text(
-                                        'Total price',
+                                        controller.totalOrderMeter?.value
+                                                .toString() ??
+                                            '',
                                       ),
                                     ],
                                   ),
@@ -211,15 +239,13 @@ class PaymentView extends StatelessWidget {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       Text(
-                                        controller.totalOrderMeter?.value
-                                                .toString() ??
-                                            '',
+                                        'Total price',
                                       ),
                                       Text(
                                         (controller.totalOrderAmount ??
                                                 RxDouble(0.0))
                                             .value
-                                            .toString(),
+                                            .toStringAsFixed(2),
                                       ),
                                     ],
                                   ),

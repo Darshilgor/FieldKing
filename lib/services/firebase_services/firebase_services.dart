@@ -132,7 +132,6 @@ class FirebaseFirestoreServices {
 
   /// add to cart.
   static Future<void> addToCart({Map<String, dynamic>? cableDetails}) async {
-    print('inside the add to cart');
     DocumentReference cartDocRef = FirebaseFirestore.instance
         .collection('Users')
         .doc(Preference.userId)
@@ -142,14 +141,9 @@ class FirebaseFirestoreServices {
     DocumentSnapshot cartDoc = await cartDocRef.get();
 
     if (cartDoc.exists) {
-      print('inside the cartdoc is exits');
-      print('cables details');
-      print(cableDetails);
       List<dynamic> cartList = List.from(cartDoc.get('cartList') ?? []);
 
       cartList.add(cableDetails);
-      print('cart list is');
-      print(cartList);
       await cartDocRef.update(
         {
           'cartList': cartList,
@@ -157,7 +151,6 @@ class FirebaseFirestoreServices {
         },
       );
     } else {
-      print('iside the is not exits.');
       await cartDocRef.set(
         {
           'cartList': [cableDetails],
