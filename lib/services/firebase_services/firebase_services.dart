@@ -567,4 +567,12 @@ class FirebaseFirestoreServices {
       },
     );
   }
+
+  static getOrderHistory() {
+    return firebaseFirestore
+        .collection('Users')
+        .doc(Preference.userId)
+        .collection('Order')
+        .snapshots();
+  }
 }

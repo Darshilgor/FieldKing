@@ -1,6 +1,7 @@
 import 'package:field_king/components/unfocus_keyboard.dart';
 import 'package:field_king/packages/app/model/get_product_model.dart';
 import 'package:field_king/packages/app/module/home_screen/controller/home_screen_controller.dart';
+import 'package:field_king/packages/app/module/tab_bar/controller/tab_bar_controller.dart';
 import 'package:field_king/packages/config.dart';
 import 'package:field_king/packages/routes/app_pages.dart';
 import 'package:field_king/services/app_bar.dart';
@@ -21,6 +22,28 @@ class HomeScreenView extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColor.whiteColor,
         appBar: CustomAppBar(
+          leadingWidget: Padding(
+            padding: const EdgeInsets.all(
+              8,
+            ),
+            child: GestureDetector(
+              onTap: () {
+                Get.find<TabbarController>()
+                    .tabBarKey
+                    .currentState
+                    ?.openDrawer();
+              },
+              child: SvgPicture.asset(
+                Assets.drawerIcon,
+                width: 15,
+                height: 15,
+                colorFilter: ColorFilter.mode(
+                  AppColor.blackColor,
+                  BlendMode.srcIn,
+                ),
+              ),
+            ),
+          ),
           title: Text(
             'Field King',
           ),
