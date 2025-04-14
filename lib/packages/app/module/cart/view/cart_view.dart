@@ -373,9 +373,19 @@ class CartView extends StatelessWidget {
                   buttonColor: AppColor.blackColor,
                   onTap: () {
                     /// move to payment screen.
-                    Get.toNamed(Routes.paymentView, arguments: {
-                      'cart': controller.cart,
-                    });
+
+                    Get.toNamed(
+                      Routes.orderAddressView,
+                      arguments: {
+                        'cart': controller.cart,
+                      },
+                    );
+                    // Get.toNamed(
+                    //   Routes.paymentView,
+                    //   arguments: {
+                    //     'cart': controller.cart,
+                    //   },
+                    // );
                     // controller.createOrder();
                   },
                   width: Get.width,

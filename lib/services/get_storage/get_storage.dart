@@ -19,6 +19,11 @@ class Preference {
   static const totalOrderMeterKey = 'totalOrderMeterKey';
   static const totalOrderAmountKey = 'totalOrderAmountKey';
   static const deviceIdKey = 'deviceIdKey';
+  static const orderFirstNameKey = 'orderFirstNameKey';
+  static const orderLastNameKey = 'orderLastNameKey';
+  static const orderBrandNameKey = 'orderBrandNameKey';
+  static const orderPhoneNoKey = 'orderPhoneNoKey';
+  static const orderLocationKey = 'orderLocationKey';
 
   init() async {
     await GetStorage.init(sbPreference);
@@ -86,4 +91,28 @@ class Preference {
   // User ID
   static String? get userId => box?.read<String>(userIdKey);
   static set userId(String? id) => box?.write(userIdKey, id);
+
+  // order first name
+  static String? get orderFirstName => box?.read<String>(orderFirstNameKey);
+  static set orderFirstName(String? name) =>
+      box?.write(orderFirstNameKey, name);
+
+  // order last name
+  static String? get orderLastName => box?.read<String>(orderLastNameKey);
+  static set orderLastName(String? name) => box?.write(orderLastNameKey, name);
+
+  // order brand name
+  static String? get orderBrandName => box?.read<String>(orderBrandNameKey);
+  static set orderBrandName(String? name) =>
+      box?.write(orderBrandNameKey, name);
+
+  // order phone no
+  static String? get orderPhoneNo => box?.read<String>(orderPhoneNoKey);
+  static set orderPhoneNo(String? phoneNo) =>
+      box?.write(orderPhoneNoKey, phoneNo);
+
+  // order location
+  static String? get orderLocation => box?.read<String>(orderLocationKey);
+  static set orderLocation(String? location) =>
+      box?.write(orderLocationKey, location);
 }

@@ -5,7 +5,8 @@ CreateOrderModel createOrderModelFromJson(String str) => CreateOrderModel.fromJs
 String createOrderModelToJson(CreateOrderModel data) => json.encode(data.toJson());
 
 class CreateOrderModel {
-    String? ppmoo;
+    String? ppmoo1; /// for without price per meter on order.
+    String? ppmoo2; ///  for with price per meter on order.
     String? flat;
     String? gej;
     bool? isDelete;
@@ -18,7 +19,8 @@ class CreateOrderModel {
     String? type;
 
     CreateOrderModel({
-        this.ppmoo,
+        this.ppmoo1,
+        this.ppmoo2,
         this.flat,
         this.gej,
         this.isDelete,
@@ -32,7 +34,8 @@ class CreateOrderModel {
     });
 
     factory CreateOrderModel.fromJson(Map<String, dynamic> json) => CreateOrderModel(
-        ppmoo: json["PPMOO"],
+        ppmoo1: json["PPMOO1"],
+        ppmoo2: json["PPMOO2"],
         flat: json["flat"],
         gej: json["gej"],
         isDelete: json["isDelete"],
@@ -46,7 +49,8 @@ class CreateOrderModel {
     );
 
     Map<String, dynamic> toJson() => {
-        "PPMOO": ppmoo,
+        "PPMOO1": ppmoo1,
+        "PPMOO2": ppmoo2,
         "flat": flat,
         "gej": gej,
         "isDelete": isDelete,

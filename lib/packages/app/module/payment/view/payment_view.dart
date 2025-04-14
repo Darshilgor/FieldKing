@@ -65,7 +65,7 @@ class PaymentView extends StatelessWidget {
                                       1.18)
                               : (double.tryParse(item?.orderMeter ?? '0') ?? 0) *
                                   (double.tryParse(item?.chipestPrice ?? '0') ??
-                                      0);
+                                      0); 
 
                       return Padding(
                         padding: const EdgeInsets.symmetric(

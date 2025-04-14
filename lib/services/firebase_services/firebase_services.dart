@@ -304,7 +304,14 @@ class FirebaseFirestoreServices {
     );
   }
 
-  static createOrder({Rx<CartModel?>? cart}) async {
+  static createOrder({
+    Rx<CartModel?>? cart,
+    String? firstname,
+    String? lastName,
+    String? brandName,
+    String? phoneNo,
+    String? location,
+  }) async {
     if (cart == null ||
         cart.value == null ||
         cart.value!.cartList == null ||
@@ -323,20 +330,29 @@ class FirebaseFirestoreServices {
         totalOrderAmount = (totalOrderAmount ?? 0.0) +
             double.parse((cartItem.orderType == 'With GST')
                 ? (double.parse(cartItem.orderMeter ?? '0') *
-                        double.parse(cartItem.price ?? '0'))
+                        double.parse(cartItem.price ?? '0') *
+                        (1.18))
                     .toStringAsFixed(2)
                 : cartItem.orderType == '50%'
                     ? (((double.parse(cartItem.orderMeter ?? '0') / 2) *
                                 double.parse(cartItem.chipestPrice ?? '0')) +
                             ((double.parse(cartItem.orderMeter ?? '0') / 2) *
-                                double.parse(cartItem.price ?? '0')))
+                                double.parse(cartItem.price ?? '0') *
+                                1.18))
                         .toStringAsFixed(2)
                     : (double.parse(cartItem.orderMeter ?? '0') *
                             double.parse(cartItem.chipestPrice ?? '0'))
                         .toStringAsFixed(2));
 
         return CreateOrderModel(
-          ppmoo: cartItem.price,
+          ppmoo1: (cartItem.orderType == 'Without GST' ||
+                  cartItem.orderType == '50%')
+              ? cartItem.chipestPrice
+              : '',
+          ppmoo2:
+              (cartItem.orderType == 'With GST' || cartItem.orderType == '50%')
+                  ? cartItem.price
+                  : '',
           flat: cartItem.flat,
           gej: cartItem.gej,
           isDelete: false,
@@ -346,9 +362,21 @@ class FirebaseFirestoreServices {
           subOrderId: generateRandomId(
             length: 20,
           ),
-          totalAmount: (double.parse(cartItem.orderMeter ?? '0') *
-                  double.parse(cartItem.price ?? '0'))
-              .toStringAsFixed(2),
+          totalAmount: cartItem.orderType == 'With GST'
+              ? (double.parse(cartItem.price ?? '0') *
+                      double.parse(cartItem.orderMeter ?? '0') *
+                      1.18)
+                  .toStringAsFixed(2)
+              : cartItem.orderType == 'Without GST'
+                  ? (double.parse(cartItem.orderMeter ?? '0') *
+                          double.parse(cartItem.chipestPrice ?? '0'))
+                      .toStringAsFixed(2)
+                  : ((double.parse(cartItem.orderMeter ?? '0') / 2) *
+                              (double.parse(cartItem.chipestPrice ?? '0')) +
+                          (double.parse(cartItem.orderMeter ?? '0') / 2) *
+                              (double.parse(cartItem.price ?? '0')) *
+                              1.18)
+                      .toStringAsFixed(2),
           totalMeter: cartItem.orderMeter,
           type: cartItem.type,
         ).toJson();
@@ -367,11 +395,19 @@ class FirebaseFirestoreServices {
         'order': orderList,
       },
     );
+    Map<String, dynamic> userDetails = {
+      'firstName': firstname,
+      'lastName': lastName,
+      'brandName': brandName,
+      'phoneNo': phoneNo,
+      'location': location,
+    };
     await documentReference.update(
       {
         'orderId': documentReference.id,
         'totalOrderAmout': totalOrderAmount,
         'totalOrderMeter': totalOrderMeter,
+        'userDetails': userDetails,
       },
     );
 
@@ -418,10 +454,11 @@ class FirebaseFirestoreServices {
     Preference.totalOrderMeter = userProfileTotalOrderMeter;
   }
 
-  static generateRandomId({int length = 20}) {
+  static String generateRandomId({int length = 20}) {
+    const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     final random = Random.secure();
-    final bytes = List<int>.generate(length, (_) => random.nextInt(256));
-    return base64Url.encode(bytes).replaceAll('=', '').substring(0, length);
+    return List.generate(length, (_) => letters[random.nextInt(letters.length)])
+        .join();
   }
 
   static Future<List<UserChatModel>> getAdminList() async {
