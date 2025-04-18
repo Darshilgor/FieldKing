@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:field_king/packages/app/model/cart_list_model.dart';
 import 'package:field_king/packages/app/model/createCartModel.dart';
 import 'package:field_king/packages/app/model/get_product_model.dart';
+import 'package:field_king/packages/app/model/order_history_model.dart';
 import 'package:field_king/packages/app/model/user_chat_model.dart';
 import 'package:field_king/packages/config.dart';
 import 'package:field_king/services/general_controller/general_controller.dart';
@@ -405,8 +406,8 @@ class FirebaseFirestoreServices {
     await documentReference.update(
       {
         'orderId': documentReference.id,
-        'totalOrderAmout': totalOrderAmount,
-        'totalOrderMeter': totalOrderMeter,
+        'totalOrderAmout': totalOrderAmount.toString(),
+        'totalOrderMeter': totalOrderMeter.toString(),
         'userDetails': userDetails,
       },
     );
@@ -569,10 +570,20 @@ class FirebaseFirestoreServices {
   }
 
   static getOrderHistory() {
-    return firebaseFirestore
+    RxList<OrderHistoryModel> orderHistoryList = <OrderHistoryModel>[].obs;
+
+    firebaseFirestore
         .collection('Users')
         .doc(Preference.userId)
         .collection('Order')
-        .snapshots();
+        .snapshots()
+        .listen((snapshot) {
+      orderHistoryList.value = snapshot.docs.map((e) {
+        final data = e.data();
+        return OrderHistoryModel.fromJson(data);
+      }).toList();
+    });
+
+    return orderHistoryList;
   }
 }

@@ -14,6 +14,7 @@ abstract class Routes {
   static const chatScreenView = _Paths.chatScreenView;
   static const orderAddressView = _Paths.orderAddressView;
   static const orderHistoryView = _Paths.orderHistoryView;
+  static const orderHistoryDetailsView = _Paths.orderHistoryDetailsView;
 }
 
 abstract class _Paths {
@@ -30,4 +31,5 @@ abstract class _Paths {
   static const chatScreenView = '/chat-screen-view';
   static const orderAddressView = '/order-address-view';
   static const orderHistoryView = '/order-history-view';
+  static const orderHistoryDetailsView = '/order-history-details-view';
 }
