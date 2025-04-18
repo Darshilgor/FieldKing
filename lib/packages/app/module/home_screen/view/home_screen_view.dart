@@ -234,6 +234,7 @@ class HomeScreenView extends StatelessWidget {
                           ),
                         ),
                       ),
+
                       Obx(
                         () => Visibility(
                           visible: controller.products[index].isExpanded.value,
