@@ -360,6 +360,7 @@ class FirebaseFirestoreServices {
           isWithGst: cartItem.orderType,
           orderStatus: "Pending",
           size: cartItem.size,
+          deliverDate: null,
           subOrderId: generateRandomId(
             length: 20,
           ),
@@ -576,6 +577,7 @@ class FirebaseFirestoreServices {
         .collection('Users')
         .doc(Preference.userId)
         .collection('Order')
+        .orderBy('createdAt',descending: true)
         .snapshots()
         .listen((snapshot) {
       orderHistoryList.value = snapshot.docs.map((e) {

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 CreateOrderModel createOrderModelFromJson(String str) => CreateOrderModel.fromJson(json.decode(str));
 
 String createOrderModelToJson(CreateOrderModel data) => json.encode(data.toJson());
@@ -17,6 +19,7 @@ class CreateOrderModel {
     String? totalAmount;
     String? totalMeter;
     String? type;
+    Timestamp? deliverDate;
 
     CreateOrderModel({
         this.ppmoo1,
@@ -31,6 +34,8 @@ class CreateOrderModel {
         this.totalAmount,
         this.totalMeter,
         this.type,
+        this.deliverDate,
+
     });
 
     factory CreateOrderModel.fromJson(Map<String, dynamic> json) => CreateOrderModel(
@@ -46,6 +51,7 @@ class CreateOrderModel {
         totalAmount: json["totalAmount"],
         totalMeter: json["totalMeter"],
         type: json["type"],
+        deliverDate: json["deliverDate"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -61,5 +67,6 @@ class CreateOrderModel {
         "totalAmount": totalAmount,
         "totalMeter": totalMeter,
         "type": type,
+        "deliverDate": deliverDate,
     };
 }

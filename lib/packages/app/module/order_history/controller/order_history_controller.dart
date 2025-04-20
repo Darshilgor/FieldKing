@@ -14,5 +14,7 @@ class OrderHistoryController extends GetxController {
 
   getOrderHistory() {
     orderHistoryList.value = FirebaseFirestoreServices.getOrderHistory();
+
+    orderHistoryList.refresh();
   }
 }

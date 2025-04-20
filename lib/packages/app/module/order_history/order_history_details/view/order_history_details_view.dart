@@ -3,6 +3,7 @@ import 'package:field_king/packages/app/module/order_history/order_history_detai
 import 'package:field_king/packages/config.dart';
 import 'package:field_king/services/app_bar.dart';
 import 'package:field_king/services/common_code/common_code.dart';
+import 'package:field_king/services/date_utils/date_utils.dart';
 
 class OrderHistoryDetailsView extends StatelessWidget {
   OrderHistoryDetailsView({super.key});
@@ -64,6 +65,39 @@ class OrderHistoryDetailsView extends StatelessWidget {
                       ),
                     ],
                   ),
+                  Visibility(
+                    visible: order.isWithGST != 'With GST',
+                    child: Column(
+                      children: [
+                        Gap(5),
+                        Row(
+                          children: [
+                            Text('Price : '),
+                            Text(
+                              order.PPMOO1 ?? '',
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                  Visibility(
+                    visible: order.isWithGST == 'With GST' ||
+                        order.isWithGST == '50%',
+                    child: Column(
+                      children: [
+                        Gap(5),
+                        Row(
+                          children: [
+                            Text('GST price : '),
+                            Text(
+                              order.PPMOO2 ?? '',
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                   Gap(5),
                   Row(
                     children: [
@@ -102,6 +136,31 @@ class OrderHistoryDetailsView extends StatelessWidget {
                       ),
                     ],
                   ),
+                  Gap(5),
+                 
+                 
+                 
+                  Row(
+                    children: [
+                      Text('Delivered Date : '),
+                      Text(
+                        DateUtilities.formatFirestoreDate(
+                            order.deliverDate,
+                          )=='Invalid Date' ?'Deliver soon!':DateUtilities.formatFirestoreDate(
+                            order.deliverDate,
+                          ),
+                      ),
+                    ],
+                  ),
+
+
+
+
+
+
+
+
+
                 ],
               ),
             ),

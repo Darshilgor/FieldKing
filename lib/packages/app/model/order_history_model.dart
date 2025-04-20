@@ -65,6 +65,7 @@ class OrderHistoryItem {
   final String? totalAmount;
   final String? totalMeter;
   final String? type;
+  final Timestamp? deliverDate;
 
   OrderHistoryItem({
     this.PPMOO1,
@@ -79,6 +80,7 @@ class OrderHistoryItem {
     this.totalAmount,
     this.totalMeter,
     this.type,
+    this.deliverDate,
   });
 
   factory OrderHistoryItem.fromJson(Map<String, dynamic> json) {
@@ -95,6 +97,7 @@ class OrderHistoryItem {
       totalAmount: json['totalAmount'],
       totalMeter: json['totalMeter'],
       type: json['type'],
+      deliverDate: json['deliverDate'],
     );
   }
 
@@ -112,6 +115,7 @@ class OrderHistoryItem {
       'totalAmount': totalAmount,
       'totalMeter': totalMeter,
       'type': type,
+      'deliverDate': deliverDate,
     };
   }
 }
