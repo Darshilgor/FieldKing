@@ -8,6 +8,7 @@ import 'package:field_king/services/firebase_services/firebase_services.dart';
 import 'package:field_king/services/google_services/google_services.dart';
 import 'package:field_king/services/toast_message/toast_message.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ChatScreenController extends GetxController {
@@ -27,11 +28,13 @@ class ChatScreenController extends GetxController {
   }
 
   Stream<QuerySnapshot> getChatHistory({
-    required String userId,
-    required String adminId,
+    String? userId,
+    String? adminId,
   }) {
     return FirebaseFirestoreServices.getChatHistory(
-        userId: userId, adminId: adminId);
+      userId: userId ?? '',
+      adminId: adminId ?? '',
+    );
   }
 
   getArgument() {
@@ -194,42 +197,135 @@ class ChatScreenController extends GetxController {
     }
   }
 
+//   Future<void> sendImagesInChat(List<File> images) async {
+//     String? userIds;
+//     List<String> uploadedUrls = [];
+
+//     userIds = await Preference.userId;
+
+//     String? docId = '${adminId.value}$userIds';
+//     String chatFolderName = '${adminId.value}${Preference.userId}';
+//     String chatPath = 'Chat/$chatFolderName';
+
+//     /// upload image in google drive and get the urls.
+//     // List<String> urls =
+//     //     await GoogleDriveService.uploadMultipleImagesToDrive(images);
+
+//    try{
+//  for (File file in images) {
+//       print('file is $file');
+//       String fileName = DateTime.now().millisecondsSinceEpoch.toString();
+//       String extension = file.path.split('.').last;
+//       Reference storageRef = FirebaseStorage.instance
+//           .ref()
+//           .child('$chatPath/$docId/$fileName.$extension');
+
+//       UploadTask uploadTask = storageRef.putFile(file);
+
+//       try {
+//         TaskSnapshot snapshot = await uploadTask;
+//         String downloadUrl = await snapshot.ref.getDownloadURL();
+//         print('downlaod url is $downloadUrl');
+
+//         uploadedUrls.add(downloadUrl);
+//       } catch (e) {
+//         print("Error uploading file: $e");
+//       }
+//     }
+
+//    }
+//    catch(e)
+//    {
+//     print('main error is $e');
+//    }
+
+//     uploadedUrls.forEach(
+//       (url) async {
+//         await FirebaseFirestore.instance
+//             .collection('Chats')
+//             .doc(docId)
+//             .collection('Messages')
+//             .add(
+//           {
+//             'isRead': false,
+//             'senderId': userIds,
+//             'receiverId': adminId.value,
+//             'timestamp': DateTime.now(),
+//             'messageType': 'image',
+//             'message': '',
+//             'mediaUrl': url,
+//           },
+//         );
+//       },
+//     );
+
+//     print("Chat message with images sent.");
+
+//     Get.back();
+//   }
   Future<void> sendImagesInChat(List<File> images) async {
-    String? userIds;
+    try {
+      final userId = await Preference.userId;
+      final admin = adminId.value;
 
-    userIds = await Preference.userId;
+      if (userId == null || admin.isEmpty) {
+        print("User ID or Admin ID is null or empty. Cannot proceed.");
+        return;
+      }
 
-    String? docId = '${adminId.value}$userIds';
+      final docId = '$admin$userId';
+      final chatFolderName = '$admin$userId';
+      final chatPath = 'Chat/$chatFolderName';
 
-    List<String> urls =
-        await GoogleDriveService.uploadMultipleImagesToDrive(images);
+      List<String> uploadedUrls = [];
 
-    if (urls.isNotEmpty) {
-      urls.forEach(
-        (url) async {
+      for (File file in images) {
+        try {
+          final fileName = DateTime.now().millisecondsSinceEpoch.toString();
+          final extension = file.path.split('.').last;
+          final fullPath = '$chatPath/$docId/$fileName.$extension';
+
+
+          final ref = FirebaseStorage.instance.ref().child(fullPath);
+          final uploadTask = ref.putFile(
+            file,
+            SettableMetadata(),
+          );
+          final snapshot = await uploadTask;
+          final downloadUrl = await snapshot.ref.getDownloadURL();
+
+
+          uploadedUrls.add(downloadUrl);
+        } catch (e, stackTrace) {
+          print("Error uploading file: $e");
+        }
+      }
+
+      for (String url in uploadedUrls) {
+        try {
           await FirebaseFirestore.instance
               .collection('Chats')
               .doc(docId)
               .collection('Messages')
-              .add(
-            {
-              'isRead': false,
-              'senderId': userIds,
-              'receiverId': adminId.value,
-              'timestamp': DateTime.now(),
-              'messageType': 'image',
-              'message': '',
-              'mediaUrl': url,
-            },
-          );
-        },
-      );
+              .add({
+            'isRead': false,
+            'senderId': userId,
+            'receiverId': admin,
+            'timestamp': DateTime.now(),
+            'messageType': 'image',
+            'message': '',
+            'mediaUrl': url,
+          });
+        } catch (e) {
+          print("Error writing to Firestore: $e");
+        }
+      }
 
-      print("Chat message with images sent.");
-    } else {
-      print("No image URLs found.");
+      print("✅ Chat message with images sent.");
+      Get.back();
+    } catch (e) {
+      print('❌ Main error: $e');
     }
-    Get.back();
   }
 
   scrollToBottom() {

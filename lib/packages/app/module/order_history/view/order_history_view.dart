@@ -21,7 +21,6 @@ class OrderHistoryView extends StatelessWidget {
         isLeading: true,
       ),
       body:
-      /// add push from vs code.
        Obx(
         () => ListView.builder(
           itemCount: controller.orderHistoryList.length,

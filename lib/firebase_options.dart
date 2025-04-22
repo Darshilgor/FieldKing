@@ -58,7 +58,7 @@ class DefaultFirebaseOptions {
     appId: '1:285996212161:android:52c07d8e60672cb36ed940',
     messagingSenderId: '285996212161',
     projectId: 'field-king-515db',
-    storageBucket: 'field-king-515db.appspot.com',
+    storageBucket: 'field-king-515db.firebasestorage.app',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
@@ -66,7 +66,7 @@ class DefaultFirebaseOptions {
     appId: '1:285996212161:ios:745934a26b2bc2156ed940',
     messagingSenderId: '285996212161',
     projectId: 'field-king-515db',
-    storageBucket: 'field-king-515db.appspot.com',
+    storageBucket: 'field-king-515db.firebasestorage.app',
     iosBundleId: 'com.example.fieldKing',
   );
 
