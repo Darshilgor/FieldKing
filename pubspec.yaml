@@ -75,6 +75,9 @@ dependencies:
   intl: ^0.19.0
   file_picker: ^8.0.7
   smooth_page_indicator: ^1.2.1
+  flutter_easyloading: ^3.0.5
+  flutter_cached_pdfview: ^0.4.3
+  flutter_pdfview: ^1.4.0+1
 
 dev_dependencies:
   flutter_test:

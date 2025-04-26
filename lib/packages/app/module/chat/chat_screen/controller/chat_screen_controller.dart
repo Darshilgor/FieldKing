@@ -6,9 +6,11 @@ import 'package:field_king/packages/app/module/chat/pdf_preview_screen.dart';
 import 'package:field_king/packages/config.dart';
 import 'package:field_king/services/firebase_services/firebase_services.dart';
 import 'package:field_king/services/google_services/google_services.dart';
+import 'package:field_king/services/show_loader.dart';
 import 'package:field_king/services/toast_message/toast_message.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ChatScreenController extends GetxController {
@@ -68,16 +70,78 @@ class ChatScreenController extends GetxController {
     );
   }
 
+  // Future<void> pickDocument() async {
+  //   try {
+  //     FilePickerResult? result = await FilePicker.platform.pickFiles(
+  //       allowMultiple: true,
+  //       type: FileType.custom,
+  //       allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png'],
+  //     );
+
+  //     if (result != null && result.files.isNotEmpty) {
+  //       List<File> imageFiles = [];
+  //       List<File> pdfFiles = [];
+
+  //       for (var file in result.files) {
+  //         if (file.path != null) {
+  //           File selectedFile = File(file.path!);
+  //           String ext = selectedFile.path.split('.').last.toLowerCase();
+
+  //           if (['jpg', 'jpeg', 'png'].contains(ext)) {
+  //             imageFiles.add(selectedFile);
+  //           } else if (ext == 'pdf') {
+  //             pdfFiles.add(selectedFile);
+  //           }
+  //         }
+  //       }
+
+  //       if (pdfFiles.isNotEmpty) {
+  //         if (pdfFiles.length > 1) {
+  //           pdfFiles = [pdfFiles.first];
+  //           print("Only one PDF is allowed.");
+  //         }
+
+  //         Get.to(() => PdfPreviewScreen(
+  //               pdfFile: pdfFiles.first,
+  //               onSend: () async {
+  //                 ShowLoader.showEasyLoader();
+  //                 await sendPdfInChat(pdfFiles.first);
+  //                 EasyLoading.dismiss();
+  //                 Get.back();
+  //               },
+  //             ));
+  //       }
+
+  //       if (imageFiles.isNotEmpty) {
+  //         Get.to(
+  //           () => ImagePreviewScreen(
+  //             imageFiles: imageFiles,
+  //             onSend: () async {
+  //               ShowLoader.showEasyLoader();
+  //               await sendImagesInChat(imageFiles);
+  //               EasyLoading.dismiss();
+  //               Get.back();
+  //             },
+  //           ),
+  //         );
+  //       }
+  //     } else {
+  //       print("No file selected");
+  //     }
+  //   } catch (e) {
+  //     print("Error picking document: $e");
+  //   }
+  // }
+
   Future<void> pickDocument() async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
-        allowMultiple: true,
+        allowMultiple: false, 
         type: FileType.custom,
-        allowedExtensions: ['pdf', 'jpg', 'jpeg', 'png'],
+        allowedExtensions: ['pdf'], 
       );
 
       if (result != null && result.files.isNotEmpty) {
-        List<File> imageFiles = [];
         List<File> pdfFiles = [];
 
         for (var file in result.files) {
@@ -85,32 +149,24 @@ class ChatScreenController extends GetxController {
             File selectedFile = File(file.path!);
             String ext = selectedFile.path.split('.').last.toLowerCase();
 
-            if (['jpg', 'jpeg', 'png'].contains(ext)) {
-              imageFiles.add(selectedFile);
-            } else if (ext == 'pdf') {
+            // Check if the selected file is a PDF
+            if (ext == 'pdf') {
               pdfFiles.add(selectedFile);
             }
           }
         }
 
-        for (var pdf in pdfFiles) {
-          Get.to(
-            () => PdfPreviewScreen(
-              fileName: pdf.toString(),
-              onSend: () {},
-            ),
-          );
-        }
-
-        if (imageFiles.isNotEmpty) {
-          Get.to(
-            () => ImagePreviewScreen(
-              imageFiles: imageFiles,
-              onSend: () async {
-                await sendImagesInChat(imageFiles);
-              },
-            ),
-          );
+        if (pdfFiles.isNotEmpty) {
+          Get.to(() => PdfPreviewScreen(
+                pdfFile: pdfFiles
+                    .first, // Only the first PDF (since we allow only one)
+                onSend: () async {
+                  ShowLoader.showEasyLoader();
+                  await sendPdfInChat(pdfFiles.first);
+                  EasyLoading.dismiss();
+                  Get.back();
+                },
+              ));
         }
       } else {
         print("No file selected");
@@ -137,7 +193,11 @@ class ChatScreenController extends GetxController {
           () => ImagePreviewScreen(
             imageFiles: selectedImages,
             onSend: () async {
+              ShowLoader.showEasyLoader();
+
               await sendImagesInChat(selectedImages);
+              EasyLoading.dismiss();
+              Get.back();
             },
           ),
         );
@@ -149,51 +209,109 @@ class ChatScreenController extends GetxController {
     }
   }
 
+  // Future<void> takePhoto() async {
+  //   try {
+  //     String? userIds;
+
+  //     userIds = await Preference.userId;
+
+  //     String? docId = '${adminId.value}$userIds';
+
+  //     final XFile? photo = await picker.pickImage(source: ImageSource.camera);
+
+  //     if (photo != null) {
+  //       File imageFile = File(photo.path);
+  //       List<File> imageFileList = [];
+  //       imageFileList.add(imageFile);
+  //       List<String>? imageUrl =
+  //           await GoogleDriveService.uploadMultipleImagesToDrive(imageFileList);
+
+  //       if (imageUrl.isNotEmpty) {
+  //         imageUrl.forEach(
+  //           (url) async {
+  //             await FirebaseFirestore.instance
+  //                 .collection('Chats')
+  //                 .doc(docId)
+  //                 .collection('Messages')
+  //                 .add(
+  //               {
+  //                 'isRead': false,
+  //                 'senderId': userIds,
+  //                 'receiverId': adminId.value,
+  //                 'timestamp': DateTime.now(),
+  //                 'messageType': 'image',
+  //                 'message': '',
+  //                 'mediaUrl': url,
+  //               },
+  //             );
+  //           },
+  //         );
+
+  //         print("Chat message with images sent.");
+  //       } else {
+  //         print("No image URLs found.");
+  //       }
+  //     }
+  //   } catch (e) {
+  //     print("Error taking photo: $e");
+  //   }
+  // }
   Future<void> takePhoto() async {
     try {
-      String? userIds;
+      final userIds = await Preference.userId;
+      final admin = adminId.value;
 
-      userIds = await Preference.userId;
+      if (userIds == null || admin.isEmpty) {
+        print("User ID or Admin ID is null or empty. Cannot proceed.");
+        return;
+      }
 
-      String? docId = '${adminId.value}$userIds';
+      final docId = '$admin$userIds';
+      final chatPath = 'Chat/$docId';
 
       final XFile? photo = await picker.pickImage(source: ImageSource.camera);
 
+      ShowLoader.showEasyLoader();
+
       if (photo != null) {
         File imageFile = File(photo.path);
-        List<File> imageFileList = [];
-        imageFileList.add(imageFile);
-        List<String>? imageUrl =
-            await GoogleDriveService.uploadMultipleImagesToDrive(imageFileList);
 
-        if (imageUrl.isNotEmpty) {
-          imageUrl.forEach(
-            (url) async {
-              await FirebaseFirestore.instance
-                  .collection('Chats')
-                  .doc(docId)
-                  .collection('Messages')
-                  .add(
-                {
-                  'isRead': false,
-                  'senderId': userIds,
-                  'receiverId': adminId.value,
-                  'timestamp': DateTime.now(),
-                  'messageType': 'image',
-                  'message': '',
-                  'mediaUrl': url,
-                },
-              );
-            },
-          );
+        final fileName = DateTime.now().millisecondsSinceEpoch.toString();
+        final extension = imageFile.path.split('.').last;
+        final fullPath = '$chatPath/$fileName.$extension';
 
-          print("Chat message with images sent.");
-        } else {
-          print("No image URLs found.");
-        }
+        final ref = FirebaseStorage.instance.ref().child(fullPath);
+
+        final uploadTask = ref.putFile(
+          imageFile,
+          SettableMetadata(),
+        );
+
+        final snapshot = await uploadTask;
+        final downloadUrl = await snapshot.ref.getDownloadURL();
+
+        await FirebaseFirestore.instance
+            .collection('Chats')
+            .doc(docId)
+            .collection('Messages')
+            .add({
+          'isRead': false,
+          'senderId': userIds,
+          'receiverId': admin,
+          'timestamp': DateTime.now(),
+          'messageType': 'image',
+          'message': '',
+          'mediaUrl': downloadUrl,
+        });
+
+        print("✅ Chat message with image sent.");
+      } else {
+        print("No photo captured.");
       }
+      EasyLoading.dismiss();
     } catch (e) {
-      print("Error taking photo: $e");
+      Get.back();
+      print("❌ Error taking photo and uploading: $e");
     }
   }
 
@@ -283,8 +401,7 @@ class ChatScreenController extends GetxController {
         try {
           final fileName = DateTime.now().millisecondsSinceEpoch.toString();
           final extension = file.path.split('.').last;
-          final fullPath = '$chatPath/$docId/$fileName.$extension';
-
+          final fullPath = '$chatPath/$fileName.$extension';
 
           final ref = FirebaseStorage.instance.ref().child(fullPath);
           final uploadTask = ref.putFile(
@@ -293,7 +410,6 @@ class ChatScreenController extends GetxController {
           );
           final snapshot = await uploadTask;
           final downloadUrl = await snapshot.ref.getDownloadURL();
-
 
           uploadedUrls.add(downloadUrl);
         } catch (e, stackTrace) {
@@ -320,10 +436,9 @@ class ChatScreenController extends GetxController {
           print("Error writing to Firestore: $e");
         }
       }
-
       print("✅ Chat message with images sent.");
-      Get.back();
     } catch (e) {
+      Get.back();
       print('❌ Main error: $e');
     }
   }
@@ -339,5 +454,55 @@ class ChatScreenController extends GetxController {
         );
       },
     );
+  }
+
+  Future<void> sendPdfInChat(File pdfFile) async {
+    try {
+      final userId = await Preference.userId;
+      final admin = adminId.value;
+
+      if (userId == null || admin.isEmpty) {
+        print("User ID or Admin ID is null or empty. Cannot proceed.");
+        return;
+      }
+
+      final docId = '$admin$userId';
+      final chatFolderName = '$admin$userId';
+      final chatPath = 'Chat/$chatFolderName';
+
+      // Upload PDF to Firebase Storage
+      final fileName = DateTime.now().millisecondsSinceEpoch.toString();
+      final extension = pdfFile.path.split('.').last;
+      final fullPath = '$chatPath/$fileName.$extension';
+
+      final ref = FirebaseStorage.instance.ref().child(fullPath);
+      final uploadTask = ref.putFile(
+        pdfFile,
+        SettableMetadata(contentType: 'application/pdf'),
+      );
+      final snapshot = await uploadTask;
+      final downloadUrl = await snapshot.ref.getDownloadURL();
+
+      // Send PDF URL to Firestore
+      await FirebaseFirestore.instance
+          .collection('Chats')
+          .doc(docId)
+          .collection('Messages')
+          .add(
+        {
+          'isRead': false,
+          'senderId': userId,
+          'receiverId': admin,
+          'timestamp': DateTime.now(),
+          'messageType': 'pdf',
+          'message': '',
+          'mediaUrl': downloadUrl,
+        },
+      );
+
+      print("✅ Chat message with PDF sent.");
+    } catch (e) {
+      print('❌ Error sending PDF: $e');
+    }
   }
 }

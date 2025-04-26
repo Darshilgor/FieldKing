@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:field_king/packages/config.dart';
 import 'package:field_king/packages/routes/app_pages.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 @pragma('vm:entry-point')
 Future<void> backgroundNotificationHandler(RemoteMessage message) async {
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
       getPages: AppPages.routes,
       initialRoute: Routes.splashScreen,
       // Routes.splashScreen, 
+      builder: EasyLoading.init(),
     );
   }
 }

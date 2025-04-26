@@ -558,8 +558,8 @@ class FirebaseFirestoreServices {
         'mediaUrl': '',
         'message': message,
         'messageType': messageType,
-        'receiverId': senderIsAdmin == true ? userId : adminId,
-        'senderId': senderIsAdmin == true ? adminId : userId,
+        'receiverId':adminId,
+        'senderId': userId,
         'timestamp': DateTime.now(),
       },
     );
