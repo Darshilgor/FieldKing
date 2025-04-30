@@ -29,7 +29,7 @@ class UserChatModel {
   String? deviceId;
   List<Contact>? contactList; // List of Contact objects
   String? firstName;
-  bool? isActive;
+  bool? isOnline;
   DateTime? lastActive;
   DateTime? createdAt;
   String? lastName;
@@ -44,7 +44,7 @@ class UserChatModel {
     this.brandName,
     this.deviceId,
     this.firstName,
-    this.isActive,
+    this.isOnline,
     this.lastActive,
     this.lastName,
     this.phoneNo,
@@ -65,7 +65,7 @@ class UserChatModel {
       address: json['address'],
       deviceId: json['deviceId'],
       firstName: json['firstName'],
-      isActive: json['isActive'],
+      isOnline: json['isOnline'],
       lastActive: json['lastActive'] != null
           ? (json['lastActive'] is Timestamp
               ? (json['lastActive'] as Timestamp).toDate()
@@ -95,7 +95,7 @@ class UserChatModel {
       'brandName': brandName,
       'deviceId': deviceId,
       'firstName': firstName,
-      'isActive': isActive,
+      'isOnline': isOnline,
       'lastActive': lastActive?.toIso8601String(), // Convert DateTime to String
       'createdAt': createdAt?.toIso8601String(), // Convert DateTime to String
       'lastName': lastName,

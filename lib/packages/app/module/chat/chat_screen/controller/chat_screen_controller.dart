@@ -505,4 +505,17 @@ class ChatScreenController extends GetxController {
       print('❌ Error sending PDF: $e');
     }
   }
+
+  Stream<bool> getUserStatus() {
+    String userId = Preference.userId ?? ''; 
+    return FirebaseFirestoreServices.getUserChatStatus(userId: userId);
+  }
+
+  updateTypingStatus({String? value})
+  async {
+      FirebaseFirestoreServices.updateUserIsTypingStatus(
+        isTyping: (value??'').isNotEmpty?true:false,
+        userId: await Preference.userId,
+      );
+  }
 }

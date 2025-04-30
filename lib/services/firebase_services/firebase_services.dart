@@ -558,7 +558,7 @@ class FirebaseFirestoreServices {
         'mediaUrl': '',
         'message': message,
         'messageType': messageType,
-        'receiverId':adminId,
+        'receiverId': adminId,
         'senderId': userId,
         'timestamp': DateTime.now(),
       },
@@ -577,7 +577,7 @@ class FirebaseFirestoreServices {
         .collection('Users')
         .doc(Preference.userId)
         .collection('Order')
-        .orderBy('createdAt',descending: true)
+        .orderBy('createdAt', descending: true)
         .snapshots()
         .listen((snapshot) {
       orderHistoryList.value = snapshot.docs.map((e) {
@@ -587,5 +587,32 @@ class FirebaseFirestoreServices {
     });
 
     return orderHistoryList;
+  }
+
+  static Stream<bool> getUserChatStatus({String? userId}) {
+    return firebaseFirestore
+        .collection('Users')
+        .doc(userId)
+        .snapshots() // Listen for changes to the user document
+        .map((snapshot) {
+      // Check if the snapshot data exists and if 'isTyping' field exists
+      if (snapshot.exists && snapshot.data() != null) {
+        bool isTyping = snapshot.data()!['isTyping'] ??
+            false; // Default to false if not found
+        return isTyping;
+      }
+      return false; // Return false if document doesn't exist or no 'isTyping' field
+    });
+  }
+
+  static Future<void> updateUserIsTypingStatus({
+    bool? isTyping,
+    String? userId,
+  }) async {
+    await firebaseFirestore.collection('Users').doc(userId).update(
+      {
+        'isTyping': isTyping,
+      },
+    );
   }
 }

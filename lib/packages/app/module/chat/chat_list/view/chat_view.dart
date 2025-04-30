@@ -70,7 +70,7 @@ class ChatView extends StatelessWidget {
                           '${controller.user[index].firstName} ${controller.user[index].lastName}',
                         ),
                         Text(
-                          controller.user[index].isActive == false
+                          controller.user[index].isOnline == false
                               ? 'last active ${CommonCalculation.lastActive(
                                   lastActive: controller.user[index].lastActive,
                                 )}'
