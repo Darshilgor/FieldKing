@@ -47,7 +47,7 @@ class _ChatScreenViewState extends State<ChatScreenView>
   @override
   Widget build(BuildContext context) {
     return PopScope(
-      canPop: false,
+      canPop: true,
       child: Scaffold(
         resizeToAvoidBottomInset: true,
         backgroundColor: AppColor.whiteColor,
@@ -136,7 +136,7 @@ class _ChatScreenViewState extends State<ChatScreenView>
                                       : chat['messageType'] == 'image'
                                           ? GestureDetector(
                                               onTap: () {
-                                                unFocusKeyboard();
+                                                closeKeyboard();
                                                 final imageMessages = chats
                                                     .where((e) =>
                                                         (e.data() as Map<String,
@@ -188,7 +188,7 @@ class _ChatScreenViewState extends State<ChatScreenView>
                                           : GestureDetector(
                                               onTap: () {
                                                 // Open PDF Viewer
-                                                unFocusKeyboard();
+                                                closeKeyboard();
                                                 Get.to(
                                                   () => PdfViewerScreen(
                                                     pdfUrl: chat['mediaUrl'],

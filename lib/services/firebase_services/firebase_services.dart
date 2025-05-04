@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:core';
 import 'dart:math';
 
@@ -57,6 +56,7 @@ class FirebaseAuthServices {
         verificationId: verificationId,
         smsCode: otp,
       );
+      print('credential $credential');
 
       UserCredential userCredential =
           await auth.signInWithCredential(credential);
@@ -454,6 +454,36 @@ class FirebaseFirestoreServices {
     );
     Preference.totalOrderAmount = userProfileTotalOrderAmount;
     Preference.totalOrderMeter = userProfileTotalOrderMeter;
+
+    /// add to order list collection.
+    DocumentReference orderListDocument =
+        await firebaseFirestore.collection('OrderList').add(
+      {
+        'createdAt': DateTime.now(),
+        'paymentStatus': false,
+        'paymentType': 'Offline',
+        'order': orderList,
+      },
+    );
+    Map<String, dynamic> orderListUserDetails = {
+      'firstName': firstname,
+      'lastName': lastName,
+      'brandName': brandName,
+      'phoneNo': phoneNo,
+      'location': location,
+      'deviceId': Preference.deviceId,
+      'profilePhoto': Preference.profileImage,
+      'userId': Preference.userId,
+    };
+    await orderListDocument.update(
+      {
+        'orderListId': orderListDocument.id,
+        'orderId': documentReference.id,
+        'totalOrderAmout': totalOrderAmount.toString(),
+        'totalOrderMeter': totalOrderMeter.toString(),
+        'userDetails': orderListUserDetails,
+      },
+    );
   }
 
   static String generateRandomId({int length = 20}) {

@@ -17,7 +17,7 @@ class HomeScreenView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        unFocusKeyboard();
+        closeKeyboard();
       },
       child: Scaffold(
         backgroundColor: AppColor.whiteColor,
@@ -234,8 +234,6 @@ class HomeScreenView extends StatelessWidget {
                           ),
                         ),
                       ),
-
-
                       Obx(
                         () => Visibility(
                           visible: controller.products[index].isExpanded.value,

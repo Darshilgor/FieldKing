@@ -15,7 +15,7 @@ class SignUpScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => unFocusKeyboard(),
+      onTap: () => closeKeyboard(),
       child: Scaffold(
         body: Padding(
           padding: const EdgeInsets.symmetric(
@@ -135,7 +135,7 @@ class SignUpScreenView extends StatelessWidget {
                           : ButtonType.enable,
                       onTap: () {
                         if (controller.signUpFormKey.currentState!.validate()) {
-                          unFocusKeyboard();
+                          closeKeyboard();
                           controller.isSubmitBtnLoading.value = true;
                           controller.addUser();
                         }

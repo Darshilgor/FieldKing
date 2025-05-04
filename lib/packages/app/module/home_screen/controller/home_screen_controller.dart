@@ -34,8 +34,6 @@ class HomeScreenController extends GetxController {
     }
   }
 
-  
-
   addToCart({
     String? flat,
     String? gej,
@@ -61,7 +59,7 @@ class HomeScreenController extends GetxController {
       },
     );
     GlobalVariable.isUpdateCart.value = true;
-    unFocusKeyboard();
+    closeKeyboard();
     products[index ?? 0].isExpanded.value = false;
   }
 }

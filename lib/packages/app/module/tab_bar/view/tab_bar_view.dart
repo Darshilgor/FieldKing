@@ -1,4 +1,3 @@
-import 'package:field_king/packages/app/module/cart/view/cart_view.dart';
 import 'package:field_king/packages/app/module/chat/chat_list/view/chat_view.dart';
 import 'package:field_king/packages/app/module/home_screen/view/home_screen_view.dart';
 import 'package:field_king/packages/app/module/profile/view_profile/view/view_profile_view.dart';

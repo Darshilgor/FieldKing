@@ -14,7 +14,7 @@ class LoginScreenView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => unFocusKeyboard(),
+      onTap: () => closeKeyboard(),
       child: Scaffold(
         backgroundColor: AppColor.whiteColor,
         body: Padding(
@@ -72,7 +72,7 @@ class LoginScreenView extends StatelessWidget {
                           : ButtonType.enable,
                       onTap: () {
                         if (controller.loginFormKey.currentState!.validate()) {
-                          unFocusKeyboard();
+                          closeKeyboard();
                           controller.isSendOtpBtnLoad.value = true;
 
                           controller.sendOtpFunction(
@@ -113,8 +113,9 @@ class LoginScreenView extends StatelessWidget {
                                       if (controller.pinPutController.value.text
                                               .length ==
                                           6) {
-                                            controller.isVerifyOtpBtnLoad.value=true;
-                                            controller.isVerifyOtpBtnLoad.refresh();
+                                        controller.isVerifyOtpBtnLoad.value =
+                                            true;
+                                        controller.isVerifyOtpBtnLoad.refresh();
                                         controller.verifyOtpFunction(
                                           verificationId: verificationId,
                                         );

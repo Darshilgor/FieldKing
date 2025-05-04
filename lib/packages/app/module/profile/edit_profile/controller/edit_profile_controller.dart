@@ -7,6 +7,7 @@ import 'package:field_king/services/firebase_services/firebase_services.dart';
 import 'package:field_king/services/google_services/google_services.dart';
 import 'package:field_king/services/toast_message/toast_message.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class EditProfileController extends GetxController {
   Rx<TextEditingController> firstNameController = TextEditingController().obs;

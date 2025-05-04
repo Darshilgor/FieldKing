@@ -1,6 +1,5 @@
 import 'package:field_king/packages/config.dart';
 
-unFocusKeyboard()
-{
+closeKeyboard() {
   FocusManager.instance.primaryFocus?.unfocus();
 }
